@@ -36,7 +36,6 @@ namespace UnityStandardAssets._2D
 			m_GroundCheckRight = transform.Find("GroundCheck Right");
         }
 
-
         private void FixedUpdate()
         {
             m_Grounded = false;
@@ -48,11 +47,11 @@ namespace UnityStandardAssets._2D
 			bool sideways = false;
 			if ((transform.eulerAngles.z > 90 && transform.eulerAngles.z < 180 && m_FacingRight) || 
 			    (transform.eulerAngles.z < 270 && transform.eulerAngles.z > 180 && !m_FacingRight)) {
-				colliders = Physics2D.OverlapCircleAll(m_GroundCheckLeft.position, k_GroundedRadius / 2, m_WhatIsGround);
+				colliders = Physics2D.OverlapCircleAll(m_GroundCheckLeft.position, k_GroundedRadius * 0.75f, m_WhatIsGround);
 				sideways = true;
-			} else if ((transform.eulerAngles.z < 270 && transform.eulerAngles.z > 180 && m_FacingRight) || 
-			           (transform.eulerAngles.z > 90 && transform.eulerAngles.z < 180 && !m_FacingRight)) {
-				colliders = Physics2D.OverlapCircleAll(m_GroundCheckRight.position, k_GroundedRadius / 2, m_WhatIsGround);
+			} else if ((transform.eulerAngles.z < 280 && transform.eulerAngles.z > 180 && m_FacingRight) || 
+			           (transform.eulerAngles.z > 80 && transform.eulerAngles.z < 180 && !m_FacingRight)) {
+				colliders = Physics2D.OverlapCircleAll(m_GroundCheckRight.position, k_GroundedRadius * 0.75f, m_WhatIsGround);
 				sideways = true;
 			} else {
 				colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
@@ -82,7 +81,7 @@ namespace UnityStandardAssets._2D
             }
 
             // Set whether or not the character is crouching in the animator
-            m_Anim.SetBool("Crouch", crouch);
+            //m_Anim.SetBool("Crouch", crouch);
 
             //only control the player if grounded or airControl is turned on
             if (m_Grounded || m_AirControl)

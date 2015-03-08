@@ -133,3 +133,51 @@ InputManager:
     type: 2
     axis: 4
     joyNum: 0
+  - serializedVersion: 3
+    m_Name: Vertical
+    descriptiveName: Look up
+    descriptiveNegativeName: Look down
+    negativeButton: s
+    positiveButton: w
+    altNegativeButton: down
+    altPositiveButton: up
+    gravity: 3
+    dead: .00999999978
+    sensitivity: 1
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 1
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Vertical
+    descriptiveName: Look up and down
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 3
+    dead: .25
+    sensitivity: 1
+    snap: 1
+    invert: 0
+    type: 2
+    axis: 6
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Rope
+    descriptiveName: Extend the grappling rope using the keyboard
+    descriptiveNegativeName: Retract the grappling rope using the keyboard
+    negativeButton: e
+    positiveButton: q
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 3
+    dead: .00999999978
+    sensitivity: 1
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 1
+    joyNum: 0

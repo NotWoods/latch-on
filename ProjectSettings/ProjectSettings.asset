@@ -11,11 +11,11 @@ PlayerSettings:
   targetIOSGraphics: -1
   targetResolution: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: 8 Island Labs
   productName: Manipulator
   cloudProjectId: 
   defaultCursor: {fileID: 0}
-  cursorHotspot: {x: 0, y: 0}
+  cursorHotspot: {x: 2, y: 2}
   defaultScreenWidth: 1024
   defaultScreenHeight: 768
   defaultScreenWidthWeb: 960
@@ -41,7 +41,7 @@ PlayerSettings:
   defaultIsFullScreen: 1
   defaultIsNativeResolution: 1
   runInBackground: 0
-  captureSingleScreen: 0
+  captureSingleScreen: 1
   Override IPod Music: 0
   Prepare IOS For Recording: 0
   submitAnalytics: 1
@@ -130,9 +130,17 @@ PlayerSettings:
   - width: 320
     height: 180
     banner: {fileID: 0}
-  resolutionDialogBanner: {fileID: 0}
-  m_BuildTargetIcons: []
-  m_BuildTargetBatching: []
+  resolutionDialogBanner: {fileID: 2800000, guid: fcf46e788a8859a4f9e2a24f9eac9566,
+    type: 3}
+  m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - m_Icon: {fileID: 2800000, guid: a066172734bd40344b4fe5f8369dbb0f, type: 3}
+      m_Size: 128
+  m_BuildTargetBatching:
+  - m_BuildTarget: Standalone
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
   actionOnDotNetUnhandledException: 1

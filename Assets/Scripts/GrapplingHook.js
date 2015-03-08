@@ -3,6 +3,9 @@
 var retractSpeed = 1.0;
 var distanceShift = 1.0;
 var crosshairDistance = 1.0;
+var crossTexture : Texture2D;
+var hookNoise : AudioClip;
+var hookNoise2 : AudioClip;
 
 private var hook : GameObject;
 private var rope : SpringJoint2D;
@@ -15,12 +18,18 @@ private var hookJoint : HingeJoint2D;
 private var hookBody : Rigidbody2D;
 private var crosshair : RectTransform;
 private var crosshairRenderer : Canvas;
+private var cameraScript : UnityStandardAssets._2D.Camera2DFollow;
+private var hookAudio : AudioSource;
 
 private var active = false;
 private var desiredDistance : float;
 private var controllerAim : float = -1.0;
+private var controllerActive : boolean = false;
 
-function Awake() {controller = gameObject.GetComponent(UnityStandardAssets._2D.PlatformerCharacter2D);}
+function Awake() {
+	controller = gameObject.GetComponent(UnityStandardAssets._2D.PlatformerCharacter2D);
+	cameraScript = Camera.main.GetComponent(UnityStandardAssets._2D.Camera2DFollow);
+}
 
 function Start() {
 	hook = GameObject.Find("GrappleHook");
@@ -33,6 +42,7 @@ function Start() {
 	hookBody = hook.GetComponent(Rigidbody2D);
 	crosshair = GameObject.Find("Crosshair").GetComponent(RectTransform);
 	crosshairRenderer = crosshair.gameObject.GetComponent(Canvas);
+	hookAudio = hook.GetComponent(AudioSource);
 }
 
 function Vector3to2(v3 : Vector3) : Vector2 {return new Vector2(v3.x, v3.y);}
@@ -53,7 +63,7 @@ function GrappleRaycast() : RaycastHit2D {
 	} else {
 		angleToMouse = 360 - Vector2.Angle(mousePoint - Vector3to2(transform.position), Vector3.right);
 	}
-	if (controllerAim > -1) {angleToMouse = controllerAim;}
+	if (controllerActive) {angleToMouse = controllerAim;}
 	var rotation = Quaternion.AngleAxis(angleToMouse, Vector3.forward) * Vector3.right;
 	Debug.DrawRay(transform.position, rotation);
 	return Physics2D.Raycast(transform.position, rotation);
@@ -69,14 +79,16 @@ function FixedUpdate() {
 			}
 			if (!hookJoint.enabled) {
 				rope.distance = Mathf.Lerp(rope.distance, desiredDistance, Time.deltaTime);
-				if (transform.position.y < hook.transform.position.y) {rope.enabled = true;}
+				if (transform.position.y < hook.transform.position.y && body.velocity != Vector3.zero) {
+					rope.enabled = true;
+				}
 			}
 			if (dragRope.enabled) {dragRope.distance = Mathf.Lerp(dragRope.distance, desiredDistance, Time.deltaTime);}
 		} else {
 			var grapple = GrappleRaycast();
 			if (grapple.collider != null) {
 				hook.transform.position = grapple.point;
-				if (grapple.rigidbody != null) {
+				if (grapple.rigidbody != null && !grapple.rigidbody.isKinematic) {
 					hookJoint.connectedBody = grapple.rigidbody;
 					hookJoint.connectedAnchor = grapple.transform.InverseTransformPoint(grapple.point);
 					hookJoint.enabled = true;
@@ -85,15 +97,20 @@ function FixedUpdate() {
 					dragRope.distance = Vector2.Distance(transform.position, hook.transform.position);
 					dragRope.enabled = true;
 					desiredDistance = dragRope.distance;
+					hookAudio.PlayOneShot(hookNoise2, 0.5);
 				} else {
 					rope.distance = Vector2.Distance(transform.position, hook.transform.position) - distanceShift;
-					if (transform.position.y < hook.transform.position.y) {rope.enabled = true;}
+					if (transform.position.y < hook.transform.position.y) {
+						rope.enabled = true;
+					}
 					desiredDistance = rope.distance;
 					body.fixedAngle = false;
+					hookAudio.PlayOneShot(hookNoise);
 				}
 				active = true;
 			}
 		}
+		if (Input.GetMouseButton(0) && controllerActive) {controllerActive = false;}
 	} else {
 		active = false;
 		rope.enabled = false;
@@ -134,8 +151,19 @@ function Update() {
 			controllerAim = 360 - Vector2.Angle(new Vector2(Input.GetAxis("AimHorizontal"), 
 				Input.GetAxis("AimVertical")), Vector2.right);
 		}
-		
+		controllerActive = true;
+	}
+	if (controllerActive) {
 		crosshairRenderer.enabled = true;
-		crosshair.position = transform.position + (crosshairDistance * (Quaternion.AngleAxis(controllerAim, Vector3.forward) * Vector3.right));
-	} else {controllerAim = -1; crosshairRenderer.enabled = false;}
+		crosshair.position = transform.position + Vector3.back + (crosshairDistance * 
+			(Quaternion.AngleAxis(controllerAim, Vector3.forward) * Vector3.right));
+		Cursor.visible = false;
+		Debug.Log(controllerActive);
+	} else {crosshairRenderer.enabled = false; Cursor.visible = true;}
+	
+	if (Input.GetAxis("Vertical") >= 1) {
+		cameraScript.lookOffset = 6 * Vector3.up;
+	} else if (Input.GetAxis("Vertical") <= -1) {
+		cameraScript.lookOffset = 10 * Vector3.down;
+	} else {cameraScript.lookOffset = Vector3.zero;}
 }

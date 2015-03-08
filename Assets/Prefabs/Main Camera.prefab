@@ -11,7 +11,6 @@ GameObject:
   - 20: {fileID: 2093096}
   - 92: {fileID: 9270720}
   - 124: {fileID: 12455636}
-  - 81: {fileID: 8154220}
   - 114: {fileID: 11418192}
   m_Layer: 0
   m_Name: Main Camera
@@ -41,7 +40,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: .53725493, g: .600000024, b: .600000024, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -64,13 +63,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
---- !u!81 &8154220
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 150652}
-  m_Enabled: 1
 --- !u!92 &9270720
 Behaviour:
   m_ObjectHideFlags: 1
@@ -95,6 +87,7 @@ MonoBehaviour:
   lookAheadReturnSpeed: .5
   lookAheadMoveThreshold: .100000001
   offset: {x: 0, y: 2, z: 0}
+  lookOffset: {x: 0, y: 0, z: 0}
 --- !u!124 &12455636
 Behaviour:
   m_ObjectHideFlags: 1
