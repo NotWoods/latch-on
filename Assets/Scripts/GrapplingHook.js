@@ -19,7 +19,6 @@ private var rope : SpringJoint2D;
 private var dragRope : DistanceJoint2D;
 private var hookRenderer : Renderer;
 private var line : LineRenderer;
-//private var line2 : LineRenderer;
 private var controller : UnityStandardAssets._2D.PlatformerCharacter2D;
 private var body : Rigidbody2D;
 private var hookJoint : HingeJoint2D;
@@ -28,14 +27,12 @@ private var crosshair : RectTransform;
 private var crosshairRenderer : Canvas;
 private var cameraScript : UnityStandardAssets._2D.Camera2DFollow;
 private var hookAudio : AudioSource;
+private var anim : Animator;
 
 private var active = false;
 private var desiredDistance : float;
 private var controllerAim : float = -1.0;
 private var controllerActive : boolean = false;
-//private var hookPoints = new List.<Vector2>();
-//private var hookAngles = new List.<float>();
-//private var variance : Vector2;
 private var justBroken = false;
 
 function Awake() {
@@ -55,7 +52,7 @@ function Start() {
 	crosshair = GameObject.Find("Crosshair").GetComponent(RectTransform);
 	crosshairRenderer = crosshair.gameObject.GetComponent(Canvas);
 	hookAudio = hook.GetComponent(AudioSource);
-	//line2 = hook.GetComponent(LineRenderer);
+	anim = GetComponent(Animator);
 	
 	rope.connectedBody = hookBody;
 	dragRope.connectedBody = hookBody;
@@ -129,14 +126,34 @@ function BreakRope(noise : boolean) {
 function CheckRope() {
 	var angle = AngleToPlayer(hook.transform.position, Vector2.up);
 	var hit = Physics2D.Raycast(transform.position, 
-		Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.up, rope.distance);
+		Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.up, 
+		Vector2.Distance(transform.position, hook.transform.position));
 	if (hit.collider != null && (hit.rigidbody == null || hit.rigidbody.isKinematic)) {
-		BreakRope(true);
+		var variance = Vector2.zero;
+		if (hit.point.x > hit.transform.position.x) {variance.x = offsetMagnitude;
+		} else {variance.x = offsetMagnitude * -1;}
+		if (hit.point.y > hit.transform.position.y) {variance.y = offsetMagnitude;
+		} else {variance.y = offsetMagnitude * -1;}
+		
+		if (rope.enabled) {
+			hook.transform.position = hit.point + variance;
+			rope.distance = Vector2.Distance(hook.transform.position, transform.position);
+			desiredDistance = rope.distance;
+		} else if (dragRope.enabled) {
+			hookJoint.enabled = false;
+			hookBody.isKinematic = true;
+			dragRope.enabled = false;
+			rope.enabled = true;
+			
+			hook.transform.position = hit.point + variance;
+			rope.distance = Vector2.Distance(hook.transform.position, transform.position);
+			desiredDistance = rope.distance;
+		}
 	}
 }
 
 function FixedUpdate() {
-	Debug.Log(justBroken);
+	//Debug.Log(justBroken);
 	if (Input.GetButton("Grapple")) {
 		if (active) {
 			if (Input.GetAxis("Rope") != 0) {
@@ -226,6 +243,7 @@ function Update() {
 		line.enabled = false;
 		hookRenderer.enabled = false;
 	}
+	anim.SetBool("Grappling", active);
 	
 	if ((Input.GetAxis("AimHorizontal") != 0) || (Input.GetAxis("AimVertical") != 0)) {
 		if (Input.GetAxis("AimVertical") < 0) {
@@ -242,7 +260,7 @@ function Update() {
 		crosshair.position = transform.position + Vector3.back + (crosshairDistance * 
 			(Quaternion.AngleAxis(controllerAim, Vector3.forward) * Vector3.right));
 		Cursor.visible = false;
-		Debug.Log(controllerActive);
+		//Debug.Log(controllerActive);
 	} else {crosshairRenderer.enabled = false; Cursor.visible = true;}
 	
 	if (Input.GetAxis("Vertical") >= 1) {

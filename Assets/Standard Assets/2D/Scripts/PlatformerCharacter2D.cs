@@ -19,8 +19,8 @@ namespace UnityStandardAssets._2D
 		public bool m_Grounded;            // Whether or not the player is grounded.
 		[HideInInspector]
 		public bool m_Tilted;
-        private Transform m_CeilingCheck;   // A position marking where to check for ceilings
-        const float k_CeilingRadius = .01f; // Radius of the overlap circle to determine if the player can stand up
+        //private Transform m_CeilingCheck;   // A position marking where to check for ceilings
+        //const float k_CeilingRadius = .01f; // Radius of the overlap circle to determine if the player can stand up
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
@@ -29,7 +29,7 @@ namespace UnityStandardAssets._2D
         {
             // Setting up references.
             m_GroundCheck = transform.Find("GroundCheck");
-            m_CeilingCheck = transform.Find("CeilingCheck");
+            //m_CeilingCheck = transform.Find("CeilingCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			m_GroundCheckLeft = transform.Find("GroundCheck Left");
@@ -45,13 +45,15 @@ namespace UnityStandardAssets._2D
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
 			Collider2D[] colliders;
 			bool sideways = false;
-			if ((transform.eulerAngles.z > 90 && transform.eulerAngles.z < 180 && m_FacingRight) || 
-			    (transform.eulerAngles.z < 270 && transform.eulerAngles.z > 180 && !m_FacingRight)) {
-				colliders = Physics2D.OverlapCircleAll(m_GroundCheckLeft.position, k_GroundedRadius * 0.75f, m_WhatIsGround);
+			if ((transform.eulerAngles.z > 80 && transform.eulerAngles.z < 180 && m_FacingRight) || 
+			    (transform.eulerAngles.z < 280 && transform.eulerAngles.z > 180 && !m_FacingRight)) {
+				colliders = Physics2D.OverlapCircleAll(m_GroundCheckLeft.position, 
+				                                       	k_GroundedRadius * 0.75f, m_WhatIsGround);
 				sideways = true;
 			} else if ((transform.eulerAngles.z < 280 && transform.eulerAngles.z > 180 && m_FacingRight) || 
 			           (transform.eulerAngles.z > 80 && transform.eulerAngles.z < 180 && !m_FacingRight)) {
-				colliders = Physics2D.OverlapCircleAll(m_GroundCheckRight.position, k_GroundedRadius * 0.75f, m_WhatIsGround);
+				colliders = Physics2D.OverlapCircleAll(m_GroundCheckRight.position, 
+				                                       	k_GroundedRadius * 0.75f, m_WhatIsGround);
 				sideways = true;
 			} else {
 				colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
@@ -62,6 +64,7 @@ namespace UnityStandardAssets._2D
 				if (!sideways) {m_Grounded = true;} else {m_Tilted = true;}
             }
             m_Anim.SetBool("Ground", m_Grounded);
+			m_Anim.SetBool ("Tilted", m_Tilted);
 
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
@@ -71,14 +74,14 @@ namespace UnityStandardAssets._2D
         public void Move(float move, bool crouch, bool jump)
         {
             // If crouching, check to see if the character can stand up
-            if (!crouch && m_Anim.GetBool("Crouch"))
+            /*if (!crouch && m_Anim.GetBool("Crouch"))
             {
                 // If the character has a ceiling preventing them from standing up, keep them crouching
                 if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
                 {
                     crouch = true;
                 }
-            }
+            }*/
 
             // Set whether or not the character is crouching in the animator
             //m_Anim.SetBool("Crouch", crouch);
