@@ -126,10 +126,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8250128, guid: a07b375c580e3e84982ab45468479293, type: 2}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: .699999988
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a07b375c580e3e84982ab45468479293, type: 2}
   m_IsPrefabParent: 0
@@ -217,11 +213,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: .5
       objectReference: {fileID: 0}
-    - target: {fileID: 11464490, guid: 6428d57eeb3350b4a993bfff2f142145, type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 41a9d2ade68f72849bf73f541cc8ae33,
-        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6428d57eeb3350b4a993bfff2f142145, type: 2}
   m_IsPrefabParent: 0
@@ -417,6 +408,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 182998, guid: caa58d3e676e43d49a7f4dc010e323fb, type: 2}
+      propertyPath: m_Name
+      value: Minimap Camera
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: caa58d3e676e43d49a7f4dc010e323fb, type: 2}
   m_IsPrefabParent: 0
@@ -461,16 +456,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493440, guid: 828768f10cc22104baa912caff5f903c, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11418192, guid: 828768f10cc22104baa912caff5f903c, type: 2}
       propertyPath: target
       value: 
       objectReference: {fileID: 1651241733}
-    - target: {fileID: 150652, guid: 828768f10cc22104baa912caff5f903c, type: 2}
-      propertyPath: m_Name
-      value: Main Camera
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 828768f10cc22104baa912caff5f903c, type: 2}
   m_IsPrefabParent: 0

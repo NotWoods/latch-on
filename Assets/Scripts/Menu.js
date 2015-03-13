@@ -6,7 +6,7 @@ var menuCursor : Texture2D;
 private var map : Camera;
 
 function Start() {
-	map = GameObject.Find("Minimap").GetComponent(Camera);
+	map = GameObject.Find("Minimap Camera").GetComponent(Camera);
 
 	Cursor.SetCursor(grappleCursor, new Vector2(16, 16), CursorMode.Auto);
 }

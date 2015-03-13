@@ -2,13 +2,14 @@
 
 import System.Collections.Generic;
 
-//var hook : GameObject;
 var retractSpeed = 1.0;
 var distanceShift = 3.0;
 var crosshairDistance = 2.5;
 var offsetMagnitude : float = 0.1;
 var minSeperation = 0.1;
-var autoRegrapple = true;
+var grappleable : LayerMask;
+var solid : LayerMask;
+var maxDistance : float = 1000;
 
 var crossTexture : Texture2D;
 var hookNoise : AudioClip;
@@ -28,12 +29,15 @@ private var crosshairRenderer : Canvas;
 private var cameraScript : UnityStandardAssets._2D.Camera2DFollow;
 private var hookAudio : AudioSource;
 private var anim : Animator;
+private var minimapLine : LineRenderer;
 
 private var active = false;
 private var desiredDistance : float;
 private var controllerAim : float = -1.0;
 private var controllerActive : boolean = false;
 private var justBroken = false;
+private var autoRegrapple = true;
+private var lastGrappled : Transform;
 
 function Awake() {
 	controller = gameObject.GetComponent(UnityStandardAssets._2D.PlatformerCharacter2D);
@@ -53,6 +57,7 @@ function Start() {
 	crosshairRenderer = crosshair.gameObject.GetComponent(Canvas);
 	hookAudio = hook.GetComponent(AudioSource);
 	anim = GetComponent(Animator);
+	minimapLine = GameObject.Find("MM Hook").GetComponent(LineRenderer);
 	
 	rope.connectedBody = hookBody;
 	dragRope.connectedBody = hookBody;
@@ -66,17 +71,17 @@ function GetMousePoint() : Vector2 {
 }
 
 function GrappleRaycast() : RaycastHit2D {
-		var angleToMouse : float;
-		var mousePoint = GetMousePoint();
-		if (mousePoint.y >= transform.position.y) {
-			angleToMouse = Vector2.Angle(mousePoint - Vector3to2(transform.position), Vector2.right);
-		} else {
-			angleToMouse = 360 - Vector2.Angle(mousePoint - Vector3to2(transform.position), Vector2.right);
-		}
-		if (controllerActive) {angleToMouse = controllerAim;}
-		var rotation = Quaternion.AngleAxis(angleToMouse, Vector3.forward) * Vector3.right;
+	var angleToMouse : float;
+	var mousePoint = GetMousePoint();
+	if (mousePoint.y >= transform.position.y) {
+		angleToMouse = Vector2.Angle(mousePoint - Vector3to2(transform.position), Vector2.right);
+	} else {
+		angleToMouse = 360 - Vector2.Angle(mousePoint - Vector3to2(transform.position), Vector2.right);
+	}
+	if (controllerActive) {angleToMouse = controllerAim;}
+	var rotation = Quaternion.AngleAxis(angleToMouse, Vector3.forward) * Vector3.right;
 	//Debug.DrawRay(transform.position, rotation);
-	return Physics2D.Raycast(transform.position, rotation);
+	return Physics2D.Raycast(transform.position, rotation, maxDistance, grappleable);
 }
 
 function AngleToPlayer(point : Vector2, dir : Vector2) : float {
@@ -127,27 +132,38 @@ function CheckRope() {
 	var angle = AngleToPlayer(hook.transform.position, Vector2.up);
 	var hit = Physics2D.Raycast(transform.position, 
 		Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.up, 
-		Vector2.Distance(transform.position, hook.transform.position));
+		Vector2.Distance(transform.position, hook.transform.position), solid);
 	if (hit.collider != null && (hit.rigidbody == null || hit.rigidbody.isKinematic)) {
-		var variance = Vector2.zero;
-		if (hit.point.x > hit.transform.position.x) {variance.x = offsetMagnitude;
-		} else {variance.x = offsetMagnitude * -1;}
-		if (hit.point.y > hit.transform.position.y) {variance.y = offsetMagnitude;
-		} else {variance.y = offsetMagnitude * -1;}
-		
-		if (rope.enabled) {
-			hook.transform.position = hit.point + variance;
-			rope.distance = Vector2.Distance(hook.transform.position, transform.position);
-			desiredDistance = rope.distance;
-		} else if (dragRope.enabled) {
-			hookJoint.enabled = false;
-			hookBody.isKinematic = true;
-			dragRope.enabled = false;
-			rope.enabled = true;
+		if ((grappleable.value & (1 << hit.transform.gameObject.layer)) > 0) {
+			if ((hit.transform.gameObject.layer == LayerMask.NameToLayer("GrappleLock")) && 
+					(lastGrappled == hit.transform)) {
+
+			} else {
+				var variance = Vector2.zero;
+				if (hit.point.x > hit.transform.position.x) {variance.x = offsetMagnitude;
+				} else {variance.x = offsetMagnitude * -1;}
+				if (hit.point.y > hit.transform.position.y) {variance.y = offsetMagnitude;
+				} else {variance.y = offsetMagnitude * -1;}
 			
-			hook.transform.position = hit.point + variance;
-			rope.distance = Vector2.Distance(hook.transform.position, transform.position);
-			desiredDistance = rope.distance;
+				if (rope.enabled) {
+					hook.transform.position = hit.point + variance;
+					rope.distance = Vector2.Distance(hook.transform.position, transform.position);
+					desiredDistance = rope.distance;
+				} else if (dragRope.enabled) {
+					hookJoint.enabled = false;
+					hookBody.isKinematic = true;
+					dragRope.enabled = false;
+					rope.enabled = true;
+					
+					hook.transform.position = hit.point + variance;
+					rope.distance = Vector2.Distance(hook.transform.position, transform.position);
+					desiredDistance = rope.distance;
+					minimapLine.SetColors(Color.red, Color.red);
+				}	
+				hookAudio.PlayOneShot(hookNoise, 1.5);
+			}
+		} else {
+			BreakRope(true);
 		}
 	}
 }
@@ -180,6 +196,7 @@ function FixedUpdate() {
 					if (grapple.point.y > grapple.transform.position.y) {variance.y = offsetMagnitude;
 					} else {variance.y = offsetMagnitude * -1;}
 					hook.transform.position = grapple.point + variance;
+					lastGrappled = grapple.transform;
 					if (grapple.rigidbody != null && !grapple.rigidbody.isKinematic) {
 						hookJoint.connectedBody = grapple.rigidbody;
 						hookJoint.connectedAnchor = grapple.transform.InverseTransformPoint(grapple.point);
@@ -190,6 +207,7 @@ function FixedUpdate() {
 						dragRope.enabled = true;
 						desiredDistance = dragRope.distance;
 						hookAudio.PlayOneShot(hookNoise2, 0.5);
+						minimapLine.SetColors(Color.cyan, Color.cyan);
 					} else {
 						rope.distance = Vector2.Distance(transform.position, hook.transform.position) - distanceShift;
 						if (transform.position.y < hook.transform.position.y) {
@@ -198,6 +216,7 @@ function FixedUpdate() {
 						desiredDistance = rope.distance;
 						body.fixedAngle = false;
 						hookAudio.PlayOneShot(hookNoise);
+						minimapLine.SetColors(Color.red, Color.red);
 					}
 					active = true;
 				}
@@ -229,6 +248,7 @@ function FixedUpdate() {
 function Update() {
 	if (active) {
 		line.enabled = true;
+		minimapLine.enabled = true;
 		hookRenderer.enabled = true;
 		/*line.SetVertexCount(hookPoints.Count + 1);
 		var i : int = 0;
@@ -239,8 +259,11 @@ function Update() {
 		line.SetPosition(hookPoints.Count, transform.position);*/
 		line.SetPosition(0, transform.position);
 		line.SetPosition(1, hook.transform.position);
+		minimapLine.SetPosition(0, transform.position);
+		minimapLine.SetPosition(1, hook.transform.position);
 	} else {
 		line.enabled = false;
+		minimapLine.enabled = false;
 		hookRenderer.enabled = false;
 	}
 	anim.SetBool("Grappling", active);
