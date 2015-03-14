@@ -128,6 +128,63 @@ function BreakRope(noise : boolean) {
 	justBroken = true;
 }
 
+/*function Grapple(toPoint : Vector2) {
+	if (active) { //Grappling hook is in use; manipulate the rope
+		if (Input.GetAxis("Rope") != 0) { 
+			if (controller.m_Grounded || controller.m_Tilted) {}
+			desiredDistance += (Input.GetAxis("Rope") * retractSpeed); //Extend or retract the rope
+			if (desiredDistance < 0) {desiredDistance = 0;} //Don't retract past 0
+		}
+		if (!hookJoint.enabled) { //If connected to a solid object, not a moving one
+			rope.distance = Mathf.Lerp(rope.distance, desiredDistance, Time.deltaTime); //Adjust rope over time
+			Debug.Log(body.velocity.x);
+			if (transform.position.y < hook.transform.position.y || body.velocity.x != 0) { //Don't activate if body is above the rope
+				rope.enabled = true;
+			}
+		}
+		if (dragRope.enabled) {dragRope.distance = Mathf.Lerp(dragRope.distance, desiredDistance, Time.deltaTime);}
+		CheckRope();
+	} else {
+		if (!justBroken || autoRegrapple) {
+			var grapple = GrappleRaycast();
+			if (grapple.collider != null) {
+				var variance = Vector2.zero;
+				if (grapple.point.x > grapple.transform.position.x) {variance.x = offsetMagnitude;
+				} else {variance.x = offsetMagnitude * -1;}
+				if (grapple.point.y > grapple.transform.position.y) {variance.y = offsetMagnitude;
+				} else {variance.y = offsetMagnitude * -1;}
+				hook.transform.position = grapple.point + variance;
+				lastGrappled = grapple.transform;
+				if (grapple.rigidbody != null && !grapple.rigidbody.isKinematic) {
+					hookJoint.connectedBody = grapple.rigidbody;
+					hookJoint.connectedAnchor = grapple.transform.InverseTransformPoint(grapple.point);
+					hookJoint.enabled = true;
+					hookBody.isKinematic = false;
+						
+					dragRope.distance = Vector2.Distance(transform.position, hook.transform.position);
+					dragRope.enabled = true;
+					desiredDistance = dragRope.distance;
+					hookAudio.PlayOneShot(hookNoise2, 0.5);
+					minimapLine.SetColors(Color.cyan, Color.cyan);
+				} else {
+					if (transform.position.y < hook.transform.position.y) {
+						rope.enabled = true;
+						rope.distance = Vector2.Distance(transform.position, hook.transform.position) - distanceShift;
+					} else if (body.velocity.x == 0) {
+						rope.enabled = true;
+						rope.distance = Vector2.Distance(transform.position, hook.transform.position);
+					}
+					desiredDistance = rope.distance;
+					body.fixedAngle = false;
+					hookAudio.PlayOneShot(hookNoise);
+					minimapLine.SetColors(Color.red, Color.red);
+				}
+				active = true;
+			}
+		}
+	}
+}*/
+
 function CheckRope() {
 	var angle = AngleToPlayer(hook.transform.position, Vector2.up);
 	var hit = Physics2D.Raycast(transform.position, 
@@ -144,7 +201,7 @@ function CheckRope() {
 				} else {variance.x = offsetMagnitude * -1;}
 				if (hit.point.y > hit.transform.position.y) {variance.y = offsetMagnitude;
 				} else {variance.y = offsetMagnitude * -1;}
-			
+				lastGrappled = hit.transform;
 				if (rope.enabled) {
 					hook.transform.position = hit.point + variance;
 					rope.distance = Vector2.Distance(hook.transform.position, transform.position);
@@ -173,13 +230,15 @@ function FixedUpdate() {
 	if (Input.GetButton("Grapple")) {
 		if (active) {
 			if (Input.GetAxis("Rope") != 0) {
-				if (controller.m_Grounded || controller.m_Tilted) {}
-				desiredDistance += (Input.GetAxis("Rope") * retractSpeed);
+				var extension = retractSpeed;
+				if (Input.GetAxis("Rope") < 0) {extension *= -1;}
+				if (controller.m_Grounded || controller.m_Tilted) {extension = 0;}
+				desiredDistance += extension;
 				if (desiredDistance < 0) {desiredDistance = 0;}
 			}
 			if (!hookJoint.enabled) {
 				rope.distance = Mathf.Lerp(rope.distance, desiredDistance, Time.deltaTime);
-				if (transform.position.y < hook.transform.position.y && body.velocity != Vector3.zero) {
+				if (transform.position.y < hook.transform.position.y) {
 					rope.enabled = true;
 				}
 				//CheckRope();
@@ -207,16 +266,19 @@ function FixedUpdate() {
 						dragRope.enabled = true;
 						desiredDistance = dragRope.distance;
 						hookAudio.PlayOneShot(hookNoise2, 0.5);
-						minimapLine.SetColors(Color.cyan, Color.cyan);
+						minimapLine.SetColors(Color.blue, Color.cyan);
 					} else {
-						rope.distance = Vector2.Distance(transform.position, hook.transform.position) - distanceShift;
 						if (transform.position.y < hook.transform.position.y) {
 							rope.enabled = true;
+							rope.distance = Vector2.Distance(transform.position, hook.transform.position) - distanceShift;
+						} else if (body.velocity.x == 0) {
+							rope.enabled = true;
+							rope.distance = Vector2.Distance(transform.position, hook.transform.position);
 						}
 						desiredDistance = rope.distance;
 						body.fixedAngle = false;
 						hookAudio.PlayOneShot(hookNoise);
-						minimapLine.SetColors(Color.red, Color.red);
+						minimapLine.SetColors(Color.blue, Color.red);
 					}
 					active = true;
 				}
