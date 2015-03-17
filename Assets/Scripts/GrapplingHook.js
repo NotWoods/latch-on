@@ -97,7 +97,7 @@ function GrappleRaycast() : RaycastHit2D {
 	}
 	if (controllerActive) {angleToMouse = controllerAim;}
 	var rotation = Quaternion.AngleAxis(angleToMouse, Vector3.forward) * Vector3.right;
-	return Physics2D.Raycast(transform.position, rotation, maxDistance, grappleable);
+	return Physics2D.Raycast(transform.position, rotation, maxDistance, solid);
 }
 
 function AngleToPlayer(point : Vector2, dir : Vector2) : float {
@@ -133,7 +133,7 @@ function Grapple(ropeNum : int, toPoint : Vector2) {
 		}
 		//if (controllerActive) {angleToPoint = controllerAim;} //If using controller...
 		var rotation = Quaternion.AngleAxis(angleToPoint, Vector3.forward) * Vector3.right;
-		var grapple = Physics2D.Raycast(transform.position, rotation, maxDistance, grappleable);
+		var grapple = Physics2D.Raycast(transform.position, rotation, maxDistance, solid);
 		
 		if (grapple.collider != null) { //If I hit something
 			//Move hook away from center a bit
@@ -208,7 +208,10 @@ function CheckRope(ropeNum : int) {
 function FixedUpdate() {
 	if (Input.GetButton("Grapple")) {
 		if (active > -1) {
-			if (Input.GetAxis("Rope") != 0) {
+			if (autoRetract) {
+				desiredDistance -= retractSpeed;
+				if (desiredDistance < 0) {desiredDistance = 0;}
+			} else if (Input.GetAxis("Rope") != 0) {
 				var extension = retractSpeed;
 				if (Input.GetAxis("Rope") < 0) {extension *= -1;}
 				if (controller.m_Grounded || controller.m_Tilted) {extension = 0;}
@@ -227,7 +230,7 @@ function FixedUpdate() {
 		} else {
 			if (!justBroken || autoRegrapple) {
 				var grapple = GrappleRaycast();
-				if (grapple.collider != null) {
+				if (grapple.collider != null && (grappleable.value & (1 << grapple.transform.gameObject.layer)) > 0) {
 					var variance = Vector2.zero;
 					if (grapple.point.x > grapple.transform.position.x) {variance.x = offsetMagnitude;
 					} else {variance.x = offsetMagnitude * -1;}
@@ -260,6 +263,8 @@ function FixedUpdate() {
 						minimapLine.SetColors(Color.blue, Color.red);
 					}
 					active = 0;
+				} else {
+					
 				}
 			}
 		}
