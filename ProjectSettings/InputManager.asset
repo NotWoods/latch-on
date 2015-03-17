@@ -137,10 +137,10 @@ InputManager:
     m_Name: Vertical
     descriptiveName: Look up
     descriptiveNegativeName: Look down
-    negativeButton: s
-    positiveButton: w
-    altNegativeButton: down
-    altPositiveButton: up
+    negativeButton: q
+    positiveButton: e
+    altNegativeButton: 
+    altPositiveButton: 
     gravity: 3
     dead: .00999999978
     sensitivity: 1
@@ -169,10 +169,10 @@ InputManager:
     m_Name: Rope
     descriptiveName: Extend the grappling rope using the keyboard
     descriptiveNegativeName: Retract the grappling rope using the keyboard
-    negativeButton: e
-    positiveButton: q
-    altNegativeButton: 
-    altPositiveButton: 
+    negativeButton: w
+    positiveButton: s
+    altNegativeButton: down
+    altPositiveButton: up
     gravity: 3
     dead: .00999999978
     sensitivity: 1
