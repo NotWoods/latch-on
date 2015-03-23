@@ -284,7 +284,7 @@ function FixedUpdate() {
 		transform.eulerAngles.z = 0;
 		body.fixedAngle = true;
 	}
-	if (Input.GetKey(KeyCode.R)) {
+	if (Input.GetKey(KeyCode.R) || Input.touchCount >= 3) {
 		transform.position = Vector3.zero;
 	}
 	if (Input.GetKey(KeyCode.B)) {
