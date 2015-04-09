@@ -8,8 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 459874}
-  - 33: {fileID: 3348664}
-  - 23: {fileID: 2392210}
+  - 61: {fileID: 6139694}
   m_Layer: 12
   m_Name: Minimap
   m_TagString: Untagged
@@ -157,37 +156,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 469750}
   m_RootOrder: 2
---- !u!23 &2392210
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 102366}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 2100000, guid: d8adb17145825d942b2bf7b05c5735d5, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!33 &3348664
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 102366}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!50 &5011318
 Rigidbody2D:
   m_ObjectHideFlags: 1
@@ -242,6 +210,19 @@ BoxCollider2D:
   m_Offset: {x: 0, y: -.0700000003}
   serializedVersion: 2
   m_Size: {x: .319999993, y: .75}
+--- !u!61 &6139694
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 102366}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: .0700000003}
+  serializedVersion: 2
+  m_Size: {x: 16.666666, y: 14.2856998}
 --- !u!81 &8106726
 AudioListener:
   m_ObjectHideFlags: 1
@@ -283,7 +264,7 @@ MonoBehaviour:
   m_AirControl: 0
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294961119
   m_Grounded: 0
   m_Tilted: 0
 --- !u!114 &11449270
@@ -322,7 +303,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   retractSpeed: 2
-  distanceShift: 3
   crosshairDistance: 2.5
   offsetMagnitude: .100000001
   minSeperation: .100000001
@@ -332,8 +312,7 @@ MonoBehaviour:
   solid:
     serializedVersion: 2
     m_Bits: 4294963195
-  maxDistance: 1000
-  autoRetract: 0
+  maxDistance: 20
   crossTexture: {fileID: 2800000, guid: 92c1844ec00d95e4b8f3ea5c7cf6cfa0, type: 3}
   hookNoise: {fileID: 8300000, guid: a57b4211108e7884bab5504a905509f2, type: 3}
   hookNoise2: {fileID: 8300000, guid: 304377651cee5924db91bfa626780538, type: 3}
