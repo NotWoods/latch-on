@@ -1,0 +1,16 @@
+DOCUMENTATION
+
+All of our documentation is now available on the Bolt Wiki: 
+http://wiki.boltengine.com/
+
+This lets us keep the documentation up-to-date as fast as possible, 
+plus we can accept community contributions.
+
+SUPPORT
+
+Forum: http://forum.boltengine.com/
+Jabbr Live Chat: https://jabbr.net/#/rooms/bolt
+
+VIDEOS
+
+YouTube: https://www.youtube.com/channel/UC9NVIbI5rpP7zmEOiB2Cs6Q

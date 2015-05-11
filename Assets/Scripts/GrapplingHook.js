@@ -208,9 +208,9 @@ function FixedUpdate() {
 		GameObject.Find("CratePink").transform.position = Vector3.left * 5;
 	}
 	
-	if (!GeometryUtility.TestPlanesAABB(cameraPlane, colliderBox.bounds)) {
+	/*if (!GeometryUtility.TestPlanesAABB(cameraPlane, colliderBox.bounds)) {
 		Respawn();
-	} 
+	} */
 }
 
 function RenderHookLine() {
