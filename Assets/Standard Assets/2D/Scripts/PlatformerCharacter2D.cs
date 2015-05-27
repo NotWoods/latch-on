@@ -23,7 +23,11 @@ namespace UnityStandardAssets._2D
         //const float k_CeilingRadius = .01f; // Radius of the overlap circle to determine if the player can stand up
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
-        private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+		[HideInInspector]
+        public bool m_FacingRight = true;  // For determining which way the player is currently facing.
+		private Transform visual;
+		private Vector3 desiredVisual = Vector3.up * 180;
+		public float turnSpeed = 100;
 
         private void Awake()
         {
@@ -34,6 +38,7 @@ namespace UnityStandardAssets._2D
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
 			m_GroundCheckLeft = transform.Find("GroundCheck Left");
 			m_GroundCheckRight = transform.Find("GroundCheck Right");
+			visual = transform.Find("robot");
         }
 
         private void FixedUpdate()
@@ -45,7 +50,7 @@ namespace UnityStandardAssets._2D
             // This can be done using layers instead but Sample Assets will not overwrite your project settings.
 			Collider2D[] colliders;
 			bool sideways = false;
-			if ((transform.eulerAngles.z > 80 && transform.eulerAngles.z < 180 && m_FacingRight) || 
+			/*if ((transform.eulerAngles.z > 80 && transform.eulerAngles.z < 180 && m_FacingRight) || 
 			    (transform.eulerAngles.z < 280 && transform.eulerAngles.z > 180 && !m_FacingRight)) {
 				colliders = Physics2D.OverlapCircleAll(m_GroundCheckLeft.position, 
 				                                       	k_GroundedRadius * 0.75f, m_WhatIsGround);
@@ -54,6 +59,17 @@ namespace UnityStandardAssets._2D
 			           (transform.eulerAngles.z > 80 && transform.eulerAngles.z < 180 && !m_FacingRight)) {
 				colliders = Physics2D.OverlapCircleAll(m_GroundCheckRight.position, 
 				                                       	k_GroundedRadius * 0.75f, m_WhatIsGround);
+				sideways = true;
+			} else {
+				colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+			}*/
+			if (transform.eulerAngles.z > 80 && transform.eulerAngles.z < 180) {
+				colliders = Physics2D.OverlapCircleAll(m_GroundCheckLeft.position, 
+				                                       k_GroundedRadius * 0.75f, m_WhatIsGround);
+				sideways = true;
+			} else if (transform.eulerAngles.z < 280 && transform.eulerAngles.z > 180) {
+				colliders = Physics2D.OverlapCircleAll(m_GroundCheckRight.position, 
+				                                       k_GroundedRadius * 0.75f, m_WhatIsGround);
 				sideways = true;
 			} else {
 				colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
@@ -128,9 +144,16 @@ namespace UnityStandardAssets._2D
             m_FacingRight = !m_FacingRight;
 
             // Multiply the player's x local scale by -1.
-            Vector3 theScale = transform.localScale;
+            Vector3 theScale = visual.localScale;
             theScale.x *= -1;
-            transform.localScale = theScale;
+			visual.localScale = theScale;
+			/*float angle = 180f;
+			if (!m_FacingRight) {angle = 0f;}
+			visual.rotation = Quaternion.Euler(0f, angle, 0f);*/
         }
+
+		/*private void Update() {
+			//visual.rotation = Quaternion.Euler(visual.rotation.eulerAngles.x, Mathf.MoveTowards(visual.rotation.eulerAngles.y, desiredVisual.y, Time.deltaTime * turnSpeed), visual.rotation.eulerAngles.z);
+		}*/
     }
 }

@@ -58,7 +58,7 @@ MonoBehaviour:
   editorSkin: 4
   scopeModeHideWarningInGui: 0
   showHelpButtons: 1
-  masterServerGameId: 2B46F429-884B-4967-90D3-AC58B2E4F566
+  masterServerGameId: 266921A8-6BC1-47C4-AE88-A9BA5BEAEEDA
   masterServerEndPoint: 79.99.6.136:24000
   masterServerAutoConnect: 0
   masterServerAutoDisconnect: 1

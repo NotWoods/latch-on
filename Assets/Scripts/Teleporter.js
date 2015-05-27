@@ -10,7 +10,7 @@ private var async : AsyncOperation = null;
 
 function Start() {
 	trigger = GetComponent(BoxCollider2D);
-	playerRenderer = GameObject.FindWithTag("Player").GetComponent(SpriteRenderer);
+	//playerRenderer = GameObject.FindWithTag("Player").GetComponent(SpriteRenderer);
 	if (nextLevel < 0) {
 		nextLevel = Application.loadedLevel + 1;
 		if (nextLevel >= Application.levelCount) {nextLevel = 0;}
@@ -30,6 +30,6 @@ function Update() {
 	if (levelDone) {
 		if (async == null) {
 			async = Application.LoadLevelAsync(nextLevel);}
-		playerRenderer.color.a = Mathf.Lerp(playerRenderer.color.a,0,Time.deltaTime*fadeSpeed);
+		//playerRenderer.color.a = Mathf.Lerp(playerRenderer.color.a,0,Time.deltaTime*fadeSpeed);
 	}
 }
