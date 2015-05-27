@@ -152,7 +152,7 @@ GameObject:
   - 33: {fileID: 2525293}
   - 23: {fileID: 2525292}
   - 61: {fileID: 2525291}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube 9
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -798,7 +798,7 @@ GameObject:
   - 33: {fileID: 186016730}
   - 23: {fileID: 186016729}
   - 61: {fileID: 186016728}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube 10
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -3979,7 +3979,7 @@ GameObject:
   - 33: {fileID: 1510396337}
   - 23: {fileID: 1510396336}
   - 61: {fileID: 1510396335}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube 13
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -5303,7 +5303,7 @@ GameObject:
   - 33: {fileID: 1932303404}
   - 23: {fileID: 1932303403}
   - 61: {fileID: 1932303402}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube 3
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -5435,7 +5435,7 @@ GameObject:
   - 33: {fileID: 1993064186}
   - 23: {fileID: 1993064185}
   - 61: {fileID: 1993064184}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube 2
   m_TagString: Ground
   m_Icon: {fileID: 0}
