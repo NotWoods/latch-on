@@ -41,7 +41,6 @@ public class Edit_Handles : MonoBehaviour, IDragHandler, IBeginDragHandler {
 		Vector2 newPos = new Vector2(Mathf.Round(mousePos.x*2)/2, Mathf.Round(mousePos.y*2)/2);
 		Vector2 newHandlePos = (newPos - handleStartPos);
 		Vector2 newHandleMag = new Vector2(newHandlePos.x*rightMultiplier, newHandlePos.y*upMultiplier);
-		Debug.Log (newHandlePos);
 
 		camScript.activeObject.localScale = (Vector3) newHandleMag + (Vector3) startScale + Vector3.forward;
 		camScript.activeObject.position = (Vector3) (newHandlePos/2) + (Vector3) startPos;

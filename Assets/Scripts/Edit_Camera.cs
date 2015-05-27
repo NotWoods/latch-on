@@ -42,6 +42,7 @@ public class Edit_Camera : MonoBehaviour {
 	}
 	
 	public void SetActiveObject(Transform obj) {
+		if (obj == null) {return;}
 		activeObject = obj;
 		handleCanvas.position = new Vector3(obj.position.x, obj.position.y, -0.75f);
 		handleCanvas.sizeDelta = (Vector2) obj.localScale;
