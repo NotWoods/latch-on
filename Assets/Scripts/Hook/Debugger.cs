@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 
 namespace Hook {
+	/// <summary>
+	/// Draws debug wireframes when its gameobject is selected</summary>
 	public class Debugger : MonoBehaviour {
+		/// <summary>Colors to draw with, keyed based on their purpose</summary>
 		public Dictionary<string, Color> colors = new Dictionary<string, Color>();
 		
-		public bool drawPlatforms = false;
-		public float jointSize = 1.0f;
+		public bool drawPlatforms = false; // draw platform wireframes?
+		public float jointSize = 1.0f; // the size of the joint sphere wireframes
 		
-		public Vector2 PlayerLocation;
-		public float ScanRadius;
-		public List<Vector2> Rope = new List<Vector2>();
-		private List<Block> platforms = new List<Block>();
-		public List<Block> Platforms {
+		public Vector2 PlayerLocation; // Current location of the player
+		public float ScanRadius; // Radius that the grappling hook reaches
+		public List<Vector2> Rope = new List<Vector2>(); // List of joints
+		private List<Block> platforms = new List<Block>(); // List of platforms
+		public List<Block> Platforms { // Sorts the platforms when set based on type
 			get {return platforms;}
 			set {
 				platforms = value;
@@ -23,8 +26,9 @@ namespace Hook {
 				});
 			}
 		}
-		public Vector2 PlayerSize;
+		public Vector2 PlayerSize; // Dimensions of the player
 		
+		/// <summary>Sets default colors</summary>
 		void Awake() {
 			colors.Add("radius", Color.red);
 			colors.Add("rope", Color.green);
@@ -36,6 +40,7 @@ namespace Hook {
 			colors.Add("solid", Color.gray);
 		}
 		
+		/// <summary>Called every frame to draw wireframes</summary>
 		void OnDrawGizmosSelected() {
 			//Draw ScanRadius
 			Gizmos.color = colors["radius"];
