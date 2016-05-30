@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Grapple : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+namespace Hook {
+	public class Grapple : MonoBehaviour {
+		///This class will attach to the player gameObject
+		
+		///TODO: Code to grapple onto an object
+		///TODO: Code to call Hook.Rope functions in Game Loops
 	}
 }

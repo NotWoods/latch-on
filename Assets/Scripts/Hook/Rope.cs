@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 namespace Hook {
 	public class Rope {
@@ -114,7 +115,7 @@ namespace Hook {
 				}
 			} catch (InvalidOperationException e) {
 				//rope is currently straight, try again next time to see if it
-				//has a bend.
+				//has a bend. 
 			}
 		}
 		
