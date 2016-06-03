@@ -52,7 +52,7 @@ namespace Hook.Rope {
 			}
 		}
 		
-		private public void OnFixedUpdate() {
+		private void OnFixedUpdate() {
 			WrapCheck();
 			UnwrapCheck();
 		}
