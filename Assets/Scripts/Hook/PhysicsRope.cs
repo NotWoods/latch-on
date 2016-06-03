@@ -33,7 +33,7 @@ namespace Hook.Rope {
 			spring.connectedBody = hit.rigidbody;
 			if (hit.rigidbody != null) {
 				spring.connectedAnchor = 
-					hit.transform.InverseTransformPoint(hit.point);
+					hit.transform.InverseTransformPoint(connectedAnchor);
 			} else {
 				spring.connectedAnchor = connectedAnchor;
 			}

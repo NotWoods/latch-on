@@ -29,7 +29,8 @@ namespace Hook {
 		}
 		
 		void Awake() {
-			
+			SpringJoint2D spring = GetComponent<SpringJoint2D>();
+			rope = new PhysicsRope(spring);
 		}
 		
 		void FixedUpdate() {

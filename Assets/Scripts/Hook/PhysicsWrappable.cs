@@ -22,11 +22,17 @@ namespace Hook.Rope {
 		}
 		
 		public void WrapOn(RaycastHit2D hit) {
-			
+			connectedAnchor = hit.point;
+			//if (hit.rigidbody != null) {
+				//TODO: special logic for moveable items
+			//} else {
+				spring.connectedAnchor = connectedAnchor;
+			//}
 		}
 		
-		public void Unwrap() {
-			
+		public void Unwrap(Vector2 oldPoint) {
+			connectedAnchor = oldPoint;
+			spring.connectedAnchor = oldPoint;
 		}
 	}
 }
