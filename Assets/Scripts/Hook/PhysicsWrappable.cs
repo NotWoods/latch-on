@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Hook.Rope {
 	public class PhysicsWrappable : PhysicsRope, IWrappable {	
 		/// <summary>List of joints in the rope</summary>
-		public JointList joints; 
+		public JointList joints {get; set;}
 		
 		///<summary>Length of the rope's wrapped part</summary>
 		private float wrapDistance = 0;
@@ -17,15 +17,15 @@ namespace Hook.Rope {
 			}
 		}
 		
-		PhysicsWrappable(SpringJoint2D _spring) : base(_spring) {
+		public PhysicsWrappable(SpringJoint2D _spring) : base(_spring) {
 			
 		}
 		
-		void WrapOn(RaycastHit2D hit) {
+		public void WrapOn(RaycastHit2D hit) {
 			
 		}
 		
-		void Unwrap() {
+		public void Unwrap() {
 			
 		}
 	}

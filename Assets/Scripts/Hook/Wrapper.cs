@@ -31,7 +31,7 @@ namespace Hook.Rope {
 		private void WrapCheck() {
 			RaycastHit2D hit = CheckCollision(rope.anchor, rope.joints.Peek());
 			if (hit.collider != null) {
-				rope.OnWrap(hit);
+				rope.WrapOn(hit);
 			}
 		}
 		
@@ -43,7 +43,7 @@ namespace Hook.Rope {
 			if (rope.joints.Count > 0) {
 				RaycastHit2D hit = CheckCollision(rope.anchor, rope.joints.PeekNext());
 				if (hit.collider == null) {
-					rope.OnUnwrap();
+					rope.Unwrap();
 				}
 			}
 		}

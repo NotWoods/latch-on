@@ -6,7 +6,7 @@ namespace Hook.Rope {
 	// Represents a list of joints in a rope.
 	// The top of the stack is the most recently created
 	// joint.
-	public class JointList : Stack<Vector2> {
+	public class JointList : List<Vector2> {
 		public Vector2 connectedAnchor;
 		
 		JointList() : base() {}
@@ -14,11 +14,11 @@ namespace Hook.Rope {
 			connectedAnchor = _connectedAnchor;
 		}
 		
-		public new Vector2 Peek() {
+		public Vector2 Peek() {
 			if (base.Count == 0) {
 				return connectedAnchor;
 			} else {
-				return base.Peek();
+				return base[base.Count - 1];
 			}
 		}
 		
@@ -30,9 +30,10 @@ namespace Hook.Rope {
 			}
 		}
 		
-		public new List<Vector2> ToList() {
-			List<Vector2> list = base.ToList();
-			List.Insert(0, connectedAnchor);
+		public List<Vector2> FullList() {
+			List<Vector2> list = (List<Vector2>) base.MemberwiseClone();
+			list.Insert(0, connectedAnchor);
+			return list;
 		}
 	}
 	

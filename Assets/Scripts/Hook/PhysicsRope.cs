@@ -3,12 +3,15 @@ using UnityEngine;
 namespace Hook.Rope {
 	public class PhysicsRope : IRope {	
 		///<summary>The world position of the spring joint anchor</summary>
-		public Vector2 anchor;
-		///<summary>Where the hook connects with the wall</summary>
-		public Vector2 connectedAnchor; 
+		public Vector2 anchor { get; set; }
 		
-		public boolean active {
-			get {return spring.enabled}
+		///<summary>Where the hook connects with the wall</summary>
+		public Vector2 connectedAnchor { get; set; }
+		
+		public float maxRange;
+		
+		public bool isActive {
+			get {return spring.enabled;}
 		}
 		
 		///<summary>Refers to the Spring Joint used for the rope</summary>
@@ -20,11 +23,12 @@ namespace Hook.Rope {
 		///<summary>Layers that the rope should wrap around</summary>
 		public int layerIsSolid; 
 		
-		PhysicsRope(SpringJoint2D _spring) {
+		public PhysicsRope(SpringJoint2D _spring) {
 			spring = _spring;
 		}
 		
-		void ConnectTo(RaycastHit2D hit) {
+		///<summary>Connect the rope to something</summary>
+		public void ConnectTo(RaycastHit2D hit) {
 			connectedAnchor = hit.point;
 			spring.connectedBody = hit.rigidbody;
 			if (hit.rigidbody != null) {
@@ -37,8 +41,18 @@ namespace Hook.Rope {
 			spring.enabled = true;
 		}
 		
-		void Break() {
+		///<summary>
+		///Break the rope and reset anything that needs to be reset</summary>
+		public void Break() {
 			spring.enabled = false;
+		}
+		
+		///<summary>
+		///Retract rope at speed. Use negative speed to extend.
+		///Retract at a constant rate.</summary>
+		public float Retract(float speed = 1f) {
+			spring.distance -= speed;
+			return spring.distance;
 		}
 	}
 }
