@@ -32,7 +32,7 @@ namespace Hook.Rope {
 			RaycastHit2D hit = CheckCollision(rope.anchor, rope.joints.Peek());
 			if (hit.collider != null) {
 				rope.WrapOn(hit);
-				joints.Push(connectedAnchor);
+				rope.joints.Add(hit.point);
 			}
 		}
 		
@@ -44,8 +44,7 @@ namespace Hook.Rope {
 			if (rope.joints.Count > 0) {
 				RaycastHit2D hit = CheckCollision(rope.anchor, rope.joints.PeekNext());
 				if (hit.collider == null) {
-					rope.Unwrap();
-					joints.PopNext()
+					rope.Unwrap(rope.joints.PopNext());
 				}
 			}
 		}

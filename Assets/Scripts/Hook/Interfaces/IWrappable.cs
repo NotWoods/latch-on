@@ -56,6 +56,6 @@ namespace Hook.Rope {
 		JointList joints {get; set;}
 		
 		void WrapOn(RaycastHit2D hit);
-		void Unwrap();
+		void Unwrap(Vector2 oldPoint);
 	}
 }
