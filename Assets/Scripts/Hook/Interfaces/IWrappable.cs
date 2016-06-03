@@ -30,6 +30,16 @@ namespace Hook.Rope {
 			}
 		}
 		
+		public Vector2 PopNext() {
+			if (base.Count <= 1) {
+				throw new InvalidOperationException("No joints to unwrap");
+			} else {
+				Vector2 point = base[base.Count - 2];
+				base.RemoveAt(base.Count - 2);
+				return point;
+			}
+		}
+		
 		public List<Vector2> FullList() {
 			List<Vector2> list = (List<Vector2>) base.MemberwiseClone();
 			list.Insert(0, connectedAnchor);
