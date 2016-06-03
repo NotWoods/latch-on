@@ -19,8 +19,8 @@ namespace Hook.Rope {
 			}
 		}
 		
-		PhysicsWrappable(SpringJoint2D _spring) {
-			spring = _spring;
+		PhysicsWrappable(SpringJoint2D _spring) : base(_spring) {
+			
 		}
 		
 		void WrapOn(RaycastHit2D hit) {
