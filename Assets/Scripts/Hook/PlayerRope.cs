@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Hook.Rope {
 	public class PhysicsRope : IRope {	

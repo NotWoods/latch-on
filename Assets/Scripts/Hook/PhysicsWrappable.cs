@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System;
 
 namespace Hook.Rope {
 	public class PhysicsWrappable : PhysicsRope, IWrappable {	
