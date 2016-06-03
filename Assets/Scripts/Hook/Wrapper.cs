@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Hook {
+namespace Hook.Rope {
 	///<summary>
 	///Standard code for a rope wrapper. Enhances a rope passed in
 	///the constructor.

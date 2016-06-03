@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-namespace Hook {
-	public class PlayerRope : IWrappable {	
+namespace Hook.Rope {
+	public abstract class PhysicsRope : IWrappable {	
 		///<summary>The world position of the spring joint anchor</summary>
 		public Vector2 anchor;
 		///<summary>Where the hook connects with the wall</summary>
@@ -30,6 +30,10 @@ namespace Hook {
 		public int layerIsGrapplable; 
 		///<summary>Layers that the rope should wrap around</summary>
 		public int layerIsSolid; 
+		
+		PhysicsRope(SpringJoint2D _spring) {
+			spring = _spring;
+		}
 		
 		void ConnectTo(Vector2 location) {
 			

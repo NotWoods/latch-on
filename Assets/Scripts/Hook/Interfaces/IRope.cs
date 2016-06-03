@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Hook {
+namespace Hook.Rope {
 	public interface IRope {
 		Vector2 anchor {get;}
 		Vector2 connectedAnchor {get;}

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-namespace Hook {
+namespace Hook.Rope {
 	// Represents a list of joints in a rope.
 	// The top of the stack is the most recently created
 	// joint.
