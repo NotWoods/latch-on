@@ -21,11 +21,7 @@ namespace Hook.Rope {
 		///<param name="toPoint">Where the Raycast aims for</param>
 		///<returns>A RaycastHit2D from the raycast</returns>
 		static RaycastHit2D CheckCollision(Vector2 fromPoint, Vector2 toPoint) {
-			Vector2 heading = toPoint - fromPoint;
-			float distance = heading.magnitude;
-			Vector2 direction = heading / distance;
-			
-			return Physics2D.Raycast(fromPoint, direction, distance, layerIsSolid);
+			return Physics2D.Linecast(fromPoint, toPoint, layerIsSolid);
 		}
 		
 		///<summary>
