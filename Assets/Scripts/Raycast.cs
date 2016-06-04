@@ -1,7 +1,7 @@
 using UnityEngine;
 
 ///<summary>Helper functions for creating 2D Raycasts</summary>
-public class Raycast2D {
+public static class Raycast2D {
 	public static RaycastHit2D towardsPoint(Vector2 fromPoint, Vector2 toPoint,
 	 float maxDistance = Mathf.Infinity, 
 	 int layerMask = Physics.DefaultRaycastLayers) {
