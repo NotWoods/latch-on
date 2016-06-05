@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Level {
-	[Serializable]
+	[System.Serializable]
 	public class Platform {
 		public Vector2[] path;
 		public bool isSolid = false;

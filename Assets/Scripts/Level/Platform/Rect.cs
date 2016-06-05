@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Level {
-	[Serializable]
+	[System.Serializable]
 	public class Rect : Platform {
 		BoxCollider2D AddCollider(GameObject gameObject) {
 			BoxCollider2D collider = 

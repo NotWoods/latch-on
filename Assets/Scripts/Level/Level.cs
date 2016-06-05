@@ -1,14 +1,16 @@
+using UnityEngine;
+
 namespace Level {
-	[Serializable]
-	public class Main {
-		public string name;
+	[System.Serializable]
+	public class Main : MonoBehaviour {
+		public string label;
 		public Platform[] platforms;
 		
-		public Main LoadFile(string url) {
+		public void LoadFile(string url) {
 			StartCoroutine(Text.Load(url, (text) => {
 				Main level = JsonUtility.FromJson<Main>(text);
 				BuildLevel(level);
-			}))
+			}));
 		}
 		
 		public void BuildLevel(Main level) {
