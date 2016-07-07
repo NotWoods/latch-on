@@ -18,7 +18,7 @@ public class PolygonMesh2D : MonoBehaviour {
 	} 
 
 	#if UNITY_EDITOR
-	void OnColliderUpdate() {
+	public void OnColliderUpdate() {
 		Vector2[] path = polygon.GetPath(pathIndex);
 		Mesh msh = new Mesh();
 
@@ -28,6 +28,10 @@ public class PolygonMesh2D : MonoBehaviour {
 		msh.RecalculateNormals();
 		msh.RecalculateBounds();
 		meshFilter.mesh = msh;
+	}
+
+	void Update() {
+		if (!Application.isPlaying) OnColliderUpdate();
 	}
 	#endif
 }
