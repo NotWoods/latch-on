@@ -1,65 +1,33 @@
 using UnityEngine;
+using System.Linq;
 
 [ExecuteInEditMode]
+[RequireComponent (typeof (PolygonCollider2D))]
+[RequireComponent (typeof (MeshRenderer))]
+[RequireComponent (typeof (MeshFilter))]
 public class PolygonMesh2D : MonoBehaviour {
-	static boolean compareArray(Vector2[] array1, Vector2[] array2) {
-		if (array1.Length != array2.Length) return false;
-		for (int i = 0; i < array1.Length; i++) {
-			if (array1[i] != array2[i]) return false;
-		}
-		return true;
-	}
+	protected PolygonCollider2D polygon;
+	protected MeshFilter meshFilter;
 
-	static Vector3[] toV3Array(Vector2[] v2Array, float z = 0f) {
-		Vector3[] verticies = new Vector3[v2Array.Length];
-		for (int i = 0; i < verticies.Length; i++) {
-			Vector2 v = v2Array[i];
-			verticies[i] = new Vector3(v.x, v.y, z);
-		}
-		return toV3Array
-	}
-
-	Vector2[][] lastPaths;
-	PolygonCollider2D polygon;
-	MeshRenderer mesh;
+	int pathIndex = 0;
+	float z = 0f;
 
 	void Start() {
 		polygon = gameObject.GetComponent<PolygonCollider2D>();
-		mesh = gameObject.GetComponent<MeshRenderer>();
-		lastPaths = new Vector2[polygon.pathCount][];
+		meshFilter = gameObject.GetComponent<MeshFilter>();
 	} 
 
-	void Update() {
-		boolean buildFlag = false;
-		if (polygon.pathCount !== lastPaths.Length) {
-			buildFlag = true;
-			lastPaths = new Vector2[polygon.pathCount][];
-			for (int i = 0; i < polygon.pathCount; i++) {
-				lastPaths[i] = polygon.GetPath(i);
-			}
-		}	else {
-			for (int i = 0; i < polygon.pathCount; i++) {
-				Vector2[] path = polygon.GetPath(i);
-				if (!compareArray(path, lastPaths[i])) {
-					buildFlag = true;
-					lastPaths[i] = polygon.GetPath(i);
-				}
-			}
-		}
+	#if UNITY_EDITOR
+	void OnColliderUpdate() {
+		Vector2[] path = polygon.GetPath(pathIndex);
+		Mesh msh = new Mesh();
 
-		if (buildFlag) BuildMesh();
-	}
+		msh.vertices = path.Select(v => new Vector3(v.x, v.y, z)).ToArray();
+		msh.triangles = new Util.Triangulator(path).Triangulate();
 
-	void BuildMesh() {
-		for (int i = 0; i < polygon.pathCount; i++) {
-			Vector2[] path = polygon.GetPath(i);
-			Triangulator tr = new Triangulator(path);
-			
-			Mesh msh = new Mesh();
-			msh.verticies = toV3Array(path);
-			msg.triangles = tr.Triangulate();
-			msg.RecalculateNormals();
-			msg.RecalculateBounds();
-		}
+		msh.RecalculateNormals();
+		msh.RecalculateBounds();
+		meshFilter.mesh = msh;
 	}
+	#endif
 }
