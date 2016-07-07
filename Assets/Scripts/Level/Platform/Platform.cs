@@ -9,7 +9,7 @@ namespace Level {
 		
 		PolygonCollider2D AddCollider(GameObject gameObject) {
 			PolygonCollider2D collider = 
-				gameObject.AddComponent("PolygonCollider2D") as PolygonCollider2D;
+				gameObject.AddComponent<PolygonCollider2D>() as PolygonCollider2D;
 			collider.SetPath(0, path);
 			return collider;
 		}
