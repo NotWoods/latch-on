@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace Player {
 	public interface IMoveable {
+		GameObject gameObject {get;}
+
 		// Causes the player to jump. Returns false if there is no floor.
 		bool Jump();
 
