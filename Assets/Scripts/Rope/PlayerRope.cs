@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,8 +14,11 @@ public class PlayerRope : MonoBehaviour, IRope {
 	/// Used to link the SpringJoint2D to the end of the EdgeCollider2D
 	Rigidbody2D anchor;
 
+	public Action OnBreak {protected get; set;}
+
 	void Awake() {
 		staticRope = gameObject.GetComponent<EdgeCollider2D>();
+
 		activeRope = gameObject.GetComponent<SpringJoint2D>();
 		anchor = gameObject.GetComponent<Rigidbody2D>();
 	}
@@ -60,5 +64,9 @@ public class PlayerRope : MonoBehaviour, IRope {
 	public void LinkTo(Vector2 position) {
 		staticRope.points = new Vector2[] {position};
 		anchor.position = position;
+	}
+
+	public void LinkTo(Vector2 position, Rigidbody2D body) {
+		
 	}
 }
