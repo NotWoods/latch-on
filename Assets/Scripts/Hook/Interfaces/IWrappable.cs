@@ -52,7 +52,7 @@ namespace Hook.Rope {
 	///Adds a list of joints and event handlers, since a wrappable rope
 	///will need to have joints and not just be a straight line.
 	///</summary>
-	public interface IWrappable : IRope	{
+	public interface IWrappable : IDeprecatedRope	{
 		JointList joints {get; set;}
 		
 		void WrapOn(RaycastHit2D hit);

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Hook.Rope {
-	public interface IRope {
+	public interface IDeprecatedRope {
 		Vector2 anchor {get;}
 		Vector2 connectedAnchor {get;}
 		bool isActive {get;}

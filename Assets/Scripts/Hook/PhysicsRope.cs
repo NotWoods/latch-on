@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Hook.Rope {
-	public class PhysicsRope : IRope {	
+	public class PhysicsRope : IDeprecatedRope {	
 		///<summary>The world position of the spring joint anchor</summary>
 		public Vector2 anchor { get; set; }
 		
