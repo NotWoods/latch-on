@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public interface IRope {
-	float length {get; set;}
+	float length {get;}
 	List<Vector2> joints {get;}
 
 	// Connect the rope from a position
@@ -12,8 +12,4 @@ public interface IRope {
 
 	void LinkTo(Vector2 position);
 	void LinkTo(Vector2 position, Rigidbody2D thing);
-
-	void Wrap(Vector2 point);
-	void Wrap(Vector2 point, Collider2D thing);
-	void Wrap(Vector2 point, Rigidbody2D movingThing);
 }

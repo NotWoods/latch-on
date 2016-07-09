@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Level {
+	[RequireComponent (typeof (Collider2D))]
 	public class Goal : MonoBehaviour, IGoal {
 		[SerializeField]
 		private Scene level;
