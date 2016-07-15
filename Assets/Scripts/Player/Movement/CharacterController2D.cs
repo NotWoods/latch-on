@@ -80,33 +80,10 @@ public class CharacterController2D : MonoBehaviour {
 
 	#endregion
 
-	struct ControllerCollider2DHit {
-		Collider2D collider;
-		CharacterController2D controller;
-		GameObject gameObject;
-		Vector2 moveDirection;
-		float moveLength;
-		Vector2 normal;
-		Vector2 point;
-		Rigidbody2D rigidbody;
-		Transform transform;
-	}
-
-	void OnControllerCollider2DHit(ControllerCollider2DHit hit) {
-		gameObject.SendMessage("OnControllerCollider2DHit", hit);
-	}
-
 	Bounds shrunkBounds;
 	Bounds SkinWidthBounds() {
-		//Bounds scaledBounds = new Bounds(boxCollider.bounds.center, new Vector2(
-		//		boxCollider.bounds.extents.x * Mathf.Abs(transform.localScale.x),
-		//		boxCollider.bounds.extents.y * Mathf.Abs(transform.localScale.y)
-		//	));
 		Bounds scaledBounds = boxCollider.bounds;
 		scaledBounds.Expand(-2 * skinWidth);
-
-		Debug.DrawLine(scaledBounds.min, 
-			new Vector2(scaledBounds.max.x, scaledBounds.min.y), Color.blue);
 
 		return scaledBounds;
 	}
@@ -136,8 +113,6 @@ public class CharacterController2D : MonoBehaviour {
 		for (int i = 0; i < horizontalRayCount; i++) {
 			if (i > 0) origin += Vector2.up * raySpacing.x;
 
-			Debug.DrawRay(origin, Vector2.right * rayLength * dirX, Color.red);
-
 			RaycastHit2D hit = Physics2D.Raycast(origin, 
 				Vector2.right * dirX,
 				rayLength, platformMask);
@@ -146,6 +121,8 @@ public class CharacterController2D : MonoBehaviour {
 				rayLength = hit.distance;
 				collisionFlags |= CollisionFlags.Sides;
 			}
+
+			Debug.DrawRay(origin, Vector2.right * rayLength * dirX, Color.red);
 		}
 
 		return collisionFlags;
