@@ -18,4 +18,13 @@ public static class Raycast2D {
 			Mathf.Sin(angle * Mathf.Deg2Rad));
 		return Physics2D.Raycast(fromPoint, direction, maxDistance, layerMask);
 	}
+
+	public static float CalculateSpacing(int count, float from, float to) {
+		float distance = Mathf.Abs(from - to);
+		return distance / (count - 1);
+	}
+
+	public static float CalculateSpacing(float count, float from, float to) {
+		return CalculateSpacing(Mathf.RoundToInt(count), from, to);
+	}
 }

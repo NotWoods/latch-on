@@ -1,23 +1,22 @@
 using UnityEngine;
 
 namespace Player {
+	[RequireComponent (typeof(CharacterController2D))]
 	public class MovementInput : MonoBehaviour {
-		IMoveable player;
+		CharacterController2D player;
 
-		public float metersPerSecond = 1f;
+		public float speed = 2f;
+		public float gravity = -20f;
 
 		void Start() {
-			player = GetComponent<IMoveable>();
+			player = GetComponent<CharacterController2D>();
 		}
 
-		void Update() {
-			float horizontal = Input.GetAxis("Horizontal");
-			if (horizontal != 0) {
-				player.Drive(horizontal * metersPerSecond * Time.deltaTime);
-			}
-
-			bool jumpButton = Input.GetButtonDown("Jump");
-			if (jumpButton) player.Jump();
+		void FixedUpdate() {
+			Vector2 velocity = Vector2.zero;
+			velocity.x = Input.GetAxis("Horizontal") * speed;
+			velocity.y = gravity * Time.fixedDeltaTime;
+			player.Move(velocity * Time.fixedDeltaTime);
 		}
 	}
 }
