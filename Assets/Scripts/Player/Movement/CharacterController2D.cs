@@ -49,7 +49,7 @@ public class CharacterController2D : MonoBehaviour {
 	public float skinWidth = 0.08f;
 
 	///The character controller's slope limit in degrees.
-	public float slopeLimit = 30f;
+	public float slopeLimit = 45f;
 
 	///The character controller's step offset in meters.
 	public float stepOffset = 0;
@@ -117,12 +117,18 @@ public class CharacterController2D : MonoBehaviour {
 				Vector2.right * dirX,
 				rayLength, platformMask);
 			if (hit) {
+				float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+				if (i == 0 && slopeAngle <= slopeLimit) {
+					ClimbSlope(ref deltaMovement, slopeAngle);
+				}
+
 				deltaMovement.x = (hit.distance - skinWidth) * dirX;
 				rayLength = hit.distance;
 				collisionFlags |= CollisionFlags.Sides;
 			}
 
-			Debug.DrawRay(origin, Vector2.right * rayLength * dirX, Color.red);
+			//Debug.DrawRay(origin, Vector2.right * rayLength * dirX, Color.red);
 		}
 
 		return collisionFlags;
@@ -151,9 +157,16 @@ public class CharacterController2D : MonoBehaviour {
 					CollisionFlags.Below : CollisionFlags.Above;
 			}
 
-			Debug.DrawRay(origin, Vector2.up * rayLength * dirY, Color.red);
+			//Debug.DrawRay(origin, Vector2.up * rayLength * dirY, Color.red);
 		}
 
 		return collisionFlags;
+	}
+
+	void ClimbSlope(ref Vector2 deltaMovement, float slopeAngle) {
+		float moveDist = Mathf.Abs(deltaMovement.x);
+		deltaMovement.y = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDist;
+		deltaMovement.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDist 
+			* Mathf.Sign(deltaMovement.x);
 	}
 }
