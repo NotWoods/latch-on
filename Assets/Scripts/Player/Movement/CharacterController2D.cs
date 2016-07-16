@@ -59,17 +59,21 @@ public class CharacterController2D : MonoBehaviour {
 
 	///A more complex move function taking absolute movement deltas
 	///<param name="motion">Delta movement</param>
-	public CollisionFlags Move(Vector2 motion) {
+	protected CollisionFlags MoveCalculation(ref  Vector2 deltaMovement) {
 		collisionFlags = CollisionFlags.None;
 
-		if (motion.x != 0) MoveHorizontally(ref motion);
-		if (motion.y != 0) MoveVertically(ref motion);
-
-		transform.Translate(motion);
+		if (deltaMovement.x != 0) MoveHorizontally(ref deltaMovement);
+		if (deltaMovement.y != 0) MoveVertically(ref deltaMovement);
 
 		// Only calculates velocity when frame has changed
-		if (Time.deltaTime > 0) velocity = motion / Time.deltaTime;
+		if (Time.deltaTime > 0) velocity = deltaMovement / Time.deltaTime;
 
+		return collisionFlags;
+	}
+
+	public virtual CollisionFlags Move(Vector2 deltaMovement) {
+		MoveCalculation(ref deltaMovement);
+		transform.Translate(deltaMovement);
 		return collisionFlags;
 	}
 
