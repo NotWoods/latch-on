@@ -14,7 +14,7 @@ namespace Player {
 
 		float velocityXSmoothing;
 
-		void Start() {
+		void Awake() {
 			player = GetComponent<CharacterController2D>();
 		}
 

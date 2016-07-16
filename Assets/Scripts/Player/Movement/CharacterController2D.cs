@@ -100,6 +100,8 @@ public class CharacterController2D : MonoBehaviour {
 		);
 	}
 
+	float lastSlopeAngle;
+
 	CollisionFlags MoveHorizontally(ref Vector2 deltaMovement) {
 		Bounds b = SkinWidthBounds();
 
@@ -109,6 +111,7 @@ public class CharacterController2D : MonoBehaviour {
 		Vector2 origin = isGoingLeft?
 			(Vector2) b.min : new Vector2(b.max.x, b.min.y);
 		float rayLength = Mathf.Abs(deltaMovement.x) + skinWidth;
+		bool isClimbing = false;
 
 		for (int i = 0; i < horizontalRayCount; i++) {
 			if (i > 0) origin += Vector2.up * raySpacing.x;
@@ -120,12 +123,20 @@ public class CharacterController2D : MonoBehaviour {
 				float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
 				if (i == 0 && slopeAngle <= slopeLimit) {
-					ClimbSlope(ref deltaMovement, slopeAngle);
-				}
+					float distanceToSlope = 0;
+					if (slopeAngle != lastSlopeAngle) {
+						distanceToSlope = hit.distance - skinWidth;
+						deltaMovement.x -= distanceToSlope * dirX;
+					}
+					velocity.x += distanceToSlope * dirX;
 
-				deltaMovement.x = (hit.distance - skinWidth) * dirX;
-				rayLength = hit.distance;
-				collisionFlags |= CollisionFlags.Sides;
+					isClimbing = ClimbSlope(ref deltaMovement, slopeAngle);
+				}
+				if (!isClimbing || slopeAngle > slopeLimit) {
+					deltaMovement.x = (hit.distance - skinWidth) * dirX;
+					rayLength = hit.distance;
+					collisionFlags |= CollisionFlags.Sides;
+				}
 			}
 
 			//Debug.DrawRay(origin, Vector2.right * rayLength * dirX, Color.red);
@@ -163,10 +174,19 @@ public class CharacterController2D : MonoBehaviour {
 		return collisionFlags;
 	}
 
-	void ClimbSlope(ref Vector2 deltaMovement, float slopeAngle) {
+	bool ClimbSlope(ref Vector2 deltaMovement, float slopeAngle) {
 		float moveDist = Mathf.Abs(deltaMovement.x);
-		deltaMovement.y = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDist;
-		deltaMovement.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDist 
-			* Mathf.Sign(deltaMovement.x);
+		float climbDeltaY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDist;
+		
+		bool isJumping = deltaMovement.y > climbDeltaY;
+		if (!isJumping) {
+			lastSlopeAngle = slopeAngle;
+			
+			deltaMovement.y = climbDeltaY;
+			deltaMovement.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDist 
+				* Mathf.Sign(deltaMovement.x);
+			collisionFlags |= CollisionFlags.Below;
+			return true;
+		} else return false;
 	}
 }
