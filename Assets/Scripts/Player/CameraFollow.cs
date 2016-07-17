@@ -6,6 +6,8 @@ namespace Player {
 		float zOffset = 30;
 		///Area for focus area tracking size
 		public Vector2 focusAreaSize = new Vector2(3, 6);
+
+		public Color gizmoColor = new Color(1, 0, 0, 0.1f);
 		
 		///Bounds representing focus area
 		Bounds focusArea;
@@ -39,8 +41,8 @@ namespace Player {
 			transform.position = focusArea.center + (zOffset * Vector3.back);
 		}
 
-		void OnDrawGizmos() {
-			Gizmos.color = new Color(1, 0, 0, 0.1f);
+		void OnDrawGizmosSelected() {
+			Gizmos.color = gizmoColor;
 			Gizmos.DrawCube(focusArea.center, focusArea.size);
 		}
 	}

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent (typeof(BoxCollider2D))]
-public class CharacterController2D : MonoBehaviour {
+public class CharacterController2Dd : MonoBehaviour {
 	/// All layers that the chracter should collide with
 	public LayerMask platformMask = 0;
 

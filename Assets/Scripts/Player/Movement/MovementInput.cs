@@ -1,9 +1,10 @@
 using UnityEngine;
+using Rope;
 
 namespace Player {
-	[RequireComponent (typeof(CharacterController2D))]
+	[RequireComponent (typeof(RopeController))]
 	public class MovementInput : MonoBehaviour {
-		CharacterController2D player;
+		RopeController player;
 
 		public float accelerationTimeGrounded = 0;
 		public float accelerationTimeAirborne = 0.5f;
@@ -15,20 +16,23 @@ namespace Player {
 		float velocityXSmoothing;
 
 		void Awake() {
-			player = GetComponent<CharacterController2D>();
+			player = GetComponent<RopeController>();
 		}
 
 		void Update() {
 			Vector2 velocity = player.velocity;
+			if (player.iAmTethered) velocity.y = 0;
 			velocity.y -= gravity * Time.deltaTime;
 
-			float targetVelocityX = Input.GetAxis("Horizontal") * speed;
-			float accelerationTime;
-			if ((player.collisionFlags & CollisionFlags.Below) != 0) 
-				accelerationTime = accelerationTimeGrounded;
-			else accelerationTime = accelerationTimeAirborne;
-			velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX,
-				ref velocityXSmoothing, accelerationTime);
+			if (!player.iAmTethered) {
+				float targetVelocityX = Input.GetAxis("Horizontal") * speed;
+				float accelerationTime;
+				if ((player.collisionFlags & CollisionFlags.Below) != 0) 
+					accelerationTime = accelerationTimeGrounded;
+				else accelerationTime = accelerationTimeAirborne;
+				velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX,
+					ref velocityXSmoothing, accelerationTime);
+			}
 
 			if (
 				Input.GetKeyDown(KeyCode.Space) &&
@@ -37,6 +41,13 @@ namespace Player {
 				velocity.y += jumpVelocity;
 			}
 
+			if (Input.GetMouseButtonDown(0)) {
+				Vector2 clickPoint = 
+					Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				player.GrappleToward(clickPoint);
+			} else if (!Input.GetMouseButton(0)) {
+				player.iAmTethered = false;
+			}
 
 			player.Move(velocity * Time.deltaTime);
 		}
