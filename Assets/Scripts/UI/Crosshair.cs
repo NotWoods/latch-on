@@ -3,18 +3,12 @@ using UnityEngine;
 namespace UI {
 	[RequireComponent(typeof(Canvas))]
 	public class Crosshair : MonoBehaviour {
-		public new RectTransform transform;
-		Canvas canvas;
+		protected Canvas canvas;
 
-		public float offsetDistance = 2.5f;
+		public Transform trackedObject;
 
 		void Start() {
 			canvas = GetComponent<Canvas>();
-		}
-
-		public void Render(Vector2 origin, Vector2 towardsPoint) {
-			Vector2 offset = towardsPoint.normalized * offsetDistance;
-			transform.position = origin + offset;
 		}
 
 		void OnDisable() {
@@ -25,6 +19,11 @@ namespace UI {
 		void OnEnable() {
 			canvas.enabled = true;
 			Cursor.visible = false;
+		}
+
+		///Draw a cursor indicating where the raycast hits
+		public void FromInputPosition(Vector2 towardsPoint) {
+			
 		}
 	}
 }

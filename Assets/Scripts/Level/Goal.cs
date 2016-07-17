@@ -2,11 +2,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Level {
+	[RequireComponent(typeof(Collider2D))]
 	public class Goal : MonoBehaviour {
 		public Scene level;
 		int levelIndex {
 			get { 
-				if (level != null) {
+				if (level.buildIndex >= 0) {
 					return level.buildIndex; 
 				} else {
 					Scene current = SceneManager.GetActiveScene();

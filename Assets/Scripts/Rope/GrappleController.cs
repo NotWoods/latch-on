@@ -25,7 +25,7 @@ namespace Rope {
 		void Start() {
 			rope = GetComponent<DistanceJoint2D>();
 			
-			rigidbody.centerOfMass = centerOfMass;
+			if (centerOfMass != Vector2.zero)	rigidbody.centerOfMass = centerOfMass;
 		}
 
 		public bool isTethered {get {return rope.enabled;}}
@@ -139,9 +139,22 @@ namespace Rope {
 		}
 
 		void OnDrawGizmosSelected() {
-			if (!rope || !isTethered) return;
-			Gizmos.color = Color.white;
-			Gizmos.DrawWireSphere(rope.connectedAnchor, rope.distance);
+			if (!rope) return;
+
+			if (isTethered) {
+				Gizmos.color = Color.white;
+				Gizmos.DrawWireSphere(rope.connectedAnchor, rope.distance);
+			}
+
+			RaycastHit2D previewHit = Physics2D.Raycast(
+				transform.position, 
+				Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position,
+				maxTetherRange,	grapplePlatformMask
+			);
+			if (previewHit) {
+				Gizmos.color = Color.black;
+				Gizmos.DrawWireSphere(previewHit.point, 1);
+			}
 		}
 	}
 }

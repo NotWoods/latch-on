@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UI {
 	public class ColorMenu : MonoBehaviour {
@@ -9,7 +10,7 @@ namespace UI {
 			"Robot Preview/Arm Back", 
 			"Robot Preview/Arm Front"
 		};
-		List<Image> previewImages;
+		List<Image> previewImages = new List<Image>();
 		Image background;
 		InputField nameField;
 
