@@ -1,5 +1,6 @@
 using UnityEngine;
 using Player;
+using Util;
 
 namespace Rope {
 	[RequireComponent(typeof(DistanceJoint2D))]
@@ -21,11 +22,15 @@ namespace Rope {
 
 		[HideInInspector]
 		public DistanceJoint2D rope;
+		float padRadius = 0;
 
 		void Start() {
 			rope = GetComponent<DistanceJoint2D>();
 			
 			if (centerOfMass != Vector2.zero)	rigidbody.centerOfMass = centerOfMass;
+			padRadius = Vector2.Distance(
+				collider.bounds.center, collider.bounds.min
+			);
 		}
 
 		public bool isTethered {get {return rope.enabled;}}
@@ -53,12 +58,56 @@ namespace Rope {
 			return false;
 		}
 
+		void DebugCross(Vector2 point, Color color, float length = 0.5f) {
+			Debug.DrawLine(point - Vector2.right * length, 
+				point + Vector2.right * length, color, 2);
+			Debug.DrawLine(point - Vector2.up * length, 
+				point + Vector2.up * length, color, 2);
+		}
+
+		void DebugCross(Vector2 point, float length = 0.5f) {
+			DebugCross(point, Color.red, length);
+		}
+
 		///TODO
 		///Reduce the initial grappling length by the returned length.
 		///Used so that the rope pulls you up from the ground rather than
 		///sliding along the floor.
 		float CalculateDistanceShrink(Vector2 tetherPoint) {
-			return 0;
+			/*float dist = Vector2.Distance(transform.position, tetherPoint);
+			float testRadius = dist	+ padRadius;
+			Vector2 bottomPoint = tetherPoint + (Vector2.up * testRadius * -1);
+			float bottomAngle = 270;
+
+			float angleDiff = Vector2.Angle(transform.position, bottomPoint);
+			bool leftOfTetherPoint = transform.position.x < tetherPoint.x;
+
+			if (leftOfTetherPoint) {
+				float startAngle = bottomAngle - angleDiff;
+				for (float i = startAngle; i < bottomAngle; i+=5) {
+					Vector2 testPoint = 
+						Circle.PointOnCircumference(i * Mathf.Deg2Rad, testRadius, tetherPoint);
+					Debug.Log(testPoint);
+					DebugCross(testPoint);
+					Collider2D collided = Physics2D.OverlapPoint(testPoint, platformMask);
+					if (collided) 
+						testRadius -= 1;
+				}
+			} else {
+				float startAngle = bottomAngle + angleDiff;
+				for (float i = startAngle; i > bottomAngle; i-=5) {
+					Vector2 testPoint = 
+						Circle.PointOnCircumference(i * Mathf.Deg2Rad, testRadius, tetherPoint);
+					if (i == startAngle) DebugCross(testPoint, Color.blue);
+					DebugCross(testPoint);
+					Collider2D collided = Physics2D.OverlapPoint(testPoint, platformMask);
+					if (collided) 
+						testRadius -= 1;
+				}	
+			}
+			
+			return testRadius - padRadius;*/
+			return Vector2.Distance(transform.position, tetherPoint);
 		}
 
 		public void LinkTo(Vector2 worldPoint, Vector2 objectCenter) {
@@ -69,8 +118,7 @@ namespace Rope {
 
 		public void LinkTo(Vector2 point) {
 			rope.connectedAnchor = point;
-			rope.distance = Vector2.Distance(transform.position, point) 
-				- CalculateDistanceShrink(point);
+			rope.distance = CalculateDistanceShrink(point);
 
 			rope.enabled = true;
 		}

@@ -6,12 +6,14 @@ namespace Player {
 	public class PlayerController : MonoBehaviour {
 		[HideInInspector]
 		public new Rigidbody2D rigidbody;
+		public new Collider2D collider;
 		//protected PlatformerCharacter controller;
 
 		public LayerMask platformMask = 0;
 
 		void Awake() {
 			rigidbody = GetComponent<Rigidbody2D>();
+			collider = GetComponent<Collider2D>();
 			//controller = GetComponent<PlatformerCharacter>();
 		}
 
