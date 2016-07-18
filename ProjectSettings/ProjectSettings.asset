@@ -9,7 +9,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: 8 Island Labs
+  companyName: Tiger Oakes
   productName: Latch On
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 2, y: 2}
@@ -340,7 +340,7 @@ PlayerSettings:
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: DefaultPackerPolicy
   scriptingDefineSymbols:
-    1: CROSS_PLATFORM_INPUT
+    1: 
     2: CROSS_PLATFORM_INPUT
     4: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
