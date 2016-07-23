@@ -1,0 +1,378 @@
+fileFormatVersion: 2
+guid: 3324739e148bcd84eb03ccabd939f6f3
+timeCreated: 1469242390
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: cloak
+    21300002: needle
+    21300004: bun
+    21300006: bun_w-rope
+    21300008: face
+    21300010: rope
+    21300012: rope2
+    21300014: hand_right
+    21300016: hand_left
+    21300018: rope-bit
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 400
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: cloak
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 871
+        width: 607
+        height: 673
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 78.5, y: -223.5}
+        - {x: 101.5, y: -200.5}
+        - {x: 118.5, y: -168.5}
+        - {x: 123.5, y: -144.5}
+        - {x: 154.5, y: -140.5}
+        - {x: 232.5, y: -157.5}
+        - {x: 291.5, y: -132.5}
+        - {x: 303.5, y: -101.5}
+        - {x: 303.5, y: -83.5}
+        - {x: 287.5, y: -66.5}
+        - {x: 182.5, y: -64.5}
+        - {x: 108.5, y: -34.5}
+        - {x: 130.5, y: -21.5}
+        - {x: 190.5, y: 26.5}
+        - {x: 209.5, y: 52.5}
+        - {x: 206.5, y: 89.5}
+        - {x: 162.5, y: 189.5}
+        - {x: 135.5, y: 238.5}
+        - {x: 112.5, y: 262.5}
+        - {x: 92.5, y: 277.5}
+        - {x: 56.5, y: 291.5}
+        - {x: -55.5, y: 324.5}
+        - {x: -108.5, y: 336.5}
+        - {x: -165.5, y: 336.5}
+        - {x: -216.5, y: 281.5}
+        - {x: -241.5, y: 283.5}
+        - {x: -247.5, y: 272.5}
+        - {x: -237.5, y: 264.5}
+        - {x: -303.5, y: 168.5}
+        - {x: -303.5, y: 142.5}
+        - {x: -276.5, y: 98.5}
+        - {x: -267.5, y: 79.5}
+        - {x: -237.5, y: 27.5}
+        - {x: -234.5, y: 29.5}
+        - {x: -228.5, y: 110.5}
+        - {x: -228.5, y: 144.5}
+        - {x: -180.5, y: 166.5}
+        - {x: -169.5, y: 140.5}
+        - {x: -141.5, y: 111.5}
+        - {x: -97.5, y: 69.5}
+        - {x: -49.5, y: 45.5}
+        - {x: -49.5, y: 67.5}
+        - {x: -50.5, y: 72.5}
+        - {x: -51.5, y: 73.5}
+        - {x: -51.5, y: 75.5}
+        - {x: -51.5, y: 73.5}
+        - {x: -47.5, y: 70.5}
+        - {x: -49.5, y: 64.5}
+        - {x: -49.5, y: 60.5}
+        - {x: -48.5, y: 41.5}
+        - {x: -42.5, y: 34.5}
+        - {x: -98.5, y: -17.5}
+        - {x: -119.5, y: -20.5}
+        - {x: -137.5, y: -10.5}
+        - {x: -160.5, y: -7.5}
+        - {x: -183.5, y: -23.5}
+        - {x: -193.5, y: -63.5}
+        - {x: -197.5, y: -151.5}
+        - {x: -162.5, y: -295.5}
+        - {x: -145.5, y: -331.5}
+        - {x: -133.5, y: -336.5}
+        - {x: -125.5, y: -336.5}
+        - {x: -106.5, y: -318.5}
+        - {x: -106.5, y: -283.5}
+        - {x: -96.5, y: -255.5}
+        - {x: -96.5, y: -253.5}
+        - {x: -98.5, y: -248.5}
+        - {x: -97.5, y: -251.5}
+        - {x: -96.5, y: -252.5}
+        - {x: -96.5, y: -260.5}
+        - {x: -65.5, y: -336.5}
+        - {x: -49.5, y: -336.5}
+        - {x: -43.5, y: -334.5}
+        - {x: -27.5, y: -288.5}
+        - {x: 1.5, y: -277.5}
+        - {x: 38.5, y: -246.5}
+      - - {x: -277.5, y: -91.5}
+        - {x: -286.5, y: -97.5}
+        - {x: -286.5, y: -155.5}
+        - {x: -279.5, y: -172.5}
+        - {x: -224.5, y: -172.5}
+        - {x: -223.5, y: -171.5}
+        - {x: -223.5, y: -145.5}
+        - {x: -269.5, y: -91.5}
+      - - {x: -262.5, y: -126.5}
+        - {x: -259.5, y: -129.5}
+        - {x: -256.5, y: -128.5}
+        - {x: -256.5, y: -126.5}
+        - {x: -259.5, y: -123.5}
+        - {x: -261.5, y: -123.5}
+    - name: needle
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 912
+        width: 462
+        height: 342
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -231, y: 171}
+        - {x: -231, y: 88}
+        - {x: 124, y: -171}
+        - {x: 231, y: -171}
+        - {x: 231, y: -142}
+        - {x: -168, y: 171}
+      - - {x: -166, y: 38}
+        - {x: -167, y: 36}
+        - {x: -167, y: 32}
+        - {x: -161, y: 32}
+        - {x: -161, y: 38}
+      - - {x: -6, y: 55}
+        - {x: -8, y: 51}
+        - {x: -8, y: 48}
+        - {x: -5, y: 46}
+        - {x: 0, y: 48}
+        - {x: 0, y: 53}
+        - {x: -3, y: 55}
+      - - {x: -213, y: 64}
+        - {x: -210, y: 61}
+        - {x: -207, y: 62}
+        - {x: -207, y: 65}
+        - {x: -208, y: 67}
+        - {x: -211, y: 67}
+        - {x: -213, y: 66}
+    - name: bun
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 661
+        width: 151
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 55.5, y: 61}
+        - {x: 30.5, y: 65}
+        - {x: -57.5, y: 65}
+        - {x: -75.5, y: 46}
+        - {x: -75.5, y: -65}
+        - {x: 50.5, y: -65}
+        - {x: 73.5, y: -47}
+        - {x: 73.5, y: 30}
+      - - {x: 70.5, y: -53}
+        - {x: 72.5, y: -55}
+        - {x: 73.5, y: -55}
+        - {x: 75.5, y: -53}
+        - {x: 75.5, y: -48}
+        - {x: 70.5, y: -50}
+    - name: bun_w-rope
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 515
+        width: 263
+        height: 295
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 68.5, y: 22.5}
+        - {x: 22.5, y: 111.5}
+        - {x: -1.5, y: 132.5}
+        - {x: -23.5, y: 145.5}
+        - {x: -32.5, y: 147.5}
+        - {x: -90.5, y: 147.5}
+        - {x: -123.5, y: 124.5}
+        - {x: -131.5, y: 92.5}
+        - {x: -131.5, y: -44.5}
+        - {x: -127.5, y: -51.5}
+        - {x: -94.5, y: -60.5}
+        - {x: 31.5, y: -100.5}
+        - {x: 33.5, y: -134.5}
+        - {x: 80.5, y: -147.5}
+        - {x: 117.5, y: -147.5}
+        - {x: 105.5, y: -120.5}
+        - {x: 131.5, y: -106.5}
+        - {x: 131.5, y: -45.5}
+    - name: face
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 378
+        width: 258
+        height: 239
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 79, y: -0.5}
+        - {x: 58, y: 21.5}
+        - {x: -39, y: 100.5}
+        - {x: -65, y: 119.5}
+        - {x: -93, y: 119.5}
+        - {x: -119, y: 98.5}
+        - {x: -129, y: 77.5}
+        - {x: -129, y: -72.5}
+        - {x: -127, y: -86.5}
+        - {x: -104, y: -110.5}
+        - {x: -58, y: -119.5}
+        - {x: 53, y: -119.5}
+        - {x: 71, y: -118.5}
+        - {x: 99, y: -109.5}
+        - {x: 129, y: -80.5}
+        - {x: 129, y: -58.5}
+    - name: rope
+      rect:
+        serializedVersion: 2
+        x: 789
+        y: 349
+        width: 170
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 85}
+        - {x: -67, y: 85}
+        - {x: -85, y: 57}
+        - {x: -85, y: -29}
+        - {x: -65, y: -47}
+        - {x: -27, y: -85}
+        - {x: 85, y: -85}
+        - {x: 85, y: -52}
+        - {x: 74, y: -45}
+    - name: rope2
+      rect:
+        serializedVersion: 2
+        x: 978
+        y: 384
+        width: 38
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hand_right
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 264
+        width: 85
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32.5, y: -46}
+        - {x: -31.5, y: -48}
+        - {x: -26.5, y: -48}
+        - {x: -26.5, y: -47}
+        - {x: -29.5, y: -44}
+        - {x: -30.5, y: -44}
+      - - {x: -29.5, y: 48}
+        - {x: -34.5, y: 38}
+        - {x: -34.5, y: -2}
+        - {x: -30.5, y: -27}
+        - {x: -26.5, y: -41}
+        - {x: 7.5, y: -48}
+        - {x: 42.5, y: -48}
+        - {x: 42.5, y: 36}
+        - {x: 6.5, y: 48}
+      - - {x: -42.5, y: 9}
+        - {x: -42.5, y: 1}
+        - {x: -40.5, y: 1}
+        - {x: -38.5, y: 3}
+        - {x: -38.5, y: 7}
+        - {x: -40.5, y: 9}
+    - name: hand_left
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 257
+        width: 71
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30.5, y: 34.5}
+        - {x: -35.5, y: 28.5}
+        - {x: -35.5, y: -7.5}
+        - {x: -12.5, y: -34.5}
+        - {x: 33.5, y: -34.5}
+        - {x: 35.5, y: -24.5}
+        - {x: 35.5, y: 9.5}
+        - {x: 9.5, y: 34.5}
+    - name: rope-bit
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 351
+        width: 35
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
