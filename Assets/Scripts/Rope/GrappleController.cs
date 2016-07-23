@@ -5,6 +5,7 @@ using Util;
 namespace Rope {
 	[RequireComponent(typeof(DistanceJoint2D))]
 	public class GrappleController : PlayerController, ITether {
+		public Needle needle;
 		public LayerMask grapplePlatformMask = 0;
 		///Pads the space between the raycast hit and platform
 		public float padWidth = 0.1f;
@@ -53,7 +54,12 @@ namespace Rope {
 				maxTetherRange,	grapplePlatformMask
 			);
 
-			if (hit) LinkTo(hit.point);
+			if (hit && needle) {
+				Vector2 direction = hit.point - (Vector2) transform.position;
+				Vector2 tetherPoint = needle.AttachTo(hit.point, direction);
+				LinkTo(tetherPoint);
+			}
+			else if (hit) LinkTo(hit.point); 
 
 			return false;
 		}

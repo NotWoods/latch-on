@@ -6,6 +6,7 @@ namespace Player {
 	public class PlayerController : MonoBehaviour {
 		[HideInInspector]
 		public new Rigidbody2D rigidbody;
+		[HideInInspector]
 		public new Collider2D collider;
 		//protected PlatformerCharacter controller;
 
