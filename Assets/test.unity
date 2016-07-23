@@ -89,6 +89,12 @@ NavMeshSettings:
 GameObject:
   m_PrefabParentObject: {fileID: 100390, guid: 4136dcef38d0bfe47b3e7361386fca8c, type: 2}
   m_PrefabInternal: {fileID: 1278494467}
+--- !u!114 &51553065 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11459036, guid: 4136dcef38d0bfe47b3e7361386fca8c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1278494467}
+  m_Script: {fileID: 11500000, guid: fb034a9bccdb7824887ce4165ec24fe3, type: 3}
 --- !u!114 &322892944 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11412516, guid: cbde3db10d159d8408de99d93951801a,
@@ -168,7 +174,7 @@ Transform:
   m_GameObject: {fileID: 700111170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.22, y: 5.13, z: 0}
-  m_LocalScale: {x: 13.803775, y: 1, z: 1}
+  m_LocalScale: {x: 13.803775, y: 0.5, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -214,6 +220,56 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cbde3db10d159d8408de99d93951801a, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &963927224
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475770, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11473450, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 51553065}
+    - target: {fileID: 2346408, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 1602178195}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1278494467
 Prefab:
@@ -320,7 +376,7 @@ Transform:
   m_GameObject: {fileID: 1371884127}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.07, y: -3.77, z: 0}
-  m_LocalScale: {x: 13.803775, y: 0.9999998, z: 1}
+  m_LocalScale: {x: 13.803775, y: 0.5, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -385,3 +441,35 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fa7e08246711c2f4cba45c2b9aea7c03, type: 2}
   m_IsPrefabParent: 0
+--- !u!21 &1602178195
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Particles/Alpha Blended
+  m_Shader: {fileID: 203, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 2251377d6d07da648ae59f59c48615ca, type: 3}
+          m_Scale: {x: 2, y: 2}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _InvFade
+        second: 1
+    m_Colors:
+      data:
+        first:
+          name: _TintColor
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

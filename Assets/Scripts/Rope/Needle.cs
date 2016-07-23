@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class Needle : MonoBehaviour {
 	[HideInInspector]
 	new public SpriteRenderer renderer;
