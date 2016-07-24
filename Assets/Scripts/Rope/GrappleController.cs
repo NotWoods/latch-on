@@ -94,39 +94,6 @@ namespace Rope {
 		///Used so that the rope pulls you up from the ground rather than
 		///sliding along the floor.
 		float CalculateDistanceShrink(Vector2 tetherPoint) {
-			/*float dist = Vector2.Distance(transform.position, tetherPoint);
-			float testRadius = dist	+ padRadius;
-			Vector2 bottomPoint = tetherPoint + (Vector2.up * testRadius * -1);
-			float bottomAngle = 270;
-
-			float angleDiff = Vector2.Angle(transform.position, bottomPoint);
-			bool leftOfTetherPoint = transform.position.x < tetherPoint.x;
-
-			if (leftOfTetherPoint) {
-				float startAngle = bottomAngle - angleDiff;
-				for (float i = startAngle; i < bottomAngle; i+=5) {
-					Vector2 testPoint = 
-						Circle.PointOnCircumference(i * Mathf.Deg2Rad, testRadius, tetherPoint);
-					Debug.Log(testPoint);
-					DebugCross(testPoint);
-					Collider2D collided = Physics2D.OverlapPoint(testPoint, platformMask);
-					if (collided) 
-						testRadius -= 1;
-				}
-			} else {
-				float startAngle = bottomAngle + angleDiff;
-				for (float i = startAngle; i > bottomAngle; i-=5) {
-					Vector2 testPoint = 
-						Circle.PointOnCircumference(i * Mathf.Deg2Rad, testRadius, tetherPoint);
-					if (i == startAngle) DebugCross(testPoint, Color.blue);
-					DebugCross(testPoint);
-					Collider2D collided = Physics2D.OverlapPoint(testPoint, platformMask);
-					if (collided) 
-						testRadius -= 1;
-				}	
-			}
-			
-			return testRadius - padRadius;*/
 			return Vector2.Distance(transform.position, tetherPoint);
 		}
 
@@ -203,11 +170,19 @@ namespace Rope {
 		protected override void Update() {
 			base.Update();
 			if (Input.GetKeyDown(KeyCode.R)) Respawn();
-			if (Input.GetMouseButtonDown(0) && !isTethered) {
+			if (Input.GetButtonDown("Grapple To Point") && !isTethered) {
 				Vector2 clickPoint = 
 					Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				GrappleToward(clickPoint);
-			} else if (Input.GetMouseButtonUp(0)) Break(isTethered);
+			} else if (Input.GetButtonDown("Grapple Using Pointer") && !isTethered) {
+				Vector2 joystickPoint = new Vector2(
+					Input.GetAxis("Pointer X"), Input.GetAxis("Pointer Y")
+				) + (Vector2) transform.position;
+				GrappleToward(joystickPoint);
+			} else if (Input.GetButtonUp("Grapple To Point") 
+			|| Input.GetButtonUp("Grapple Using Pointer")) {
+				Break(isTethered);
+			}
 		}
 
 		void OnDrawGizmosSelected() {

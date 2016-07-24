@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 467730}
   - 114: {fileID: 11412516}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Needle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 448448}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: loop
   m_TagString: Untagged
   m_Icon: {fileID: -7310811918437815874, guid: 0000000000000000d000000000000000, type: 0}
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 490924}
   - 212: {fileID: 21207128}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: needle_image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.34, z: 0}
+  m_LocalPosition: {x: 0, y: 1.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -82,7 +82,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182234}
   m_LocalRotation: {x: 0, y: 0, z: -0.45009848, w: 0.8929789}
-  m_LocalPosition: {x: 0.01, y: 0.71, z: 0}
+  m_LocalPosition: {x: 0.01, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -53.5}
   m_Children: []
