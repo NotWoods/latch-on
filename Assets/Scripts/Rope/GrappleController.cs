@@ -4,7 +4,10 @@ using Player;
 namespace Rope {
 	[RequireComponent(typeof(DistanceJoint2D))]
 	public class GrappleController : PlayerController, ITether {
-		public Needle needle;
+		public GameObject needlePrefab;
+		public GameObject ropePrefab;
+		Needle needle;
+
 		public LayerMask grapplePlatformMask = 0;
 		///Pads the space between the raycast hit and platform
 		public float padWidth = 0.1f;
@@ -23,6 +26,18 @@ namespace Rope {
 		[HideInInspector]
 		public DistanceJoint2D rope;
 		float padRadius = 0;
+
+		protected override void Awake() {
+			base.Awake();
+
+			GameObject needleObj = (GameObject) Instantiate(needlePrefab, 
+				Vector2.zero, Quaternion.identity);
+			needle = needleObj.GetComponent<Needle>();
+			
+			GameObject ropeObj = (GameObject) Instantiate(ropePrefab, 
+				Vector2.zero, Quaternion.identity);
+			ropeObj.GetComponent<RopeRenderer>().controller = this;
+		}
 
 		void Start() {
 			rope = GetComponent<DistanceJoint2D>();

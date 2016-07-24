@@ -12,7 +12,7 @@ namespace Player {
 
 		public LayerMask platformMask = 0;
 
-		void Awake() {
+		protected virtual void Awake() {
 			rigidbody = GetComponent<Rigidbody2D>();
 			collider = GetComponent<Collider2D>();
 			//controller = GetComponent<PlatformerCharacter>();

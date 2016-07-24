@@ -391,7 +391,8 @@ MonoBehaviour:
   platformMask:
     serializedVersion: 2
     m_Bits: 1537
-  needle: {fileID: 0}
+  needlePrefab: {fileID: 164366, guid: cbde3db10d159d8408de99d93951801a, type: 2}
+  ropePrefab: {fileID: 155540, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
   grapplePlatformMask:
     serializedVersion: 2
     m_Bits: 513
