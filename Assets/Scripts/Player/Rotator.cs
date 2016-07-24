@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Rope {
 	public class Rotator : MonoBehaviour {
+		[Range(0, 1)] 
+		public float margin = 0;
+
 		GrappleController controller;
 		new Rigidbody2D rigidbody;
 
@@ -15,8 +18,8 @@ namespace Rope {
 
 		void Update() {
 			float velX = rigidbody.velocity.x;
-			if (velX > 0) faceRight = true;
-			else if (velX < 0) faceRight = false;
+			if (velX > margin) faceRight = true;
+			else if (velX < margin * -1) faceRight = false;
 		}
 
 		void LateUpdate() {

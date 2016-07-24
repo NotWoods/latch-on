@@ -1,6 +1,5 @@
 using UnityEngine;
 using Player;
-using Util;
 
 namespace Rope {
 	[RequireComponent(typeof(DistanceJoint2D))]
@@ -54,7 +53,7 @@ namespace Rope {
 				maxTetherRange,	grapplePlatformMask
 			);
 
-			if (hit && needle) {
+			if (hit && needle != null) {
 				Vector2 direction = hit.point - (Vector2) transform.position;
 				Vector2 tetherPoint = needle.AttachTo(hit.point, direction);
 				LinkTo(tetherPoint);
@@ -123,6 +122,7 @@ namespace Rope {
 		}
 
 		public void LinkTo(Vector2 point) {
+			rigidbody.gravityScale = 3;
 			rope.connectedAnchor = point;
 			rope.distance = CalculateDistanceShrink(point);
 
@@ -170,6 +170,9 @@ namespace Rope {
 
 				rope.distance = newRopeLength;
 				CheckRopeIntegrity();
+			} else {
+				rigidbody.gravityScale = Mathf.MoveTowards(rigidbody.gravityScale, 
+					1, 2 * Time.deltaTime);
 			}
 
 			bool notMovingFast = rigidbody.velocity.magnitude < 1;

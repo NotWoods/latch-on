@@ -37,7 +37,11 @@ public class CameraFollow : MonoBehaviour {
 			shift.y = target.max.y - focusArea.max.y;
 		focusArea.center += (Vector3) shift;
 
-		transform.position = focusArea.center + (zOffset * Vector3.back);
+		transform.position = Vector3.MoveTowards(
+			transform.position, 
+			focusArea.center + (zOffset * Vector3.back),
+			10
+		);
 	}
 
 	void OnDrawGizmosSelected() {
