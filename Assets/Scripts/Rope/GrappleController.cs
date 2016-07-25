@@ -68,12 +68,14 @@ namespace Rope {
 				maxTetherRange,	grapplePlatformMask
 			);
 
-			if (hit && needle != null) {
-				Vector2 direction = hit.point - (Vector2) transform.position;
-				Vector2 tetherPoint = needle.AttachTo(hit.point, direction);
-				LinkTo(tetherPoint);
+			if (hit) {
+				Vector2 hitPoint;
+				if (needle != null) {
+					Vector2 direction = hit.point - (Vector2) transform.position;
+					hitPoint = needle.AttachTo(hit.point, direction);
+				} else hitPoint = hit.point;
+				LinkTo(point);
 			}
-			else if (hit) LinkTo(hit.point); 
 
 			return false;
 		}
