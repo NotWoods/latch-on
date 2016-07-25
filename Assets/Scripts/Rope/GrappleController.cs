@@ -51,6 +51,12 @@ namespace Rope {
 		public bool isTethered {get {return rope.enabled;}}
 		public Vector2 tetherPoint {get {return rope.connectedAnchor;}}
 
+		public delegate void OnGrappleEvent();
+		public event OnGrappleEvent OnGrapple;
+
+		public delegate void OnWrapEvent();
+		public event OnWrapEvent OnWrap;
+
 		public override void Respawn() {
 			base.Respawn();
 			Break(false);
@@ -74,7 +80,8 @@ namespace Rope {
 					Vector2 direction = hit.point - (Vector2) transform.position;
 					hitPoint = needle.AttachTo(hit.point, direction);
 				} else hitPoint = hit.point;
-				LinkTo(point);
+				OnGrapple();
+				LinkTo(hitPoint);
 			}
 
 			return false;
@@ -141,6 +148,7 @@ namespace Rope {
 				bool dontWrap = hitLayer == LayerMask.NameToLayer("GrappleLock");
 
 				if (!dontWrap && Input.GetMouseButton(0)) {
+					OnWrap();
 					LinkTo(hit.point, hit.transform.position);
 				}
 			}
