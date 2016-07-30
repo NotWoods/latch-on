@@ -80,8 +80,8 @@ namespace Rope {
 					Vector2 direction = hit.point - (Vector2) transform.position;
 					hitPoint = needle.AttachTo(hit.point, direction);
 				} else hitPoint = hit.point;
-				OnGrapple();
 				LinkTo(hitPoint);
+				if (OnGrapple != null) OnGrapple();
 			}
 
 			return false;
@@ -148,13 +148,14 @@ namespace Rope {
 				bool dontWrap = hitLayer == LayerMask.NameToLayer("GrappleLock");
 
 				if (!dontWrap && Input.GetMouseButton(0)) {
-					OnWrap();
 					LinkTo(hit.point, hit.transform.position);
+					if (OnWrap != null) OnWrap();
 				}
 			}
 		}
 
-		void FixedUpdate() {
+		protected override void FixedUpdate() {
+			base.FixedUpdate();
 			if (isTethered) {
 				float newRopeLength = rope.distance - autoRetractSpeed * Time.deltaTime;
 

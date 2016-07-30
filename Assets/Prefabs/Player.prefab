@@ -340,7 +340,7 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100390}
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 40
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
@@ -362,7 +362,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1.7, y: 1.7}
+  m_Size: {x: 1.25, y: 1.7}
 --- !u!114 &11423782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -391,6 +391,12 @@ MonoBehaviour:
   platformMask:
     serializedVersion: 2
     m_Bits: 1537
+  maxSpeed: 5
+  moveAcceleration: 8
+  inAirMoveAcceleration: 0
+  jumpAcceleration: 5
+  groundCheckLength: 0.15
+  isGrounded: 0
   needlePrefab: {fileID: 164366, guid: cbde3db10d159d8408de99d93951801a, type: 2}
   ropePrefab: {fileID: 155540, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
   grapplePlatformMask:
@@ -400,7 +406,7 @@ MonoBehaviour:
   centerOfMass: {x: -0, y: 0}
   maxTetherRange: 20
   tooCloseDistance: 4
-  autoRetractSpeed: 2
+  autoRetractSpeed: 3
   minRopeLength: 1
   rope: {fileID: 0}
 --- !u!212 &21210268
