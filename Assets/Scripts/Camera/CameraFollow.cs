@@ -1,4 +1,5 @@
 using UnityEngine;
+using Player;
 
 public class CameraFollow : MonoBehaviour {
 	///Camera offset compared to the focus area
@@ -14,18 +15,18 @@ public class CameraFollow : MonoBehaviour {
 	///Reference to game object to track
 	public GameObject cameraTarget;
 	///The collider of the target game object
-	Collider2D targetCollider;
+	BaseController targetController;
 
 	void Start() {
-		targetCollider = cameraTarget.GetComponent<Collider2D>();
+		targetController = cameraTarget.GetComponent<BaseController>();
 
-		focusArea = new Bounds(targetCollider.bounds.center, focusAreaSize);
-		float difference = focusArea.min.y - targetCollider.bounds.min.y;
+		focusArea = new Bounds(targetController.bounds.center, focusAreaSize);
+		float difference = focusArea.min.y - targetController.bounds.min.y;
 		focusArea.center -= difference * Vector3.up;
 	}
 
 	void LateUpdate() {
-		Bounds target = targetCollider.bounds;
+		Bounds target = targetController.bounds;
 		Vector2 shift = Vector2.zero;
 		if (target.min.x < focusArea.min.x) 
 			shift.x = target.min.x - focusArea.min.x;

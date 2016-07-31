@@ -10,8 +10,11 @@ GameObject:
   - 4: {fileID: 453164}
   - 50: {fileID: 5047844}
   - 61: {fileID: 6131000}
+  - 58: {fileID: 5851836}
   - 232: {fileID: 23203992}
+  - 114: {fileID: 11496128}
   - 114: {fileID: 11459036}
+  - 114: {fileID: 11405382}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -340,15 +343,29 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100390}
   m_UseAutoMass: 0
-  m_Mass: 40
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &5851836
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100390}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: -0.35}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!61 &6131000
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -360,9 +377,32 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.2}
   serializedVersion: 2
-  m_Size: {x: 1.25, y: 1.7}
+  m_Size: {x: 1, y: 1.2}
+--- !u!114 &11405382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 142f1425898f10949ad683ff01e6de44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
+  sensorCollider: {fileID: 0}
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 1537
+  centerOfMass: {x: 0, y: 0}
+  isGrounded: 0
+  maxSpeedX: 7
+  speed: 2
+  jumpForce: 7
+  bounciness: 0
 --- !u!114 &11423782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -388,14 +428,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  sensorCollider: {fileID: 0}
   platformMask:
     serializedVersion: 2
     m_Bits: 1537
-  maxSpeed: 5
-  moveAcceleration: 8
-  inAirMoveAcceleration: 0
-  jumpAcceleration: 5
-  groundCheckLength: 0.15
+  centerOfMass: {x: -0, y: 0}
   isGrounded: 0
   needlePrefab: {fileID: 164366, guid: cbde3db10d159d8408de99d93951801a, type: 2}
   ropePrefab: {fileID: 155540, guid: 04f0fd74979b7b6429ebda0d40382a99, type: 2}
@@ -403,12 +440,26 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 513
   padWidth: 0.1
-  centerOfMass: {x: -0, y: 0}
   maxTetherRange: 20
   tooCloseDistance: 4
   autoRetractSpeed: 3
   minRopeLength: 1
   rope: {fileID: 0}
+--- !u!114 &11496128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1e48469e819e948a6b9df7b4fb22f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 1537
+  centerOfMass: {x: 0, y: 0}
 --- !u!212 &21210268
 SpriteRenderer:
   m_ObjectHideFlags: 1

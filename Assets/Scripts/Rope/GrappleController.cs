@@ -3,7 +3,7 @@ using Player;
 
 namespace Rope {
 	[RequireComponent(typeof(DistanceJoint2D))]
-	public class GrappleController : PlayerController, ITether {
+	public class GrappleController : BaseController, ITether {
 		public GameObject needlePrefab;
 		public GameObject ropePrefab;
 		Needle needle;
@@ -11,7 +11,8 @@ namespace Rope {
 		public LayerMask grapplePlatformMask = 0;
 		///Pads the space between the raycast hit and platform
 		public float padWidth = 0.1f;
-		public Vector2 centerOfMass = Vector2.up * -0.5f;
+
+		//public Vector2 centerOfMass = Vector2.up * -0.5f;
 
 		///How close the player must be to the tether connection point
 		public float maxTetherRange = 20;
@@ -25,10 +26,11 @@ namespace Rope {
 
 		[HideInInspector]
 		public DistanceJoint2D rope;
-		float padRadius = 0;
+		MoveController mover;
 
-		protected override void Awake() {
-			base.Awake();
+		void Start() {
+			rope = GetComponent<DistanceJoint2D>();
+			mover = GetComponent<MoveController>();
 
 			GameObject needleObj = (GameObject) Instantiate(needlePrefab, 
 				Vector2.zero, Quaternion.identity);
@@ -37,15 +39,6 @@ namespace Rope {
 			GameObject ropeObj = (GameObject) Instantiate(ropePrefab, 
 				Vector2.zero, Quaternion.identity);
 			ropeObj.GetComponent<RopeRenderer>().controller = this;
-		}
-
-		void Start() {
-			rope = GetComponent<DistanceJoint2D>();
-			
-			if (centerOfMass != Vector2.zero)	rigidbody.centerOfMass = centerOfMass;
-			padRadius = Vector2.Distance(
-				collider.bounds.center, collider.bounds.min
-			);
 		}
 
 		public bool isTethered {get {return rope.enabled;}}
@@ -69,29 +62,34 @@ namespace Rope {
 
 		///Tries to connect toward the given point. Returns true if connected.
 		public bool GrappleToward(Vector2 point) {
+			Vector2 pos = transform.position;
+
 			RaycastHit2D hit = Physics2D.Raycast(
-				transform.position, point - (Vector2) transform.position,
-				maxTetherRange,	grapplePlatformMask
+				pos, point - pos,	maxTetherRange,	grapplePlatformMask
 			);
 
 			if (hit) {
 				Vector2 hitPoint;
 				if (needle != null) {
-					Vector2 direction = hit.point - (Vector2) transform.position;
+					Vector2 direction = hit.point - pos;
 					hitPoint = needle.AttachTo(hit.point, direction);
 				} else hitPoint = hit.point;
-				LinkTo(hitPoint);
-				if (OnGrapple != null) OnGrapple();
-			}
 
+				LinkTo(hitPoint);
+
+				if (OnGrapple != null) OnGrapple();
+				if (mover != null) mover.enabled = false;
+				return true;
+			}
 			return false;
 		}
 
 		void DebugCross(Vector2 point, Color color, float length = 0.5f) {
-			Debug.DrawLine(point - Vector2.right * length, 
-				point + Vector2.right * length, color, 2);
-			Debug.DrawLine(point - Vector2.up * length, 
-				point + Vector2.up * length, color, 2);
+			Vector2 xLength = Vector2.right * length;
+			Vector2 yLength = Vector2.up * length;
+
+			Debug.DrawLine(point - xLength, point + xLength, color, 2);
+			Debug.DrawLine(point - yLength, point + yLength, color, 2);
 		}
 
 		void DebugCross(Vector2 point, float length = 0.5f) {
@@ -164,22 +162,14 @@ namespace Rope {
 				rope.distance = newRopeLength;
 				CheckRopeIntegrity();
 			} else {
-				rigidbody.gravityScale = Mathf.MoveTowards(rigidbody.gravityScale, 
-					1, 2 * Time.deltaTime);
-			}
-
-			bool notMovingFast = rigidbody.velocity.magnitude < 1;
-			bool groundedOrTitled = false;//controller.grounded;// || transform.rotation.z != 0;
-			if (!isTethered && notMovingFast && groundedOrTitled) {
-				if (transform.rotation.z != 0) transform.position += Vector3.up;
-
-				Vector2 facing = Vector2.right; ///TODO
-				transform.rotation = Quaternion.LookRotation(facing, Vector2.up);
+				rigidbody.gravityScale = 
+					Mathf.MoveTowards(rigidbody.gravityScale,	1, 2 * Time.deltaTime);
+				if (mover != null && !mover.enabled && isGrounded) 
+					mover.enabled = true; 
 			}
 		}
 
-		protected override void Update() {
-			base.Update();
+		void Update() {
 			if (Input.GetKeyDown(KeyCode.R)) Respawn();
 			if (Input.GetButtonDown("Grapple To Point") && !isTethered) {
 				Vector2 clickPoint = 

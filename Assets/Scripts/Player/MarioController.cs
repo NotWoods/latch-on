@@ -13,13 +13,14 @@ public class MarioController : MonoBehaviour {
 	bool jump = false;
 	Rigidbody2D player;
 	BoxCollider2D playerPhysicsFixture;
-	Collider2D playerSensorFixture;
+	CircleCollider2D playerSensorFixture;
 	float stillTime = 0;
 	float lastGroundTime = 0;
 
 	void Start() {
 		player = GetComponent<Rigidbody2D>();
 		playerPhysicsFixture = GetComponent<BoxCollider2D>();
+		playerSensorFixture = GetComponent<CircleCollider2D>();
 	}
 
 	void Update() {
@@ -50,14 +51,17 @@ public class MarioController : MonoBehaviour {
 		}
 
 		// disable friction while jumping
+		PhysicsMaterial2D physicsMat = new PhysicsMaterial2D();
+		physicsMat.bounciness = 0;
 		if (!grounded) {
-			playerPhysicsFixture.sharedMaterial.friction = 0;
+			physicsMat.friction = 0;
 		} else {
 			if (!pressingKeys && stillTime > 0.2) 
-				playerPhysicsFixture.sharedMaterial.friction = 100;
+				physicsMat.friction = 100;
 			else 
-				playerPhysicsFixture.sharedMaterial.friction = 0.2f;
+				physicsMat.friction = 0.2f;
 		}
+		playerPhysicsFixture.sharedMaterial = physicsMat;
 
 		// apply left impulse, but only if max velocity is not reached yet
 		if (Input.GetKey(KeyCode.A) && vel.x > -maxVelocity) 
@@ -81,12 +85,10 @@ public class MarioController : MonoBehaviour {
 		}
 	}
 
-	//Check if the player is on the ground
 	bool CheckGrounded() {
-		Vector2 startPos = new Vector2(
-			transform.position.x, playerPhysicsFixture.bounds.min.y);
-		RaycastHit2D hit = Physics2D.Raycast(startPos, Vector2.up * -1, 
-			0.15f, platformMask);
-		return hit? true : false;
+		bool grounded = playerSensorFixture.IsTouchingLayers(platformMask);
+		if (grounded) lastGroundTime = Time.fixedTime;
+		else if (Time.fixedTime - lastGroundTime < 0.1) grounded = true;
+		return grounded;
 	}
 }
