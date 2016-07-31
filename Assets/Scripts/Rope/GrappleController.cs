@@ -3,6 +3,7 @@ using Player;
 
 namespace Rope {
 	[RequireComponent(typeof(DistanceJoint2D))]
+	[RequireComponent(typeof(MoveController))]
 	public class GrappleController : BaseController, ITether {
 		public GameObject needlePrefab;
 		public GameObject ropePrefab;
@@ -76,9 +77,7 @@ namespace Rope {
 				LinkTo(hitPoint);
 
 				if (OnGrapple != null) OnGrapple();
-				if (mover != null) {
-					mover.enabled = false;
-				}
+				mover.enabled = false;
 				return true;
 			}
 			return false;
@@ -163,12 +162,11 @@ namespace Rope {
 			if (isTethered) {
 				ReduceLength(autoRetractSpeed * Time.deltaTime);
 				CheckRopeIntegrity();
-				if (mover != null) mover.friction = 0;
+				mover.friction = 0;
 			} else {
 				rigidbody.gravityScale = 
 					Mathf.MoveTowards(rigidbody.gravityScale,	1, 2 * Time.deltaTime);
-				if (mover != null && !mover.enabled && isGrounded) 
-					mover.enabled = true; 
+				if (!mover.enabled && isGrounded)	mover.enabled = true; 
 			}
 		}
 

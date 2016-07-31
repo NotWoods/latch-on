@@ -6,6 +6,7 @@ namespace Player {
 		[SerializeField] float speed = 2;
 		[SerializeField] float jumpForce = 10;
 		[SerializeField] float bounciness = 0;
+		[SerializeField] float snapTime = 0.2f;
 
 		float stillTime = 0;	
 		Vector2 velocity {
@@ -49,7 +50,7 @@ namespace Player {
 			// disable friction while jumping
 			if (!isGrounded) friction = 0;	
 			else {
-				if (xInput == 0 && stillTime > 0.2) friction = 100;
+				if (xInput == 0 && stillTime > snapTime) friction = 100;
 				else friction = 0.2f;
 			}
 
