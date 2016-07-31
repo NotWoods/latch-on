@@ -7,12 +7,28 @@ namespace Player {
 		[SerializeField] float jumpForce = 10;
 		[SerializeField] float bounciness = 0;
 
-		bool jump = false;
 		float stillTime = 0;	
 		Vector2 velocity {
 			get {return rigidbody.velocity;}
 			set {rigidbody.velocity = value;}
 		}	
+
+		PhysicsMaterial2D physicsMat;
+		void Start() {
+			physicsMat = new PhysicsMaterial2D();
+		}
+
+		public virtual float friction {
+			get {
+				return collider.sharedMaterial.friction;
+			}
+			set {
+				physicsMat.friction = value;
+
+				collider.sharedMaterial = physicsMat;
+				sensorCollider.sharedMaterial = physicsMat;
+			}
+		}
 
 		void Update() {
 			float speedX = Mathf.Abs(velocity.x);
@@ -31,17 +47,11 @@ namespace Player {
 			}
 
 			// disable friction while jumping
-			PhysicsMaterial2D physicsMat = new PhysicsMaterial2D();
-			physicsMat.bounciness = bounciness;
-			if (!isGrounded) physicsMat.friction = 0;	
+			if (!isGrounded) friction = 0;	
 			else {
-				if (xInput == 0 && stillTime > 0.2) 
-					physicsMat.friction = 100;
-				else 
-					physicsMat.friction = 0.2f;
+				if (xInput == 0 && stillTime > 0.2) friction = 100;
+				else friction = 0.2f;
 			}
-			collider.sharedMaterial = physicsMat;
-			sensorCollider.sharedMaterial = physicsMat;
 
 			// apply left impulse, but only if max velocity is not reached yet
 			if (xInput < 0 && speedX < maxSpeedX) 
@@ -50,21 +60,12 @@ namespace Player {
 			// apply right impluse, but only if max velocity is not reached yet
 			if (xInput > 0 && speedX < maxSpeedX) 
 				rigidbody.AddForce(Vector2.right * speed, ForceMode2D.Impulse);
-			
-			
-			if (Input.GetButtonDown("Jump")) jump = true;
-			else if (Input.GetButtonUp("Jump")) jump = false;
 
-			if (jump) {
-				jump = false;
-				if (isGrounded) {
-					velocity = new Vector2(velocity.x, 0);
-					Debug.Log("jump before: " + velocity);
+			if (Input.GetButtonDown("Jump") && isGrounded) {
+				velocity = new Vector2(velocity.x, 0);
 
-					rigidbody.position += Vector2.up * 0.01f;
-					rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-					Debug.Log("jump, " + velocity);
-				}
+				rigidbody.position += Vector2.up * 0.01f;
+				rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 			} 
 		}
 
@@ -76,6 +77,11 @@ namespace Player {
 
 			collider.sharedMaterial = physicsMat;
 			sensorCollider.sharedMaterial = physicsMat;
+		}
+
+		protected override void OnValidate() {
+			base.OnValidate();
+			if (physicsMat != null) physicsMat.bounciness = bounciness;
 		}
 	}
 }

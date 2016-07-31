@@ -55,9 +55,7 @@ namespace Rope {
 			Break(false);
 		}
 
-		public void Break(bool playNoise) {
-			rope.enabled = false;
-		}
+		public void Break(bool playNoise) { rope.enabled = false; }
 		public void Break() { Break(true); }
 
 		///Tries to connect toward the given point. Returns true if connected.
@@ -78,7 +76,9 @@ namespace Rope {
 				LinkTo(hitPoint);
 
 				if (OnGrapple != null) OnGrapple();
-				if (mover != null) mover.enabled = false;
+				if (mover != null) {
+					mover.enabled = false;
+				}
 				return true;
 			}
 			return false;
@@ -152,15 +152,18 @@ namespace Rope {
 			}
 		}
 
+		float ReduceLength(float amount) {
+			float newAmount = rope.distance - amount;
+			Mathf.Clamp(newAmount, minRopeLength, Mathf.Infinity);
+			return rope.distance = newAmount;
+		}
+
 		protected override void FixedUpdate() {
 			base.FixedUpdate();
 			if (isTethered) {
-				float newRopeLength = rope.distance - autoRetractSpeed * Time.deltaTime;
-
-				if (newRopeLength < minRopeLength) newRopeLength = minRopeLength;
-
-				rope.distance = newRopeLength;
+				ReduceLength(autoRetractSpeed * Time.deltaTime);
 				CheckRopeIntegrity();
+				if (mover != null) mover.friction = 0;
 			} else {
 				rigidbody.gravityScale = 
 					Mathf.MoveTowards(rigidbody.gravityScale,	1, 2 * Time.deltaTime);
