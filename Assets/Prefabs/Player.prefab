@@ -403,6 +403,7 @@ MonoBehaviour:
   speed: 2
   jumpForce: 7
   bounciness: 0
+  snapTime: 0.1
 --- !u!114 &11423782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -444,6 +445,7 @@ MonoBehaviour:
   tooCloseDistance: 4
   autoRetractSpeed: 3
   minRopeLength: 1
+  gravityWhenGrappling: 3.5
   rope: {fileID: 0}
 --- !u!114 &11496128
 MonoBehaviour:

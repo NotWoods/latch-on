@@ -13,7 +13,7 @@ namespace Rope {
 		///Pads the space between the raycast hit and platform
 		public float padWidth = 0.1f;
 
-		//public Vector2 centerOfMass = Vector2.up * -0.5f;
+		public Vector2 centerOfMass = Vector2.zero;
 
 		///How close the player must be to the tether connection point
 		public float maxTetherRange = 20;
@@ -24,6 +24,8 @@ namespace Rope {
 		public float autoRetractSpeed = 0.1f;
 		///Cannot retract past this length.
 		public float minRopeLength = 0.1f;
+
+		public float gravityWhenGrappling = 3;
 
 		[HideInInspector]
 		public DistanceJoint2D rope;
@@ -110,7 +112,7 @@ namespace Rope {
 		}
 
 		public void LinkTo(Vector2 point) {
-			rigidbody.gravityScale = 3;
+			rigidbody.gravityScale = gravityWhenGrappling;
 			rope.connectedAnchor = point;
 			rope.distance = CalculateDistanceShrink(point);
 
@@ -152,9 +154,8 @@ namespace Rope {
 		}
 
 		float ReduceLength(float amount) {
-			float newAmount = rope.distance - amount;
-			Mathf.Clamp(newAmount, minRopeLength, Mathf.Infinity);
-			return rope.distance = newAmount;
+			return rope.distance = Mathf.Clamp(rope.distance - amount, minRopeLength, 
+				Mathf.Infinity);
 		}
 
 		protected override void FixedUpdate() {
@@ -204,6 +205,10 @@ namespace Rope {
 				Gizmos.color = Color.black;
 				Gizmos.DrawWireSphere(previewHit.point, 1);
 			}
+		}
+
+		void OnValidate() {
+			if (centerOfMass != Vector2.zero) rigidbody.centerOfMass = centerOfMass;
 		}
 	}
 }

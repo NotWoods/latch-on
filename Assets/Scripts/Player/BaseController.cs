@@ -2,14 +2,12 @@ using UnityEngine;
 
 namespace Player {
 	[RequireComponent(typeof(Rigidbody2D))]
-	[RequireComponent(typeof(BaseControllerFields))]
 	public abstract class BaseController : MonoBehaviour {
 		[HideInInspector] public new Rigidbody2D rigidbody;
 		[HideInInspector] public new Collider2D collider;
 		[HideInInspector] public Collider2D sensorCollider;
 
-		[HideInInspector] public LayerMask platformMask;
-		[HideInInspector] public Vector2 centerOfMass = Vector2.zero;
+		public LayerMask platformMask;
 
 		///True if player is touching the ground. 
 		///Remains true for a 10th of a second after leaving the ground
@@ -32,17 +30,9 @@ namespace Player {
 		}
 
 		protected virtual void Awake() {
-			BaseControllerFields fields = GetComponent<BaseControllerFields>();
-			platformMask = fields.platformMask;
-			centerOfMass = fields.centerOfMass;
-
 			rigidbody = GetComponent<Rigidbody2D>();
 			Collider2D[] colliders = GetComponents<Collider2D>();
 			collider = colliders[0]; sensorCollider = colliders[1];
-		}
-
-		protected virtual void OnValidate() {
-			if (centerOfMass != Vector2.zero) rigidbody.centerOfMass = centerOfMass;
 		}
 
 		public virtual void Respawn() {

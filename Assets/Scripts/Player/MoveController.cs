@@ -80,8 +80,7 @@ namespace Player {
 			sensorCollider.sharedMaterial = physicsMat;
 		}
 
-		protected override void OnValidate() {
-			base.OnValidate();
+		void OnValidate() {
 			if (physicsMat != null) physicsMat.bounciness = bounciness;
 		}
 	}
