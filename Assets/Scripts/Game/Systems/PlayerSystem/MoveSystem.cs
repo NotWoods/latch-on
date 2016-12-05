@@ -2,7 +2,7 @@ using UnityEngine;
 using Prime31;
 
 namespace PlayerSystem {
-	public class WalkSystem : SystemBase<WalkSystem> {
+	public class MoveSystem : SystemBase<MoveSystem>, IPlayerSystem {
 		public void Update(int id, float deltaTime) {
 			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
 			InputComponent input = Manager.GetComponent<InputComponent>(id);
@@ -10,33 +10,29 @@ namespace PlayerSystem {
 			PlayerStateComponent state = Manager.GetComponent<PlayerStateComponent>(id);
 
 			Vector2 velocity = stats.Velocity;
-			velocity.y = 0;
+			if (controller.isGrounded) velocity.y = 0;
 
-			if (input.HorizontalInput == 0) {
-				state.SetTo(PlayerState.Idle);
-			}
-
-			if (input.WantToJump) {
+			if (controller.isGrounded && input.WantToJump) {
 				velocity.y = Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
-				state.SetTo(PlayerState.Jump);
 			}
 
-			// TODO: Change to use SmoothDamp instead
+			float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
+			// TODO: Change to use SmoothDamp instead later
 			velocity.x = Mathf.Lerp(
 				velocity.x,
 				input.HorizontalInput * stats.RunSpeed,
-				deltaTime * stats.GroundDamping
+				deltaTime * damping
 			);
+
 			velocity.y = stats.Gravity * deltaTime;
 
-			if (input.WantToSink) {
+			if (controller.isGrounded && input.WantToSink) {
 				velocity.y *= 3f;
 				controller.ignoreOneWayPlatformsThisFrame = true;
-				state.SetTo(PlayerState.Fall);
 			}
 
-			controller.move(velocity * deltaTime);
-			stats.Velocity = controller.velocity;
+			controller.move(velocity * Time.deltaTime);
+			velocity = controller.velocity;
 		}
 	}
 }
