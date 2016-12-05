@@ -1,26 +1,23 @@
 using UnityEngine;
 using Player;
 
-public class CameraFollow : MonoBehaviour {
-	///Camera offset compared to the focus area
+public class FollowerCamera : MonoBehaviour {
+	public Color GizmoColor = new Color(1, 0, 0, 0.1f);
+	/// Area for focus area tracking size
+	public Vector2 FocusAreaSize = new Vector2(3, 6);
+	/// Reference to game object to track
+	public GameObject CameraTarget;
+	/// Camera offset compared to the focus area
 	float zOffset = 30;
-	///Area for focus area tracking size
-	public Vector2 focusAreaSize = new Vector2(3, 6);
-
-	public Color gizmoColor = new Color(1, 0, 0, 0.1f);
-		
-	///Bounds representing focus area
+	/// Bounds representing focus area
 	Bounds focusArea;
-
-	///Reference to game object to track
-	public GameObject cameraTarget;
-	///The collider of the target game object
+	/// The collider of the target game object
 	BaseController targetController;
 
 	void Start() {
-		targetController = cameraTarget.GetComponent<BaseController>();
+		targetController = CameraTarget.GetComponent<BaseController>();
 
-		focusArea = new Bounds(targetController.bounds.center, focusAreaSize);
+		focusArea = new Bounds(targetController.bounds.center, FocusAreaSize);
 		float difference = focusArea.min.y - targetController.bounds.min.y;
 		focusArea.center -= difference * Vector3.up;
 	}
@@ -28,25 +25,25 @@ public class CameraFollow : MonoBehaviour {
 	void LateUpdate() {
 		Bounds target = targetController.bounds;
 		Vector2 shift = Vector2.zero;
-		if (target.min.x < focusArea.min.x) 
+		if (target.min.x < focusArea.min.x)
 			shift.x = target.min.x - focusArea.min.x;
 		else if (target.max.x > focusArea.max.x)
 			shift.x = target.max.x - focusArea.max.x;
-		if (target.min.y < focusArea.min.y) 
+		if (target.min.y < focusArea.min.y)
 			shift.y = target.min.y - focusArea.min.y;
 		else if (target.max.y > focusArea.max.y)
 			shift.y = target.max.y - focusArea.max.y;
 		focusArea.center += (Vector3) shift;
 
 		transform.position = Vector3.MoveTowards(
-			transform.position, 
+			transform.position,
 			focusArea.center + (zOffset * Vector3.back),
 			10
 		);
 	}
 
 	void OnDrawGizmosSelected() {
-		Gizmos.color = gizmoColor;
+		Gizmos.color = GizmoColor;
 		Gizmos.DrawCube(focusArea.center, focusArea.size);
 	}
 }
