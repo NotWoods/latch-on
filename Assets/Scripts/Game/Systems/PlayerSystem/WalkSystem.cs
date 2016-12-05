@@ -2,14 +2,12 @@ using UnityEngine;
 using Prime31;
 
 namespace PlayerSystem {
-	public class WalkSystem : SystemBase {
-		static EntityManager manager = EntityManager.Instance;
-
-		public new void Update(int id, float deltaTime) {
-			CharacterStatsComponent stats = manager.GetComponent<CharacterStatsComponent>(id);
-			InputComponent input = manager.GetComponent<InputComponent>(id);
-			CharacterController2D controller = manager.GetComponent<CharacterController2D>(id);
-			PlayerStateComponent state = manager.GetComponent<PlayerStateComponent>(id);
+	public class WalkSystem : SystemBase<WalkSystem> {
+		public void Update(int id, float deltaTime) {
+			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
+			InputComponent input = Manager.GetComponent<InputComponent>(id);
+			CharacterController2D controller = Manager.GetComponent<CharacterController2D>(id);
+			PlayerStateComponent state = Manager.GetComponent<PlayerStateComponent>(id);
 
 			Vector2 velocity = stats.Velocity;
 			velocity.y = 0;

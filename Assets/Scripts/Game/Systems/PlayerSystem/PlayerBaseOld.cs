@@ -1,7 +1,7 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem {
+public class MoveSystemCopy {
 	public float Gravity = -25f;
 	public float RunSpeed = 8f;
 	public float GroundDamping = 20f;

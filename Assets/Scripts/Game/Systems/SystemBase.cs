@@ -1,11 +1,4 @@
-public class SystemBase {
-	protected static EntityManager manager = EntityManager.Instance;
-
-	protected static SystemBase instance;
-	public static SystemBase Instance {
-		get {
-			if (instance == null) instance = new SystemBase();
-			return instance;
-		}
-	}
+/// Generic system class
+public class SystemBase<T> : Singleton<T> where T : new() {
+	protected static EntityManager Manager = EntityManager.Instance;
 }

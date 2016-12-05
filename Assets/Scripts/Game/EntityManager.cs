@@ -1,18 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-public class EntityManager {
-	IEntity this[int index] => Entities[index];
-  private Dictionary<int, IEntity> Entities;
-  private Dictionary<Type, Dictionary<int, IComponent>> Components;
-
-	private EntityManager() {
-		Entities = new Dictionary<int, IEntity>();
-		Components = new Dictionary<Type, Dictionary<int, IComponent>>()
-	}
-
-	protected static EntityManager instance = new EntityManager();
-	public static EntityManager Instance { get { return instance; } }
+public class EntityManager : Singleton<EntityManager> {
+  private Dictionary<int, IEntity> Entities = new Dictionary<int, IEntity>();
+  private Dictionary<Type, Dictionary<int, IComponent>> Components = new Dictionary<Type, Dictionary<int, IComponent>>();
 
 	private static int IDIncrementor = 0;
   public IEntity CreateEntity() {

@@ -1,7 +1,7 @@
 namespace PlayerSystem {
-	public class Main : SystemBase {
+	public class Main : SystemBase<Main> {
 		public void Update(int id, float deltaTime) {
-			PlayerStateComponent state = manager.GetComponent<PlayerStateComponent>(id);
+			PlayerStateComponent state = Manager.GetComponent<PlayerStateComponent>(id);
 			switch (state.CurrentState) {
 				case PlayerState.Walk: WalkSystem.Instance.Update(id, deltaTime); break;
 			}
