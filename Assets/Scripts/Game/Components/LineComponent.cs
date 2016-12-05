@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// Used to store data representing a Rope/Line.
-public class LineComponent : MonoBehaviour, IComponent {
+public class LineComponent : IComponent {
 	// Internally, a stack is used for most points but a seperate variable
 	// represents the very top of the stack. This is done so that the
 	// 2nd-to-top point in the line can be easily returned.
