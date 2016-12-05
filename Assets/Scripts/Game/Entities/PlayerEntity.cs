@@ -18,7 +18,5 @@ public class PlayerEntity : Entity {
 		AssignID();
 		CreateComponent<InputComponent>();
 		CreateComponent<CharacterStatsComponent>();
-		Components.Add(typeof (CharacterController2D),
-			GetComponent<CharacterController2D>());
 	}
 }

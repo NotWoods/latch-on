@@ -32,13 +32,14 @@ namespace PlayerSystem {
 				return;
 			}
 
+			/*
 			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
 			CharacterController2D controller = Manager.GetUnityComponent<CharacterController2D>(id);
 			Transform transform = Manager.GetUnityComponent<Transform>(id);
+			*/
 		}
 
 		public void OnExit(int id) {
-			InputComponent input = Manager.GetComponent<InputComponent>(id);
 			LineComponent line = Manager.GetComponent<LineComponent>(id);
 
 			line.ClearPoints();

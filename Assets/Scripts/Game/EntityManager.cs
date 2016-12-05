@@ -40,7 +40,7 @@ public class EntityManager : Singleton<EntityManager> {
 		try {
 			Dictionary<int, IComponent> entityContainer = Components[typeof (C)];
 			return entityContainer.Remove(entityId);
-		} catch (KeyNotFoundException e) {
+		} catch (KeyNotFoundException) {
 			return false;
 		}
 	}
