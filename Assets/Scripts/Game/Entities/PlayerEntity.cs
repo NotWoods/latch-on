@@ -16,7 +16,8 @@ public class PlayerEntity : Entity {
 
 	void Awake() {
 		AssignID();
-		CreateComponent<PlayerComponent>();
+		CreateComponent<InputComponent>();
+		CreateComponent<CharacterStatsComponent>();
 		Components.Add(typeof (CharacterController2D),
 			GetComponent<CharacterController2D>());
 	}
