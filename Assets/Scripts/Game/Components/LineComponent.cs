@@ -4,6 +4,12 @@ using UnityEngine;
 
 /// Used to store data representing a Rope/Line.
 public class LineComponent : IComponent {
+	public float StartingLength = 10f;
+	/// Layers which can be grappled
+	public LayerMask NormalGround;
+	/// Layers which cannot be grappled but will still impact the rope
+	public LayerMask NoHookGround;
+
 	// Internally, a stack is used for most points but a seperate variable
 	// represents the very top of the stack. This is done so that the
 	// 2nd-to-top point in the line can be easily returned.
@@ -35,6 +41,12 @@ public class LineComponent : IComponent {
 	/// returns true if the Line is attached to anything.
 	public bool IsAnchored() {
 		return lastPoint.HasValue;
+	}
+
+	/// An alias for WrapPoint that throws if there are points in the line
+	public void SetAnchor(Vector2 pos) {
+		if (IsAnchored()) throw new InvalidOperationException();
+		WrapPoint(pos);
 	}
 
 	/// Remove all points from the line

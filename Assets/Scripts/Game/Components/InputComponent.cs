@@ -7,5 +7,5 @@ public class InputComponent : IComponent {
 	public bool SinkPressed = false;
 
 	public bool HookDown = false;
-	public Vector2 pointerDir = new Vector2();
+	public Vector2 PointerDir = new Vector2();
 }
