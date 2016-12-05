@@ -1,5 +1,4 @@
 using UnityEngine;
-using Player;
 
 public class FollowerCamera : MonoBehaviour {
 	public Color GizmoColor = new Color(1, 0, 0, 0.1f);
@@ -12,18 +11,18 @@ public class FollowerCamera : MonoBehaviour {
 	/// Bounds representing focus area
 	Bounds focusArea;
 	/// The collider of the target game object
-	BaseController targetController;
+	BoxCollider2D targetCollider;
 
 	void Start() {
-		targetController = CameraTarget.GetComponent<BaseController>();
+		targetCollider = CameraTarget.GetComponent<BoxCollider2D>();
 
-		focusArea = new Bounds(targetController.bounds.center, FocusAreaSize);
-		float difference = focusArea.min.y - targetController.bounds.min.y;
+		focusArea = new Bounds(targetCollider.bounds.center, FocusAreaSize);
+		float difference = focusArea.min.y - targetCollider.bounds.min.y;
 		focusArea.center -= difference * Vector3.up;
 	}
 
 	void LateUpdate() {
-		Bounds target = targetController.bounds;
+		Bounds target = targetCollider.bounds;
 		Vector2 shift = Vector2.zero;
 		if (target.min.x < focusArea.min.x)
 			shift.x = target.min.x - focusArea.min.x;

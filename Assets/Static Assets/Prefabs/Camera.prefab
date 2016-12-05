@@ -5,16 +5,16 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 433560}
-  - 20: {fileID: 2008670}
-  - 92: {fileID: 9221226}
-  - 124: {fileID: 12450198}
-  - 81: {fileID: 8104392}
-  - 114: {fileID: 11483296}
+  - component: {fileID: 433560}
+  - component: {fileID: 2008670}
+  - component: {fileID: 9221226}
+  - component: {fileID: 12450198}
+  - component: {fileID: 8104392}
+  - component: {fileID: 11483296}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,10 +29,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2008670
 Camera:
   m_ObjectHideFlags: 1
@@ -42,7 +42,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.3882353, g: 0.5106424, b: 0.6313726, a: 1}
+  m_BackGroundColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -92,9 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7edaa7a84a45654ebbb9b8e8a48d357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusAreaSize: {x: 3, y: 3.5}
-  gizmoColor: {r: 1, g: 0, b: 0, a: 0.1}
-  cameraTarget: {fileID: 0}
+  GizmoColor: {r: 1, g: 0, b: 0, a: 0.1}
+  FocusAreaSize: {x: 3, y: 6}
+  CameraTarget: {fileID: 0}
 --- !u!124 &12450198
 Behaviour:
   m_ObjectHideFlags: 1
