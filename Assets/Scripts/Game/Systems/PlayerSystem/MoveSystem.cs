@@ -4,15 +4,20 @@ using Prime31;
 namespace PlayerSystem {
 	public class MoveSystem : SystemBase<MoveSystem>, IPlayerSystem {
 		public void Update(int id, float deltaTime) {
-			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
-			InputComponent input = Manager.GetComponent<InputComponent>(id);
-			CharacterController2D controller = Manager.GetComponent<CharacterController2D>(id);
 			PlayerStateComponent state = Manager.GetComponent<PlayerStateComponent>(id);
+			InputComponent input = Manager.GetComponent<InputComponent>(id);
+			if (input.HookDown) {
+				state.SetTo(PlayerState.HookedMovement);
+				return;
+			}
+
+			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
+			CharacterController2D controller = Manager.GetComponent<CharacterController2D>(id);
 
 			Vector2 velocity = stats.Velocity;
 			if (controller.isGrounded) velocity.y = 0;
 
-			if (controller.isGrounded && input.WantToJump) {
+			if (controller.isGrounded && input.JumpPressed) {
 				velocity.y = Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
 			}
 
@@ -26,7 +31,7 @@ namespace PlayerSystem {
 
 			velocity.y = stats.Gravity * deltaTime;
 
-			if (controller.isGrounded && input.WantToSink) {
+			if (controller.isGrounded && input.SinkPressed) {
 				velocity.y *= 3f;
 				controller.ignoreOneWayPlatformsThisFrame = true;
 			}
