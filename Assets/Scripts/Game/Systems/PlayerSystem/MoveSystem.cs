@@ -12,7 +12,7 @@ namespace PlayerSystem {
 			}
 
 			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
-			CharacterController2D controller = Manager.GetComponent<CharacterController2D>(id);
+			CharacterController2D controller = Manager.GetUnityComponent<CharacterController2D>(id);
 
 			Vector2 velocity = stats.Velocity;
 			if (controller.isGrounded) velocity.y = 0;

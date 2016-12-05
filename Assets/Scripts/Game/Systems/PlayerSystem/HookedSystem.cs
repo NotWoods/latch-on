@@ -5,6 +5,8 @@ namespace PlayerSystem {
 	public class HookedSystem : SystemBase<HookedSystem>, IPlayerSystem {
 		public void OnEntry(int id) {
 			InputComponent input = Manager.GetComponent<InputComponent>(id);
+			LineComponent line = Manager.GetComponent<LineComponent>(id);
+			Transform transform = Manager.GetUnityComponent<Transform>(id);
 		}
 
 		public void Update(int id, float deltaTime) {
@@ -16,12 +18,14 @@ namespace PlayerSystem {
 			}
 
 			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
-			CharacterController2D controller = Manager.GetComponent<CharacterController2D>(id);
+			CharacterController2D controller = Manager.GetUnityComponent<CharacterController2D>(id);
 		}
 
 		public void OnExit(int id) {
 			InputComponent input = Manager.GetComponent<InputComponent>(id);
 			LineComponent line = Manager.GetComponent<LineComponent>(id);
+
+			line.ClearPoints();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EntityManager : Singleton<EntityManager> {
   private Dictionary<int, IEntity> Entities = new Dictionary<int, IEntity>();
@@ -47,6 +48,16 @@ public class EntityManager : Singleton<EntityManager> {
   public C GetComponent<C>(int entityId) where C : IComponent {
 		Dictionary<int, IComponent> entityContainer = Components[typeof (C)];
 		return (C) entityContainer[entityId];
+	}
+
+	public T GetUnityComponent<T>(int entityId) where T : Component {
+		IEntity entity = Entities[entityId];
+		if (entity is MonoBehaviour) {
+			MonoBehaviour entityBehaviour = (MonoBehaviour) entity;
+			return entityBehaviour.GetComponent<T>();
+		} else {
+			throw new InvalidOperationException("Entity is not a GameObject");
+		}
 	}
 
   public IEnumerable<IComponent> GetComponents(int entityId) {
