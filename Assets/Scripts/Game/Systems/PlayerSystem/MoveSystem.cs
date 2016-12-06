@@ -3,7 +3,7 @@ using Prime31;
 
 namespace PlayerSystem {
 	public class MoveSystem : Singleton<MoveSystem>, IPlayerSystem {
-		public override void Update(
+		public void Update(
 			PlayerStateData state,
 			Transform transform,
 			CharacterData stats,
@@ -42,13 +42,13 @@ namespace PlayerSystem {
 			velocity = controller.velocity;
 		}
 
-		bool OnEntry(
+		public bool OnEntry(
 			Transform transform, CharacterData stats, InputData input, LineData line
 		) {
 			return true;
 		}
 
-		void OnExit(
+		public void OnExit(
 			Transform transform, CharacterData stats, InputData input, LineData line
 		) {}
 	}
