@@ -8,11 +8,17 @@ public class EntityEditor : Editor {
 	private static EntityManager Manager = EntityManager.Instance;
 	private Dictionary<Type, bool> showFoldout = new Dictionary<Type, bool>();
 
-	public override void OnInspectorGUI() {
-		SerializedProperty id = serializedObject.FindProperty("ID");
-		int entityId = id.intValue;
+	SerializedProperty id;
+	void OnEnable() {
+		id = serializedObject.FindProperty("ID");
+	}
 
+	public override void OnInspectorGUI() {
+		serializedObject.Update();
+
+		int entityId = id.intValue;
 		EditorGUILayout.LabelField("ID: ", entityId.ToString());
+
 		foreach (IComponent c in Manager.GetComponents(entityId)) {
 			if (!(c is UnityEngine.Object)) {
 				Debug.LogWarning("IComponent is not an object, cannot inspect");
@@ -22,18 +28,18 @@ public class EntityEditor : Editor {
 			UnityEngine.Object targetObj = (UnityEngine.Object) c;
 			SerializedObject serializedObject = new SerializedObject(targetObj);
 
-			Type componentType = typeof (c);
-			bool showComponentFoldout = false;
-			if (showFoldout.ContainsKey(componentType)) {
+			Type cType = c.GetType();
+			bool showCFoldout = showFoldout.ContainsKey(cType)
+				? showFoldout[cType]
+				: false;
 
-			} else {
-				showFoldout[componentType] = false;
-			}
-
-			SerializedProperty prop = serializedObject.GetIterator();
-			while (prop.NextVisible(true)) {
-				EditorGUILayout.PropertyField(prop);
+			showFoldout[cType] = EditorGUILayout.Foldout(showCFoldout, cType.ToString());
+			if (showFoldout[cType]) {
+				SerializedProperty prop = serializedObject.GetIterator();
+				while (prop.NextVisible(true)) EditorGUILayout.PropertyField(prop);
 			}
 		}
+
+		serializedObject.ApplyModifiedProperties();
 	}
 }
