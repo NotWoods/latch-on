@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityManager : Singleton<EntityManager> {
+public class EntityManager : SingletonBehaviour<EntityManager> {
   private Dictionary<int, IEntity> Entities = new Dictionary<int, IEntity>();
   private Dictionary<Type, Dictionary<int, IComponent>> Components = new Dictionary<Type, Dictionary<int, IComponent>>();
 
@@ -15,8 +15,33 @@ public class EntityManager : Singleton<EntityManager> {
 		return entity;
 	}
 
+	public IEntity CreateEntity(
+		GameObject prefab,
+		Vector3? position = null,
+		Quaternion? rotation = null,
+		Transform parent = null
+	) {
+		int id = IDIncrementor++;
+		GameObject newObject = Instantiate(
+			prefab,
+			position.GetValueOrDefault(prefab.transform.position),
+			rotation.GetValueOrDefault(prefab.transform.rotation),
+			parent
+		);
+
+		Entity entity = newObject.GetComponent<Entity>();
+		entity.ID = id;
+		Entities.Add(id, entity);
+		return entity;
+	}
+
   public bool DestroyEntity(int entityId) {
-		// TODO cleanup
+		IEntity entity = Entities[entityId];
+		if (entity is Entity) {
+			Entity e = (Entity) entity;
+			Destroy(e.gameObject);
+		}
+
 		return Entities.Remove(entityId);
 	}
 
