@@ -11,7 +11,7 @@ namespace PlayerSystem {
 			LineData line,
 			CharacterController2D controller
 		) {
-			if (input.HookDown) {
+			if (input.HookDown && HookedSystem.Instance.OnEntry(transform, input, line)) {
 				state.SetTo(PlayerState.HookedMovement);
 				return;
 			}
@@ -41,15 +41,5 @@ namespace PlayerSystem {
 			controller.move(velocity * Time.deltaTime);
 			velocity = controller.velocity;
 		}
-
-		public bool OnEntry(
-			Transform transform, CharacterData stats, InputData input, LineData line
-		) {
-			return true;
-		}
-
-		public void OnExit(
-			Transform transform, CharacterData stats, InputData input, LineData line
-		) {}
 	}
 }

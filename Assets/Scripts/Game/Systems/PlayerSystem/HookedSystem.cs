@@ -4,7 +4,7 @@ using Prime31;
 namespace PlayerSystem {
 	public class HookedSystem : Singleton<HookedSystem>, IPlayerSystem {
 		public bool OnEntry(
-			Transform transform, CharacterData s, InputData input, LineData line
+			Transform transform, InputData input, LineData line
 		) {
 			RaycastHit2D hit = Physics2D.Raycast(
 				transform.position,
@@ -32,16 +32,12 @@ namespace PlayerSystem {
 		) {
 			if (!input.HookDown) {
 				state.SetTo(PlayerState.StandardMovement);
+				OnExit(line);
 				return;
 			}
 		}
 
-		public void OnExit(
-			Transform transform,
-			CharacterData stats,
-			InputData input,
-			LineData line
-		) {
+		public void OnExit(LineData line) {
 			line.ClearPoints();
 		}
 	}

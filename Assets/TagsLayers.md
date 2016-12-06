@@ -11,6 +11,7 @@ Tags
 Represents a player character.
 
 ## GameController
+Used to mark singleton manager GameObjects.
 
 Layers
 ------

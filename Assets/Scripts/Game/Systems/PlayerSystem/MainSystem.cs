@@ -12,17 +12,9 @@ namespace PlayerSystem {
 			LineData line,
 			CharacterController2D controller
 		);
-
-		bool OnEntry(
-			Transform transform, CharacterData stats, InputData input, LineData line
-		);
-
-		void OnExit(
-			Transform transform, CharacterData stats, InputData input, LineData line
-		);
 	}
 
-	public class Main : EgoSystem<
+	public class PlayerSystem : EgoSystem<
 		PlayerStateData,
 		Transform,
 		CharacterData,
