@@ -3,7 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-[CustomEditor(typeof (Entity))]
+[CustomEditor(typeof (Entity), true)]
 public class EntityEditor : Editor {
 	private static EntityManager Manager = EntityManager.Instance;
 	private Dictionary<Type, bool> showFoldout = new Dictionary<Type, bool>();
