@@ -1,9 +1,12 @@
+using UnityEngine;
+
 public enum PlayerState {
 	StandardMovement,
 	HookedMovement
 }
 
-public class PlayerStateComponent : IComponent {
+[DisallowMultipleComponent]
+public class PlayerStateData : MonoBehaviour, IDataComponent {
 	public PlayerState CurrentState { get; private set; }
 
 	public bool SetTo(PlayerState newState) {

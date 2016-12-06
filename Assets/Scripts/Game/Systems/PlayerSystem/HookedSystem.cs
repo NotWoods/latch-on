@@ -2,12 +2,13 @@ using UnityEngine;
 using Prime31;
 
 namespace PlayerSystem {
-	public class HookedSystem : SystemBase<HookedSystem>, IPlayerSystem {
-		public bool OnEntry(int id) {
-			InputComponent input = Manager.GetComponent<InputComponent>(id);
-			LineComponent line = Manager.GetComponent<LineComponent>(id);
-			Transform transform = Manager.GetUnityComponent<Transform>(id);
-
+	public class HookedSystem : Singleton<HookedSystem>, IPlayerSystem {
+		public bool OnEntry(
+			Transform transform,
+			CharacterData stats,
+			InputData input,
+			LineData line
+		) {
 			RaycastHit2D hit = Physics2D.Raycast(
 				transform.position,
 				input.PointerDir,
@@ -24,24 +25,26 @@ namespace PlayerSystem {
 			}
 		}
 
-		public void Update(int id, float deltaTime) {
-			PlayerStateComponent state = Manager.GetComponent<PlayerStateComponent>(id);
-			InputComponent input = Manager.GetComponent<InputComponent>(id);
+		public override void Update(
+			PlayerStateData state,
+			Transform transform,
+			CharacterData stats,
+			InputData input,
+			LineData line,
+			CharacterController2D controller
+		) {
 			if (!input.HookDown) {
 				state.SetTo(PlayerState.StandardMovement);
 				return;
 			}
-
-			/*
-			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
-			CharacterController2D controller = Manager.GetUnityComponent<CharacterController2D>(id);
-			Transform transform = Manager.GetUnityComponent<Transform>(id);
-			*/
 		}
 
-		public void OnExit(int id) {
-			LineComponent line = Manager.GetComponent<LineComponent>(id);
-
+		public void OnExit(
+			Transform transform,
+			CharacterData stats,
+			InputData input,
+			LineData line
+		) {
 			line.ClearPoints();
 		}
 	}

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class CharacterStatsComponent : IComponent {
+[DisallowMultipleComponent]
+public class CharacterData : MonoBehaviour, IDataComponent {
 	public float Gravity = -25f;
 	public float RunSpeed = 8f;
 	public float GroundDamping = 20f;

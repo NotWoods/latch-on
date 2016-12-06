@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class InputComponent : IComponent {
+[DisallowMultipleComponent]
+public class InputData : MonoBehaviour, IDataComponent {
 	public float HorizontalInput = 0;
 
 	public bool JumpPressed = false;

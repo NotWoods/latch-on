@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// Used to store data representing a Rope/Line.
-public class LineComponent : IComponent {
+[DisallowMultipleComponent]
+public class LineData : MonoBehaviour, IDataComponent {
 	public float StartingLength = 10f;
 	/// Layers which can be grappled
 	public LayerMask NormalGround;

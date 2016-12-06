@@ -2,17 +2,19 @@ using UnityEngine;
 using Prime31;
 
 namespace PlayerSystem {
-	public class MoveSystem : SystemBase<MoveSystem>, IPlayerSystem {
-		public void Update(int id, float deltaTime) {
-			PlayerStateComponent state = Manager.GetComponent<PlayerStateComponent>(id);
-			InputComponent input = Manager.GetComponent<InputComponent>(id);
+	public class MoveSystem : Singleton<MoveSystem>, IPlayerSystem {
+		public override void Update(
+			PlayerStateData state,
+			Transform transform,
+			CharacterData stats,
+			InputData input,
+			LineData line,
+			CharacterController2D controller
+		) {
 			if (input.HookDown) {
 				state.SetTo(PlayerState.HookedMovement);
 				return;
 			}
-
-			CharacterStatsComponent stats = Manager.GetComponent<CharacterStatsComponent>(id);
-			CharacterController2D controller = Manager.GetUnityComponent<CharacterController2D>(id);
 
 			Vector2 velocity = stats.Velocity;
 			if (controller.isGrounded) velocity.y = 0;
@@ -26,10 +28,10 @@ namespace PlayerSystem {
 			velocity.x = Mathf.Lerp(
 				velocity.x,
 				input.HorizontalInput * stats.RunSpeed,
-				deltaTime * damping
+				Time.deltaTime * damping
 			);
 
-			velocity.y = stats.Gravity * deltaTime;
+			velocity.y = stats.Gravity * Time.deltaTime;
 
 			if (controller.isGrounded && input.SinkPressed) {
 				velocity.y *= 3f;
@@ -39,5 +41,15 @@ namespace PlayerSystem {
 			controller.move(velocity * Time.deltaTime);
 			velocity = controller.velocity;
 		}
+
+		bool OnEntry(
+			Transform transform, CharacterData stats, InputData input, LineData line
+		) {
+			return true;
+		}
+
+		void OnExit(
+			Transform transform, CharacterData stats, InputData input, LineData line
+		) {}
 	}
 }
