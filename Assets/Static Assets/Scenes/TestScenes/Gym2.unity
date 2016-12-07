@@ -560,10 +560,10 @@ MonoBehaviour:
   StartingLength: 10
   NormalGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1536
   NoHookGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
 --- !u!114 &1915880840
 MonoBehaviour:
   m_ObjectHideFlags: 0

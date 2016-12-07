@@ -31,7 +31,7 @@ namespace PlayerSystem {
 				Time.deltaTime * damping
 			);
 
-			velocity.y = stats.Gravity * Time.deltaTime;
+			velocity.y += stats.Gravity * Time.deltaTime;
 
 			if (controller.isGrounded && input.SinkPressed) {
 				velocity.y *= 3f;
@@ -39,7 +39,7 @@ namespace PlayerSystem {
 			}
 
 			controller.move(velocity * Time.deltaTime);
-			velocity = controller.velocity;
+			stats.Velocity = controller.velocity;
 		}
 	}
 }
