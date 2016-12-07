@@ -1,7 +1,7 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, LineData, CharacterController2D> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, InspectableLineData, CharacterController2D> {
 	public override void Update() {
 		ForEachGameObject((ego, transform, stats, input, line, controller) => {
 			Vector2 velocity = stats.Velocity;

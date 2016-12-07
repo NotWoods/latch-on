@@ -29,6 +29,11 @@ public class InspectableLineData : LineData {
 		return points.Count > 0;
 	}
 
+	public new void SetAnchor(Vector2 pos) {
+		if (IsAnchored()) throw new InvalidOperationException();
+		WrapPoint(pos);
+	}
+
 	/// Remove all points from the line
 	public new void ClearPoints() {
 		points.Clear();
