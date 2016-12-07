@@ -7,10 +7,9 @@ public enum PlayerState {
 
 [DisallowMultipleComponent]
 public class PlayerStateData : MonoBehaviour, IDataComponent {
-	public PlayerState CurrentState { get; private set; }
+	public PlayerState CurrentState;
 
 	public bool SetTo(PlayerState newState) {
-		// TODO verification
 		CurrentState = newState;
 		return true;
 	}

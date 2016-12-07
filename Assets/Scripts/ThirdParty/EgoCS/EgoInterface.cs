@@ -3,7 +3,9 @@
 public class EgoInterface : MonoBehaviour {
 	static EgoInterface() {
 		EgoSystems.Add(
-			new PlayerSystem.PlayerSystem()
+			new MoveSystem(),
+			new HookSystem(),
+			new InputSystem()
 		);
 	}
 

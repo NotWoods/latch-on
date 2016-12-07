@@ -1,21 +1,9 @@
 using UnityEngine;
 using Prime31;
 
-namespace PlayerSystem {
-	public class MoveSystem : Singleton<MoveSystem>, IPlayerSystem {
-		public void Update(
-			PlayerStateData state,
-			Transform transform,
-			CharacterData stats,
-			InputData input,
-			LineData line,
-			CharacterController2D controller
-		) {
-			if (input.HookDown && HookedSystem.Instance.OnEntry(transform, input, line)) {
-				state.SetTo(PlayerState.HookedMovement);
-				return;
-			}
-
+public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, LineData, CharacterController2D> {
+	public override void Update() {
+		ForEachGameObject((ego, transform, stats, input, line, controller) => {
 			Vector2 velocity = stats.Velocity;
 			if (controller.isGrounded) velocity.y = 0;
 
@@ -40,6 +28,6 @@ namespace PlayerSystem {
 
 			controller.move(velocity * Time.deltaTime);
 			stats.Velocity = controller.velocity;
-		}
+		});
 	}
 }

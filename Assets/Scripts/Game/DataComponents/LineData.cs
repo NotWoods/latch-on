@@ -14,8 +14,8 @@ public class LineData : MonoBehaviour, IDataComponent {
 	// Internally, a stack is used for most points but a seperate variable
 	// represents the very top of the stack. This is done so that the
 	// 2nd-to-top point in the line can be easily returned.
-	[SerializeField] private Stack<Vector2> points = new Stack<Vector2>();
-	[SerializeField] private Vector2? lastPoint = null;
+	private Stack<Vector2> points = new Stack<Vector2>();
+	private Vector2? lastPoint = null;
 
 	public void WrapPoint(Vector2 pos) {
 		if (lastPoint.HasValue) points.Push(lastPoint.Value);

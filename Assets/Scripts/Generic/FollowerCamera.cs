@@ -14,6 +14,8 @@ public class FollowerCamera : MonoBehaviour {
 	BoxCollider2D targetCollider;
 
 	void Start() {
+		if (CameraTarget == null) return;
+
 		targetCollider = CameraTarget.GetComponent<BoxCollider2D>();
 
 		focusArea = new Bounds(targetCollider.bounds.center, FocusAreaSize);
@@ -22,6 +24,8 @@ public class FollowerCamera : MonoBehaviour {
 	}
 
 	void LateUpdate() {
+		if (CameraTarget == null) return;
+
 		Bounds target = targetCollider.bounds;
 		Vector2 shift = Vector2.zero;
 		if (target.min.x < focusArea.min.x)
@@ -42,6 +46,8 @@ public class FollowerCamera : MonoBehaviour {
 	}
 
 	void OnDrawGizmosSelected() {
+		if (CameraTarget == null) return;
+
 		Gizmos.color = GizmoColor;
 		Gizmos.DrawCube(focusArea.center, focusArea.size);
 	}
