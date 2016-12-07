@@ -60,4 +60,8 @@ public class LineData : MonoBehaviour, IDataComponent {
 		foreach (Vector2 p in points) yield return p;
 		if (lastPoint.HasValue) yield return lastPoint.Value;
 	}
+
+	public int Count {
+		get { return points.Count + (lastPoint.HasValue ? 1 : 0); }
+	}
 }

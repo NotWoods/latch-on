@@ -5,7 +5,8 @@ public class EgoInterface : MonoBehaviour {
 		EgoSystems.Add(
 			new MoveSystem(),
 			new HookSystem(),
-			new InputSystem()
+			new InputSystem(),
+			new LineRendererSystem()
 		);
 	}
 

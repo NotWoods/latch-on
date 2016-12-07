@@ -42,4 +42,8 @@ public class InspectableLineData : LineData {
 	public new IEnumerable<Vector2> Points() {
 		foreach (Vector2 p in points) yield return p;
 	}
+
+	public new int Count {
+		get { return points.Count; }
+	}
 }
