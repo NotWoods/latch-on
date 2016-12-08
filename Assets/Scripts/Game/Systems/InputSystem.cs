@@ -14,11 +14,11 @@ public class InputSystem : EgoSystem<InputData, Transform> {
 			);*/
 
 			input.HookDown = Input.GetButton("Grapple To Point");
-			if (input.HookDown) {
-				Vector2 clickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				input.PointerDir = clickPoint - (Vector2) transform.position;
+			// if (input.HookDown) {
+				Vector2 cursorPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				input.PointerDir = cursorPoint - (Vector2) transform.position;
 				input.PointerDir.Normalize();
-			}
+			// }
 		});
 	}
 }

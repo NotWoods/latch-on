@@ -239,6 +239,13 @@ public class CharacterController2D : MonoBehaviour
 	/// stop when run into.
 	/// </summary>
 	/// <param name="deltaMovement">Delta movement.</param>
+	public void Move(Vector3 deltaMovement) { move(deltaMovement); } // alias
+
+	/// <summary>
+	/// attempts to move the character to position + deltaMovement. Any colliders in the way will cause the movement to
+	/// stop when run into.
+	/// </summary>
+	/// <param name="deltaMovement">Delta movement.</param>
 	public void move( Vector3 deltaMovement )
 	{
 		// save off our current grounded state which we will use for wasGroundedLastFrame and becameGroundedThisFrame
