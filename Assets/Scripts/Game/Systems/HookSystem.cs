@@ -37,9 +37,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, C
 				line.GetLast(),
 				line.NoHookGround
 			);
-			if (shouldWrap &&
-			Vector2.Distance(line.GetLast(), shouldWrap.point) > VectorEpsilon) {
-				// line.ClearPoints();
+			if (shouldWrap && line.GetLast() != shouldWrap.point) {
 				line.WrapPoint(shouldWrap.point);
 			}
 		});
