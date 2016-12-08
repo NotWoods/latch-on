@@ -11,6 +11,10 @@ public class LineData : MonoBehaviour, IDataComponent {
 	/// Layers which cannot be grappled but will still impact the rope
 	public LayerMask NoHookGround;
 
+	public LayerMask CollideOnlyGround {
+		get { return (LayerMask) NormalGround.value & NoHookGround.value; }
+	}
+
 	// Internally, a stack is used for most points but a seperate variable
 	// represents the very top of the stack. This is done so that the
 	// 2nd-to-top point in the line can be easily returned.

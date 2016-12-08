@@ -15,6 +15,7 @@ public class LineRendererSystem : EgoSystem<Transform, InspectableLineData, Line
 			foreach (Vector2 p in line.Points()) { points[i] = p; i++; }
 			points[i] = transform.position;
 
+			renderer.numPositions = points.Length;
 			renderer.SetPositions(points);
 		});
 	}

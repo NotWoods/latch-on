@@ -1,9 +1,13 @@
 using UnityEngine;
 using Prime31;
 
-public class HookSystem : EgoSystem<Transform, CharacterData, InputData, InspectableLineData, CharacterController2D> {
+/// Manages rope attachment and wrapping
+public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, CharacterController2D> {
+	/// To be seen as a new point, the distance between two vectors must be greater than this number.
+	public float VectorEpsilon = 0.01f;
+
 	public override void Update() {
-		ForEachGameObject((ego, transform, stats, input, line, controller) => {
+		ForEachGameObject((ego, transform, input, line, controller) => {
 			if (!input.HookDown) {
 				line.ClearPoints();
 				return;
@@ -25,7 +29,16 @@ public class HookSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 				}
 			}
 
-
+			RaycastHit2D shouldWrap = Physics2D.Linecast(
+				transform.position,
+				line.GetLast(),
+				line.NoHookGround
+			);
+			if (shouldWrap &&
+			Vector2.Distance(line.GetLast(), shouldWrap.point) > VectorEpsilon) {
+				// line.ClearPoints();
+				line.WrapPoint(shouldWrap.point);
+			}
 		});
 	}
 }
