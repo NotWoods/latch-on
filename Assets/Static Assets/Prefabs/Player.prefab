@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4048206319199940}
   - component: {fileID: 33387567219835002}
   - component: {fileID: 23422601879499958}
-  - component: {fileID: 114299222436281864}
   - component: {fileID: 61139359660516454}
   - component: {fileID: 50215873479446274}
   - component: {fileID: 114776317598288742}
@@ -121,22 +120,6 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
---- !u!114 &114299222436281864
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1674682676655902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf802d901baa8f4eafd4fb153d2cab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravity: -25
-  runSpeed: 8
-  groundDamping: 20
-  inAirDamping: 5
-  jumpHeight: 3
 --- !u!114 &114364095066591076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,7 +170,7 @@ MonoBehaviour:
     m_Bits: 1536
   NoHookGround:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1536
   points: []
 --- !u!114 &114776317598288742
 MonoBehaviour:

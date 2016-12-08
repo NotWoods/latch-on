@@ -403,16 +403,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114623735105338834, guid: a382a089d0ed2cc44a1c2a1f17c564ca,
-        type: 2}
-      propertyPath: NoHookGround.m_Bits
-      value: 1536
-      objectReference: {fileID: 0}
-    - target: {fileID: 114299222436281864, guid: a382a089d0ed2cc44a1c2a1f17c564ca,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a382a089d0ed2cc44a1c2a1f17c564ca, type: 2}
   m_IsPrefabParent: 0
