@@ -10,6 +10,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, C
 		ForEachGameObject((ego, transform, input, line, controller) => {
 			if (!input.HookDown) {
 				line.ClearPoints();
+				line.FreeLength = line.StartingLength;
 				return;
 			}
 
@@ -28,6 +29,8 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, C
 					return;
 				}
 			}
+
+			line.FreeLength = Vector2.Distance(transform.position, line.GetLast());
 
 			RaycastHit2D shouldWrap = Physics2D.Linecast(
 				transform.position,

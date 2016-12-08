@@ -4,6 +4,8 @@ using Prime31;
 public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, InspectableLineData, CharacterController2D> {
 	public override void Update() {
 		ForEachGameObject((ego, transform, stats, input, line, controller) => {
+			if (line.IsAnchored()) return;
+
 			Vector2 velocity = stats.Velocity;
 			if (controller.isGrounded) velocity.y = 0;
 

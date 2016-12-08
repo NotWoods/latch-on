@@ -6,6 +6,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class LineData : MonoBehaviour, IDataComponent {
 	public float StartingLength = 10f;
+	public float FreeLength = 10f;
+
 	/// Layers which can be grappled
 	public LayerMask NormalGround;
 	/// Layers which cannot be grappled but will still impact the rope
