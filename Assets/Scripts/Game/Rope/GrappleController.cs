@@ -4,7 +4,7 @@ using Player;
 namespace Rope {
 	[RequireComponent(typeof(DistanceJoint2D))]
 	[RequireComponent(typeof(MoveController))]
-	public class GrappleController : BaseController, ITether {
+	public class GrappleController : BaseController {
 		public GameObject needlePrefab;
 		public GameObject ropePrefab;
 		Needle needle;
@@ -35,13 +35,13 @@ namespace Rope {
 			rope = GetComponent<DistanceJoint2D>();
 			mover = GetComponent<MoveController>();
 
-			GameObject needleObj = (GameObject) Instantiate(needlePrefab, 
+			GameObject needleObj = (GameObject) Instantiate(needlePrefab,
 				Vector2.zero, Quaternion.identity);
 			needle = needleObj.GetComponent<Needle>();
-			
-			GameObject ropeObj = (GameObject) Instantiate(ropePrefab, 
-				Vector2.zero, Quaternion.identity);
-			ropeObj.GetComponent<RopeRenderer>().controller = this;
+
+			//GameObject ropeObj = (GameObject) Instantiate(ropePrefab,
+				//Vector2.zero, Quaternion.identity);
+			//ropeObj.GetComponent<RopeRenderer>().controller = this;
 		}
 
 		public bool isTethered {get {return rope.enabled;}}
@@ -129,11 +129,11 @@ namespace Rope {
 			);
 
 			if (hit) {
-				bool isTooClose = 
+				bool isTooClose =
 					Vector2.Distance(hit.point, transform.position) < tooCloseDistance;
 				bool wrappedAroundRigidbody =
 					hit.rigidbody != null && !hit.rigidbody.isKinematic;
-				
+
 				if (isTooClose || wrappedAroundRigidbody) Break();
 				else WrapAround(hit);
 			}
@@ -154,7 +154,7 @@ namespace Rope {
 		}
 
 		float ReduceLength(float amount) {
-			return rope.distance = Mathf.Clamp(rope.distance - amount, minRopeLength, 
+			return rope.distance = Mathf.Clamp(rope.distance - amount, minRopeLength,
 				Mathf.Infinity);
 		}
 
@@ -165,16 +165,16 @@ namespace Rope {
 				CheckRopeIntegrity();
 				mover.friction = 0;
 			} else {
-				rigidbody.gravityScale = 
+				rigidbody.gravityScale =
 					Mathf.MoveTowards(rigidbody.gravityScale,	1, 2 * Time.deltaTime);
-				if (!mover.enabled && isGrounded)	mover.enabled = true; 
+				if (!mover.enabled && isGrounded)	mover.enabled = true;
 			}
 		}
 
 		void Update() {
 			if (Input.GetKeyDown(KeyCode.R)) Respawn();
 			if (Input.GetButtonDown("Grapple To Point") && !isTethered) {
-				Vector2 clickPoint = 
+				Vector2 clickPoint =
 					Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				GrappleToward(clickPoint);
 			} else if (Input.GetButtonDown("Grapple Using Pointer") && !isTethered) {
@@ -182,7 +182,7 @@ namespace Rope {
 					Input.GetAxis("Pointer X"), Input.GetAxis("Pointer Y")
 				) + (Vector2) transform.position;
 				GrappleToward(joystickPoint);
-			} else if (Input.GetButtonUp("Grapple To Point") 
+			} else if (Input.GetButtonUp("Grapple To Point")
 			|| Input.GetButtonUp("Grapple Using Pointer")) {
 				Break(isTethered);
 			}
@@ -197,7 +197,7 @@ namespace Rope {
 			}
 
 			RaycastHit2D previewHit = Physics2D.Raycast(
-				transform.position, 
+				transform.position,
 				Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position,
 				maxTetherRange,	grapplePlatformMask
 			);

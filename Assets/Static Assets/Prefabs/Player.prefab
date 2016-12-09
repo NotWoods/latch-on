@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f28a50d26ca3514d8f359d4fc0d6a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  E: 0
+  CurrentMode: 0
 --- !u!114 &114364095066591076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -193,12 +193,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e169c93653adc5a4f9c43b4a9746a34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gravity: -25
   RunSpeed: 8
+  JumpHeight: 3
   GroundDamping: 20
   InAirDamping: 5
-  JumpHeight: 3
+  SwingDamping: 0.5
   Velocity: {x: 0, y: 0}
+  GravityBase: -25
+  GravityScale: 1
 --- !u!114 &114539055424611204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -225,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8586aef57f982e645b5c03cb13bf01a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingLength: 10
+  StartingLength: 20
   FreeLength: 10
   RetractSpeed: 1
   NormalGround:

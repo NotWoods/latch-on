@@ -2,25 +2,23 @@ using UnityEngine;
 using Prime31;
 
 public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, InspectableLineData, CharacterController2D, PlayerState> {
-	public float SwingDamping = 0.5f;
-
 	public override void Update() {
 		ForEachGameObject((o, transform, stats, input, line, controller, state) => {
 			Vector2 velocity = stats.Velocity;
 			if (controller.isGrounded) {
 				velocity.y = 0;
-				if (state.E == PlayerState.Mode.Flung || state.E == PlayerState.Mode.Fall) {
+
+				if (state.E == PlayerState.Mode.Flung || state.E == PlayerState.Mode.Fall)
 					state.Set(PlayerState.Mode.Walk);
-				}
 			} else if (state.E == PlayerState.Mode.Walk) {
 				state.Set(PlayerState.Mode.Fall);
 			}
 
 			if (controller.isGrounded && input.JumpPressed) {
-				velocity.y = Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
+				velocity.y = Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 			}
 
-			velocity.y += stats.Gravity * Time.deltaTime;
+			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
 
 			if (controller.isGrounded && input.SinkPressed) {
 				velocity.y *= 3f;
@@ -36,7 +34,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 					Time.deltaTime * damping
 				);
 			} else if (line.IsAnchored()) {
-				velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime * SwingDamping);
+				velocity.x = Mathf.MoveTowards(velocity.x, 0, Time.deltaTime * stats.SwingDamping);
 
 				Vector2 currentPosition = transform.position;
 				Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
