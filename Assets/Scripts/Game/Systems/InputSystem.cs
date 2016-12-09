@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class InputSystem : EgoSystem<InputData, Transform> {
+public class InputSystem : EgoSystem<PlayerMarker, InputData, Transform> {
 	public override void Update() {
-		ForEachGameObject((ego, input, transform) => {
+		ForEachGameObject((ego, p, input, transform) => {
 			input.HorizontalInput = Input.GetAxis("Horizontal");
 			input.JumpPressed = Input.GetButtonDown("Jump");
-			// input.SinkPressed = Input.GetButtonDown("Sink");
+			input.SinkPressed = Input.GetKeyDown(KeyCode.S);
 			input.ShouldRespawn = Input.GetKeyDown(KeyCode.R);
 
 			bool touchDown = Input.touchCount > 0;

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class CursorAlias : MonoBehaviour, IDataComponent {
+public class CursorAlias : MonoBehaviour {
 	public float HighlightScale = 0.2f;
 	public float DarkScale = 0.1f;
 	public Color HighlightColor = Color.white;

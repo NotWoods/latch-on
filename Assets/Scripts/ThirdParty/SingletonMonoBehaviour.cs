@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// Singleton MonoBehaviour
-public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour {
+public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour {
 	protected static T instance;
 
 	/// Returns the instance of this singleton behaviour.
