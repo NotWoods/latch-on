@@ -1,12 +1,15 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData> {
+public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, PlayerState> {
 	public override void Update() {
-		ForEachGameObject((ego, transform, input, line) => {
+		ForEachGameObject((ego, transform, input, line, state) => {
 			if (!input.HookDown) {
-				line.ClearPoints();
-				line.FreeLength = line.StartingLength;
+				if (state.E == PlayerState.Mode.Swing) {
+					line.ClearPoints();
+					line.FreeLength = line.StartingLength;
+					state.Set(PlayerState.Mode.Flung);
+				}
 				return;
 			}
 
@@ -18,12 +21,10 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData> {
 					line.NormalGround
 				);
 
-				if (hit) {
-					Vector2 hitPoint = hit.point;
-					line.SetAnchor(hitPoint);
-				} else {
-					return;
-				}
+				if (!hit) return;
+				Vector2 hitPoint = hit.point;
+				line.SetAnchor(hitPoint);
+				state.Set(PlayerState.Mode.Swing);
 			}
 
 			float newLength = Vector2.Distance(transform.position, line.GetLast());

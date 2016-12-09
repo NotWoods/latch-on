@@ -1,15 +1,21 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, InspectableLineData, CharacterController2D> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, InspectableLineData, CharacterController2D, PlayerState> {
 	public float SwingDamping = 0.5f;
 
 	public override void Update() {
-		ForEachGameObject((ego, transform, stats, input, line, controller) => {
-			// if (line.IsAnchored()) return;
-
+		ForEachGameObject((o, transform, stats, input, line, controller, state) => {
 			Vector2 velocity = stats.Velocity;
-			if (controller.isGrounded) velocity.y = 0;
+			if (controller.isGrounded) {
+				velocity.y = 0;
+				if (state.E == PlayerState.Mode.Flung || state.E == PlayerState.Mode.Fall) {
+					Debug.Log("hello");
+					state.Set(PlayerState.Mode.Walk);
+				}
+			} else if (state.E == PlayerState.Mode.Walk) {
+				state.Set(PlayerState.Mode.Fall);
+			}
 
 			if (controller.isGrounded && input.JumpPressed) {
 				velocity.y = Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);

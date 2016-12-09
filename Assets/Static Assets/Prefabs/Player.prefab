@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 114623735105338834}
   - component: {fileID: 120360473613926176}
   - component: {fileID: 114539055424611204}
+  - component: {fileID: 114055491992643176}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -151,6 +152,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+--- !u!114 &114055491992643176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1674682676655902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f28a50d26ca3514d8f359d4fc0d6a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  E: 0
 --- !u!114 &114364095066591076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,6 +180,8 @@ MonoBehaviour:
   SinkPressed: 0
   HookDown: 0
   PointerDir: {x: 0, y: 0}
+  ShouldRespawn: 0
+  Mode: 0
 --- !u!114 &114467914163728268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -195,7 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405bd4c4869c689439bdd88811dc3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CursorColor: {r: 1, g: 1, b: 1, a: 1}
   TransitionMultiplier: 5
   HighlightScale: 0.3
   DarkScale: 0.1
@@ -213,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartingLength: 10
   FreeLength: 10
+  RetractSpeed: 1
   NormalGround:
     serializedVersion: 2
     m_Bits: 1536
