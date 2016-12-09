@@ -2,6 +2,8 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 public class CursorAlias : MonoBehaviour {
+	const string CursorObjectName = "Cursor";
+
 	public float HighlightScale = 0.2f;
 	public float DarkScale = 0.1f;
 	public Color HighlightColor = Color.white;
@@ -16,7 +18,7 @@ public class CursorAlias : MonoBehaviour {
 
 	private SpriteRenderer cursor;
 	void Awake() {
-		cursor = transform.GetChild(0).GetComponent<SpriteRenderer>();
+		cursor = transform.Find(CursorObjectName).GetComponent<SpriteRenderer>();
 	}
 	void Update() {
 		cursor.transform.localScale = Vector3.Lerp(

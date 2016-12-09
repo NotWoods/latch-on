@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class CursorRendererSystem : EgoSystem<Transform, InspectableLineData, InputData, CursorAlias> {
+public class CursorRendererSystem : EgoSystem<PlayerMarker, Transform, InspectableLineData, InputData, CursorAlias> {
 	public float PreviewDistance = 2f;
 
 	public override void Update() {
-		ForEachGameObject((ego, transform, line, input, cursor) => {
+		ForEachGameObject((ego, p, transform, line, input, cursor) => {
 			RaycastHit2D cursorCheck = Physics2D.Raycast(transform.position, input.PointerDir, PreviewDistance, line.NormalGround);
 			RaycastHit2D hitCheck = Physics2D.Raycast(transform.position, input.PointerDir, line.StartingLength, line.NormalGround);
 
