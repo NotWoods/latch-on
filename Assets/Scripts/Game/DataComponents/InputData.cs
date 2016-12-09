@@ -13,6 +13,6 @@ public class InputData : MonoBehaviour, IDataComponent {
 
 	public bool ShouldRespawn = false;
 
-	public enum PointerMode { Mouse, Controller }
+	public enum PointerMode { Mouse, Touch, Controller }
 	public PointerMode Mode = PointerMode.Mouse;
 }

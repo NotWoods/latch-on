@@ -7,7 +7,7 @@
 /[Ll]ibrary/
 sysinfo.txt
 *.stackdump
- 
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -21,7 +21,7 @@ sysinfo.txt
 /*.user
 /*.unityproj
 /*.booproj
- 
+
 # ============ #
 # OS generated #
 # ============ #
@@ -34,4 +34,4 @@ ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
 
-Dist
+Builds
