@@ -2,10 +2,10 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 public class CursorAlias : MonoBehaviour, IDataComponent {
-	public float TransitionMultiplier = 10;
-
 	public float HighlightScale = 0.2f;
 	public float DarkScale = 0.1f;
+	public Color HighlightColor = Color.white;
+	public Color DarkColor = Color.gray;
 
 	public Vector2 Position {
 		get { return cursor.transform.position; }
@@ -22,7 +22,13 @@ public class CursorAlias : MonoBehaviour, IDataComponent {
 		cursor.transform.localScale = Vector3.Lerp(
 			cursor.transform.localScale,
 			Vector3.one * (Highlighted ? HighlightScale : DarkScale),
-			Time.deltaTime * TransitionMultiplier
+			Time.deltaTime * 10
+		);
+
+		cursor.color = Color.Lerp(
+			cursor.color,
+			Highlighted ? HighlightColor : DarkColor,
+			Time.deltaTime * 10
 		);
 	}
 }

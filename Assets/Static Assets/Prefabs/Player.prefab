@@ -212,9 +212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405bd4c4869c689439bdd88811dc3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionMultiplier: 5
   HighlightScale: 0.3
-  DarkScale: 0.1
+  DarkScale: 0.15
+  HighlightColor: {r: 1, g: 1, b: 1, a: 1}
+  DarkColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.503}
   Highlighted: 0
 --- !u!114 &114623735105338834
 MonoBehaviour:
@@ -417,6 +418,6 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7cb658ee9ed920f42a62c963edab7078, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.85294116, g: 0.85294116, b: 0.85294116, a: 1}
   m_FlipX: 0
   m_FlipY: 0
