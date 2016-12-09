@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using UnityEditor;
 
 public class EgoNewSystemEditor : EditorWindow
 {
     string newSystemName = "";
-    
+
     [ MenuItem( "Assets/Create/EgoCS/System", false, 51 ) ]
     public static void NewSystemWindow()
     {

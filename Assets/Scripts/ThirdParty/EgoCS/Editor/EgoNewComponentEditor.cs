@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -31,7 +29,7 @@ public class EgoNewComponentEditor : EditorWindow
         }
         EditorGUILayout.EndVertical();
     }
-    
+
     void DrawSystemName()
     {
         EditorGUILayout.LabelField( "Component Name:" );

@@ -1,21 +1,4 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System;
-
-//public interface IEgoSystem
-//{
-//#if UNITY_EDITOR
-//    bool enabled { get; set; }
-//#endif
-
-//    void CreateBundles(EgoComponent[] egoComponents);
-
-//    void Start();
-//    void Update();
-//    void FixedUpdate();
-//}
-
-public class EgoSystem
+﻿public class EgoSystem
 {
 #if UNITY_EDITOR
     public bool enabled = true;

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections.Generic;
 
 public class EgoSystem<C1, C2, C3, C4> : EgoSystem
