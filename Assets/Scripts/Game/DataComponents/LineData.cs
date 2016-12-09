@@ -8,6 +8,8 @@ public class LineData : MonoBehaviour, IDataComponent {
 	public float StartingLength = 10f;
 	public float FreeLength = 10f;
 
+	public float RetractSpeed = 1f;
+
 	/// Layers which can be grappled
 	public LayerMask NormalGround;
 	/// Layers which cannot be grappled but will still impact the rope

@@ -10,4 +10,9 @@ public class InputData : MonoBehaviour, IDataComponent {
 
 	public bool HookDown = false;
 	public Vector2 PointerDir = new Vector2();
+
+	public bool ShouldRespawn = false;
+
+	public enum PointerMode { Mouse, Controller }
+	public PointerMode Mode = PointerMode.Mouse;
 }

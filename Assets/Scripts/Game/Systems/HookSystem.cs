@@ -27,7 +27,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData> {
 			}
 
 			float newLength = Vector2.Distance(transform.position, line.GetLast());
-			// newLength -= line.RetractSpeed * Time.deltaTime;
+			newLength -= line.RetractSpeed * Time.deltaTime;
 			line.FreeLength = Mathf.Clamp(newLength, 0, line.StartingLength);
 
 			RaycastHit2D shouldWrap = Physics2D.Linecast(

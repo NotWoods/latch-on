@@ -7,7 +7,8 @@ public class EgoInterface : MonoBehaviour {
 			new HookSystem(),
 			new InputSystem(),
 			new LineRendererSystem(),
-			new CursorRendererSystem()
+			new CursorRendererSystem(),
+			new RespawnSystem()
 		);
 	}
 
