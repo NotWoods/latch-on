@@ -24,9 +24,10 @@ public class InputSystem : EgoSystem<InputData, Transform> {
 				case InputData.PointerMode.Mouse:
 					Vector2 cursorPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					input.PointerDir = cursorPoint - (Vector2) transform.position;
-					input.PointerDir.Normalize();
 					break;
 			}
+
+			input.PointerDir.Normalize();
 		});
 	}
 }

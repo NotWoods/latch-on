@@ -10,7 +10,6 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			if (controller.isGrounded) {
 				velocity.y = 0;
 				if (state.E == PlayerState.Mode.Flung || state.E == PlayerState.Mode.Fall) {
-					Debug.Log("hello");
 					state.Set(PlayerState.Mode.Walk);
 				}
 			} else if (state.E == PlayerState.Mode.Walk) {
@@ -21,18 +20,6 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 				velocity.y = Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
 			}
 
-			if (!line.IsAnchored()) {
-				float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
-				// TODO: Change to use SmoothDamp instead later
-				velocity.x = Mathf.Lerp(
-					velocity.x,
-					input.HorizontalInput * stats.RunSpeed,
-					Time.deltaTime * damping
-				);
-			} else {
-				velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime * SwingDamping);
-			}
-
 			velocity.y += stats.Gravity * Time.deltaTime;
 
 			if (controller.isGrounded && input.SinkPressed) {
@@ -40,14 +27,25 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 				controller.ignoreOneWayPlatformsThisFrame = true;
 			}
 
-			if (line.IsAnchored()) {
-				Vector2 testPosition = (Vector2) transform.position + (velocity * Time.deltaTime);
+			if (!line.IsAnchored() && state.E != PlayerState.Mode.Flung) {
+				float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
+				// TODO: Change to use SmoothDamp instead later
+				velocity.x = Mathf.Lerp(
+					velocity.x,
+					input.HorizontalInput * stats.RunSpeed,
+					Time.deltaTime * damping
+				);
+			} else if (line.IsAnchored()) {
+				velocity.x = Mathf.Lerp(velocity.x, 0, Time.deltaTime * SwingDamping);
+
+				Vector2 currentPosition = transform.position;
+				Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
 				Vector2 tetherPoint = line.GetLast();
 
 				if (Vector2.Distance(testPosition, tetherPoint) > line.FreeLength) {
-					testPosition = line.GetLast() +
-						((testPosition - line.GetLast()).normalized * line.FreeLength);
-					velocity = (testPosition - (Vector2) transform.position) / Time.deltaTime;
+					Vector2 direction = testPosition - tetherPoint;
+					testPosition = tetherPoint + (direction.normalized * line.FreeLength);
+					velocity = (testPosition - currentPosition) / Time.deltaTime;
 				}
 			}
 
