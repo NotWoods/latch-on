@@ -16,6 +16,38 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 		}
 	}
 
+	private Vector2 CalculateSwingingVelocity(Vector2 velocity,
+		Transform transform, CharacterData stats, InspectableLineData line
+	) {
+		velocity.x = Mathf.MoveTowards(velocity.x, 0, Time.deltaTime * stats.SwingDamping);
+
+		Vector2 currentPosition = transform.position;
+		Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
+		Vector2 tetherPoint = line.GetLast();
+
+		if (Vector2.Distance(testPosition, tetherPoint) > line.FreeLength) {
+			Vector2 direction = testPosition - tetherPoint;
+			testPosition = tetherPoint + (direction.normalized * line.FreeLength);
+			velocity = (testPosition - currentPosition) / Time.deltaTime;
+		}
+
+		return velocity;
+	}
+
+	private Vector2 CalculateWalkingVelocity(Vector2 velocity,
+		InputData input, CharacterData stats, CharacterController2D controller
+	) {
+		float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
+		// TODO: Change to use SmoothDamp instead later
+		velocity.x = Mathf.Lerp(
+			velocity.x,
+			input.HorizontalInput * stats.RunSpeed,
+			Time.deltaTime * damping
+		);
+
+		return velocity;
+	}
+
 	public override void Update() {
 		ForEachGameObject((o, transform, stats, input, line, controller, state) => {
 			SetState(state, controller);
@@ -33,25 +65,9 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
 
 			if (line.IsAnchored()) {
-				velocity.x = Mathf.MoveTowards(velocity.x, 0, Time.deltaTime * stats.SwingDamping);
-
-				Vector2 currentPosition = transform.position;
-				Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
-				Vector2 tetherPoint = line.GetLast();
-
-				if (Vector2.Distance(testPosition, tetherPoint) > line.FreeLength) {
-					Vector2 direction = testPosition - tetherPoint;
-					testPosition = tetherPoint + (direction.normalized * line.FreeLength);
-					velocity = (testPosition - currentPosition) / Time.deltaTime;
-				}
+				velocity = CalculateSwingingVelocity(velocity, transform, stats, line);
 			} else if (state.E != PlayerState.Flung) {
-				float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
-				// TODO: Change to use SmoothDamp instead later
-				velocity.x = Mathf.Lerp(
-					velocity.x,
-					input.HorizontalInput * stats.RunSpeed,
-					Time.deltaTime * damping
-				);
+				velocity = CalculateWalkingVelocity(velocity, input, stats, controller);
 			}
 
 			controller.Move(velocity * Time.deltaTime);
