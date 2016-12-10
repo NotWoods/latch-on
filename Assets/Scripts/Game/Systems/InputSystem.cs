@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class InputSystem : EgoSystem<PlayerMarker, InputData, Transform> {
 	public override void Update() {
-		bool isPaused = Time.timeScale == 0;
-		if (isPaused) return;
+		if (GameManager.IsPaused()) return;
 
 		ForEachGameObject((ego, p, input, transform) => {
 			input.HorizontalInput = Input.GetAxis("Horizontal");

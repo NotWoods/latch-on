@@ -53,4 +53,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 			Time.timeScale = Time.timeScale == 0 ? 1 : 0;
 		}
 	}
+
+	public static bool IsPaused() {
+		return Time.timeScale == 0;
+	}
 }
