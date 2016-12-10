@@ -16,6 +16,7 @@ public class LineData : MonoBehaviour, IDataComponent {
 	public LayerMask NoHookGround;
 
 	public LayerMask CollideOnlyGround {
+		// TODO get normal ground minus no hook ground
 		get { return (LayerMask) NormalGround.value & NoHookGround.value; }
 	}
 

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4356205208967184}
   - component: {fileID: 212616520787690828}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 114364095066591076}
   - component: {fileID: 114623735105338834}
   - component: {fileID: 114055491992643176}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ MonoBehaviour:
   RetractSpeed: 1
   NormalGround:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 512
   NoHookGround:
     serializedVersion: 2
     m_Bits: 1536
@@ -214,7 +214,7 @@ MonoBehaviour:
   _skinWidth: 0.02
   platformMask:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 1792
   triggerMask:
     serializedVersion: 2
     m_Bits: 0

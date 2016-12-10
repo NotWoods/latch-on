@@ -12,5 +12,7 @@ public class CharacterData : MonoBehaviour, IDataComponent {
 	public float GravityBase = -25f;
 	[Range(0, 5)]
 	public float GravityScale = 1;
+
+	[HideInInspector]
 	public Vector2 Velocity = new Vector2();
 }

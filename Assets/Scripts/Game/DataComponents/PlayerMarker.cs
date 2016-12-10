@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// Marks which of the 9 controllers this player is registered to.
 public enum ControlType {
-	Keyboard,
+	Keyboard=-1,
 	Joystick1=0,
 	Joystick2=1,
 	Joystick3=2,
