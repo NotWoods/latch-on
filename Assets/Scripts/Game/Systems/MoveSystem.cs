@@ -68,6 +68,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 
 		if (stats.TimeToWallUnstick > 0) {
 			velocity.x = 0;
+			// Debug.Log(inputXSign + " " + wallXDir); // TODO Debug sticking
 			if (inputXSign != wallXDir && inputXSign != 0) {
 				stats.TimeToWallUnstick -= Time.deltaTime;
 			} else {
@@ -77,15 +78,14 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			stats.TimeToWallUnstick = stats.WallStickTime;
 		}
 
-		if (wallXDir == inputXSign) {
-			velocity.x = -wallXDir * WallJumpClimb.x;
-			velocity.y = WallJumpClimb.y;
-		} else if (inputXSign == 0) {
-			velocity.x = -wallXDir * WallJumpOff.x;
-			velocity.y = WallJumpOff.y;
-		} else {
-			velocity.x = -wallXDir * WallLeap.x;
-			velocity.y = WallLeap.y;
+		if (input.JumpPressed) {
+			Vector2 modifier;
+			if (wallXDir == inputXSign) modifier = WallJumpClimb;
+			else if (inputXSign == 0) modifier = WallJumpOff;
+			else modifier = WallLeap;
+
+			velocity.x = -wallXDir * modifier.x;
+			velocity.y = modifier.y;
 		}
 	}
 
@@ -110,7 +110,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			} else if (state.CurrentMode != PlayerState.Flung) {
 				CalculateWalkingVelocity(ref velocity, stats, input, controller);
 			}
-			if (input.JumpPressed && state.CurrentMode == PlayerState.WallSlide) {
+			if (state.CurrentMode == PlayerState.WallSlide) {
 				CalculateWallJumpVelocity(ref velocity, stats, input, controller);
 			}
 

@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HorizontalInput: 0
+  HorizontalInputRaw: 0
   JumpPressed: 0
   SinkPressed: 0
   HookDown: 0
@@ -159,6 +160,9 @@ MonoBehaviour:
   GroundDamping: 20
   InAirDamping: 5
   SwingDamping: 0.5
+  MaxWallSlideSpeed: 3
+  WallStickTime: 0.25
+  TimeToWallUnstick: 0
   GravityBase: -25
   GravityScale: 1
   Velocity: {x: 0, y: 0}
