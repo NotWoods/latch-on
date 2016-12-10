@@ -20,6 +20,9 @@ public class LineData : MonoBehaviour, IDataComponent {
 		get { return (LayerMask) NormalGround.value & NoHookGround.value; }
 	}
 
+	// [HideInInspector]
+	public Stack<int> MarkedSides = new Stack<int>();
+
 	// Internally, a stack is used for most points but a seperate variable
 	// represents the very top of the stack. This is done so that the
 	// 2nd-to-top point in the line can be easily returned.
@@ -32,7 +35,10 @@ public class LineData : MonoBehaviour, IDataComponent {
 	}
 
 	public void UnwrapLast() {
-		if (points.Count > 0) lastPoint = points.Pop();
+		if (points.Count > 0) {
+			FreeLength += Vector2.Distance(points.Peek(), lastPoint.Value);
+			lastPoint = points.Pop();
+		}
 		else if (lastPoint.HasValue) lastPoint = null;
 		else throw new InvalidOperationException("The LineComponent is empty");
 	}
@@ -72,5 +78,10 @@ public class LineData : MonoBehaviour, IDataComponent {
 
 	public int Count {
 		get { return points.Count + (lastPoint.HasValue ? 1 : 0); }
+	}
+
+	public int Side(Vector2 point) {
+		if (Count < 2) throw new InvalidOperationException();
+		return ExtraMath.SideOfLine(point, GetLast(), GetPenultimate());
 	}
 }

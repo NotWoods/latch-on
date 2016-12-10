@@ -13,7 +13,11 @@ public class InspectableLineData : LineData {
 	}
 
 	public new void UnwrapLast() {
-		if (points.Count > 0) points.RemoveAt(points.Count - 1);
+		if (points.Count > 0) {
+			int count = points.Count;
+			FreeLength += Vector2.Distance(points[count - 1], points[count - 2]);
+			points.RemoveAt(points.Count - 1);
+		}
 		else throw new InvalidOperationException("The LineComponent is empty");
 	}
 
@@ -45,5 +49,10 @@ public class InspectableLineData : LineData {
 
 	public new int Count {
 		get { return points.Count; }
+	}
+
+	public new int Side(Vector2 point) {
+		if (Count < 2) throw new InvalidOperationException();
+		return ExtraMath.SideOfLine(point, GetLast(), GetPenultimate());
 	}
 }

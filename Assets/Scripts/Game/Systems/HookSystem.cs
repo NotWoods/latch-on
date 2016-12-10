@@ -7,6 +7,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 			if (!input.HookDown) {
 				if (state.CurrentMode == PlayerState.Swing) {
 					line.ClearPoints();
+					line.MarkedSides.Clear();
 					line.FreeLength = line.StartingLength;
 					state.Set(PlayerState.Flung); // TODO: maybe only if velocity.x != 0?
 				}
@@ -38,6 +39,14 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 			);
 			if (shouldWrap && line.GetLast() != shouldWrap.point) {
 				line.WrapPoint(shouldWrap.point);
+				line.MarkedSides.Push(line.Side(transform.position));
+			}
+
+			if (line.Count >= 2) {
+				if (line.MarkedSides.Peek() != line.Side(transform.position)) {
+					line.UnwrapLast();
+					line.MarkedSides.Pop();
+				}
 			}
 		});
 	}
