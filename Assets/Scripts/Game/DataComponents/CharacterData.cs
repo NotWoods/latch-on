@@ -8,7 +8,11 @@ public class CharacterData : MonoBehaviour, IDataComponent {
 	public float GroundDamping = 20f;
 	public float InAirDamping = 5f;
 	public float SwingDamping = 0.5f;
+
 	public float MaxWallSlideSpeed = 3;
+	public float WallStickTime = 0.25f;
+	[HideInInspector]
+	public float TimeToWallUnstick = 0;
 
 	public float GravityBase = -25f;
 	[Range(0, 5)]

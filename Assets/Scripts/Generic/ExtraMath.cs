@@ -2,7 +2,7 @@ using UnityEngine;
 
 static class ExtraMath {
 	/// Like Mathf.Sign, but treats 0 seperate from positive numbers.
-	private static int Sign(float number) {
+	public static int Sign(float number) {
 		if (number < 0) return -1;
 		else if (number > 0) return 1;
 		else return 0;

@@ -6,6 +6,7 @@ public class InputSystem : EgoSystem<PlayerMarker, InputData, Transform> {
 
 		ForEachGameObject((ego, p, input, transform) => {
 			input.HorizontalInput = Input.GetAxis("Horizontal");
+			input.HorizontalInputRaw = Input.GetAxisRaw("Horizontal");
 			input.JumpPressed = Input.GetButtonDown("Jump");
 			input.SinkPressed = Input.GetKeyDown(KeyCode.S);
 			input.ShouldRespawn = Input.GetKeyDown(KeyCode.R);

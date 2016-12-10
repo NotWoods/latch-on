@@ -4,6 +4,8 @@ using UnityEngine;
 public class InputData : MonoBehaviour, IDataComponent {
 	[Range(-1, 1)]
 	public float HorizontalInput = 0;
+	[Range(-1, 1)]
+	public float HorizontalInputRaw = 0;
 
 	public bool JumpPressed = false;
 	public bool SinkPressed = false;
