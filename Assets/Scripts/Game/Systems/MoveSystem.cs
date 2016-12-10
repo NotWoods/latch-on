@@ -8,10 +8,10 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			if (controller.isGrounded) {
 				velocity.y = 0;
 
-				if (state.E == PlayerState.Mode.Flung || state.E == PlayerState.Mode.Fall)
-					state.Set(PlayerState.Mode.Walk);
-			} else if (state.E == PlayerState.Mode.Walk) {
-				state.Set(PlayerState.Mode.Fall);
+				if (state.E == PlayerState.Flung || state.E == PlayerState.Fall)
+					state.Set(PlayerState.Walk);
+			} else if (state.E == PlayerState.Walk) {
+				state.Set(PlayerState.Fall);
 			}
 
 			if (controller.isGrounded && input.JumpPressed) {
@@ -25,7 +25,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 				controller.ignoreOneWayPlatformsThisFrame = true;
 			}
 
-			if (!line.IsAnchored() && state.E != PlayerState.Mode.Flung) {
+			if (!line.IsAnchored() && state.E != PlayerState.Flung) {
 				float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
 				// TODO: Change to use SmoothDamp instead later
 				velocity.x = Mathf.Lerp(

@@ -5,10 +5,10 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 	public override void Update() {
 		ForEachGameObject((ego, transform, input, line, state) => {
 			if (!input.HookDown) {
-				if (state.E == PlayerState.Mode.Swing) {
+				if (state.E == PlayerState.Swing) {
 					line.ClearPoints();
 					line.FreeLength = line.StartingLength;
-					state.Set(PlayerState.Mode.Flung);
+					state.Set(PlayerState.Flung);
 				}
 				return;
 			}
@@ -24,7 +24,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 				if (!hit) return;
 				Vector2 hitPoint = hit.point;
 				line.SetAnchor(hitPoint);
-				state.Set(PlayerState.Mode.Swing);
+				state.Set(PlayerState.Swing);
 			}
 
 			float newLength = Vector2.Distance(transform.position, line.GetLast());

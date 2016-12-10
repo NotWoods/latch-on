@@ -2,7 +2,6 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 public class PlayerState : MonoBehaviour, IDataComponent {
-	public enum Mode { Walk, Swing, Flung, Fall }
 	public Mode CurrentMode;
 
 	/// Short alias for current mode.
@@ -12,4 +11,10 @@ public class PlayerState : MonoBehaviour, IDataComponent {
 	}
 
 	public void Set(Mode m) { E = m; }
+
+	public enum Mode { Walk, Swing, Flung, Fall }
+	public static Mode Walk = Mode.Walk;
+	public static Mode Swing = Mode.Swing;
+	public static Mode Flung = Mode.Flung;
+	public static Mode Fall = Mode.Fall;
 }
