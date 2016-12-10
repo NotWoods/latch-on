@@ -8,11 +8,19 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 
 	private void SetState(PlayerState state, CharacterController2D controller) {
 		if (controller.isGrounded) {
-			if (state.E == PlayerState.Flung || state.E == PlayerState.Fall) {
+			if (state.Any(PlayerState.Flung, PlayerState.Fall, PlayerState.WallSlide)) {
 				state.Set(PlayerState.Walk);
 			}
 		} else {
-			if (state.E == PlayerState.Walk) state.Set(PlayerState.Fall);
+			if (state.CurrentMode == PlayerState.Swing) return;
+			var collisions = controller.collisionState;
+
+			if ((collisions.left || collisions.right) && !collisions.below
+			&& controller.velocity.y < 0) {
+				state.Set(PlayerState.WallSlide);
+			} else if (state.Any(PlayerState.Walk, PlayerState.WallSlide)) {
+				state.Set(PlayerState.Fall);
+			}
 		}
 	}
 
@@ -66,8 +74,14 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 
 			if (line.IsAnchored()) {
 				velocity = CalculateSwingingVelocity(velocity, transform, stats, line);
-			} else if (state.E != PlayerState.Flung) {
+			} else if (state.CurrentMode != PlayerState.Flung) {
 				velocity = CalculateWalkingVelocity(velocity, input, stats, controller);
+			}
+
+			if (state.CurrentMode == PlayerState.WallSlide) {
+				if (velocity.y < -stats.MaxWallSlideSpeed) {
+					velocity.y = -stats.MaxWallSlideSpeed;
+				}
 			}
 
 			controller.Move(velocity * Time.deltaTime);

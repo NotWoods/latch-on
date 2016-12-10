@@ -4,17 +4,21 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour, IDataComponent {
 	public Mode CurrentMode;
 
-	/// Short alias for current mode.
-	public Mode E {
-		get { return CurrentMode; }
-		set { CurrentMode = value; }
+	public void Set(Mode m) { CurrentMode = m; }
+
+	/// Checks if the current state is the same as any of the given options.
+	public bool Any(params Mode[] states) {
+		for (int i = 0; i < states.Length; i++) {
+			if (CurrentMode == states[i]) return true;
+		}
+
+		return false;
 	}
 
-	public void Set(Mode m) { E = m; }
-
-	public enum Mode { Walk, Swing, Flung, Fall }
-	public static Mode Walk = Mode.Walk;
-	public static Mode Swing = Mode.Swing;
-	public static Mode Flung = Mode.Flung;
-	public static Mode Fall = Mode.Fall;
+	public enum Mode { Walk, Swing, Flung, Fall, WallSlide }
+	public static readonly Mode Walk = Mode.Walk;
+	public static readonly Mode Swing = Mode.Swing;
+	public static readonly Mode Flung = Mode.Flung;
+	public static readonly Mode Fall = Mode.Fall;
+	public static readonly Mode WallSlide = Mode.WallSlide;
 }

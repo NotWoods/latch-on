@@ -1,7 +1,7 @@
 public class GravitySystem : EgoSystem<PlayerState, CharacterData> {
 	public override void Update() {
 		ForEachGameObject((ego, state, charStats) => {
-			charStats.GravityScale = GetScale(state.E);
+			charStats.GravityScale = GetScale(state.CurrentMode);
 		});
 	}
 

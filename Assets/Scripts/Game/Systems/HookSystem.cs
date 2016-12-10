@@ -5,10 +5,10 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 	public override void Update() {
 		ForEachGameObject((ego, transform, input, line, state) => {
 			if (!input.HookDown) {
-				if (state.E == PlayerState.Swing) {
+				if (state.CurrentMode == PlayerState.Swing) {
 					line.ClearPoints();
 					line.FreeLength = line.StartingLength;
-					state.Set(PlayerState.Flung);
+					state.Set(PlayerState.Flung); // TODO: maybe only if velocity.x != 0?
 				}
 				return;
 			}
