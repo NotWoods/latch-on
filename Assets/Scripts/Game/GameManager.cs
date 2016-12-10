@@ -7,10 +7,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	public GameObject PlayerPrefab;
 
 	[SerializeField]
-	private Dictionary<ControlType, GameObject> Players = new Dictionary<ControlType, GameObject>();
+	private Dictionary<ControlType, GameObject> Players;
 	private Transform spawnPoint;
 
 	void Awake() {
+		Players = new Dictionary<ControlType, GameObject>();
 		spawnPoint = transform.Find(SpawnPointName);
 	}
 
@@ -25,5 +26,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		Players.Add(controller, player);
 		player.GetComponent<Prime31.CharacterController2D>().warpToGrounded();
 		return player;
+	}
+
+	void Update() {
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+		}
 	}
 }
