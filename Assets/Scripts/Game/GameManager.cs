@@ -38,12 +38,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		return player;
 	}
 
-	void SpawnCamera(GameObject target) {
+	Camera SpawnCamera(GameObject target) {
 		Collider2D collider = target.GetComponent<Collider2D>();
-		GameObject camera = Instantiate(CameraPrefab);
-		Debug.LogWarning("No camera?");
+		Camera camera = Camera.main == null
+			? Instantiate(CameraPrefab).GetComponent<Camera>()
+			: Camera.main;
 
 		camera.GetComponent<FollowerCamera>().Target = collider;
+		return camera;
 	}
 
 	void Update() {
