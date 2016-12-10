@@ -5,6 +5,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	const string SpawnPointName = "Spawn Point";
 
 	public GameObject PlayerPrefab;
+	public GameObject CameraPrefab;
+	public Transform ActorContainer;
 
 	[SerializeField]
 	private Dictionary<ControlType, GameObject> Players;
@@ -13,19 +15,35 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	void Awake() {
 		Players = new Dictionary<ControlType, GameObject>();
 		spawnPoint = transform.Find(SpawnPointName);
+
+		InitGame();
 	}
 
-	public GameObject SpawnPlayer(ControlType controller = ControlType.Keyboard) {
-		if (Players.ContainsKey(controller)) return null;
+	void InitGame() {
+		if (Players.Count == 0) SpawnCamera(SpawnPlayer());
+	}
+
+	GameObject SpawnPlayer(ControlType controller = ControlType.Keyboard) {
+		if (Players.ContainsKey(controller)) return Players[controller];
 
 		GameObject player = Instantiate(PlayerPrefab, spawnPoint.position, Quaternion.identity);
+		if (ActorContainer) player.transform.parent = ActorContainer;
 
 		PlayerMarker marker = player.AddComponent<PlayerMarker>();
 		marker.Controller = controller;
 
 		Players.Add(controller, player);
 		player.GetComponent<Prime31.CharacterController2D>().warpToGrounded();
+
 		return player;
+	}
+
+	void SpawnCamera(GameObject target) {
+		Collider2D collider = target.GetComponent<Collider2D>();
+		GameObject camera = Instantiate(CameraPrefab);
+		Debug.LogWarning("No camera?");
+
+		camera.GetComponent<FollowerCamera>().Target = collider;
 	}
 
 	void Update() {

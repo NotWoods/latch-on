@@ -3,7 +3,7 @@ using UnityEngine;
 public class FollowerCamera : MonoBehaviour {
 	public Vector2 FocusZone = new Vector2(3, 6);
 
-	//[HideInInspector]
+	// [HideInInspector]
 	public Collider2D Target;
 	private Bounds focusBox;
 	private Vector3 cameraOffset;
