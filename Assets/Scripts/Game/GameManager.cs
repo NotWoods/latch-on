@@ -35,6 +35,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		Players.Add(controller, player);
 		player.GetComponent<Prime31.CharacterController2D>().warpToGrounded();
 
+		Ego.AddGameObject(player);
 		return player;
 	}
 
@@ -51,6 +52,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+		}
+
+		if (Input.GetKeyDown(KeyCode.F5)) {
+			foreach (ControlType c in System.Enum.GetValues(typeof (ControlType))) {
+				if (!Players.ContainsKey(c)) {
+					SpawnPlayer(c);
+					break;
+				}
+			}
 		}
 	}
 
