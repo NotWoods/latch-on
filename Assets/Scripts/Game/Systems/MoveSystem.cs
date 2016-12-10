@@ -28,7 +28,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 		}
 	}
 
-	private Vector2 CalculateSwingingVelocity(Vector2 velocity,
+	private void CalculateSwingingVelocity(ref Vector2 velocity,
 		Transform transform, CharacterData stats, InspectableLineData line
 	) {
 		velocity.x = Mathf.MoveTowards(velocity.x, 0, Time.deltaTime * stats.SwingDamping);
@@ -42,11 +42,9 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			testPosition = tetherPoint + (direction.normalized * line.FreeLength);
 			velocity = (testPosition - currentPosition) / Time.deltaTime;
 		}
-
-		return velocity;
 	}
 
-	private Vector2 CalculateWalkingVelocity(Vector2 velocity,
+	private void CalculateWalkingVelocity(ref Vector2 velocity,
 		CharacterData stats, InputData input, CharacterController2D controller
 	) {
 		float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
@@ -56,11 +54,9 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			input.HorizontalInput * stats.RunSpeed,
 			Time.deltaTime * damping
 		);
-
-		return velocity;
 	}
 
-	private Vector2 CalculateWallJumpVelocity(Vector2 velocity,
+	private void CalculateWallJumpVelocity(ref Vector2 velocity,
 		CharacterData stats, InputData input, CharacterController2D controller
 	) {
 		if (velocity.y < -stats.MaxWallSlideSpeed) {
@@ -91,8 +87,6 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			velocity.x = -wallXDir * WallLeap.x;
 			velocity.y = WallLeap.y;
 		}
-
-		return velocity;
 	}
 
 	public override void Update() {
@@ -112,12 +106,12 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
 
 			if (line.IsAnchored()) {
-				velocity = CalculateSwingingVelocity(velocity, transform, stats, line);
+				CalculateSwingingVelocity(ref velocity, transform, stats, line);
 			} else if (state.CurrentMode != PlayerState.Flung) {
-				velocity = CalculateWalkingVelocity(velocity, stats, input, controller);
+				CalculateWalkingVelocity(ref velocity, stats, input, controller);
 			}
 			if (input.JumpPressed && state.CurrentMode == PlayerState.WallSlide) {
-				velocity = CalculateWallJumpVelocity(velocity, stats, input, controller);
+				CalculateWallJumpVelocity(ref velocity, stats, input, controller);
 			}
 
 			controller.Move(velocity * Time.deltaTime);
