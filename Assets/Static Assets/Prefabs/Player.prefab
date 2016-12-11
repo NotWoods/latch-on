@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e169c93653adc5a4f9c43b4a9746a34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunSpeed: 8
+  RunSpeed: 10
   JumpHeight: 3
   GroundDamping: 20
   InAirDamping: 5
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartingLength: 20
   FreeLength: 10
-  RetractSpeed: 1
+  RetractSpeed: 2
   NormalGround:
     serializedVersion: 2
     m_Bits: 512

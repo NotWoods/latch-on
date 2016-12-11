@@ -8,12 +8,11 @@ public class EgoInterface : MonoBehaviour {
 			new InputSystem(),
 			new LineRendererSystem(),
 			new CursorRendererSystem(),
-			new RespawnSystem(),
-			new GravitySystem()
+			new RespawnSystem()
 		);
 	}
 
 	void Start() { EgoSystems.Start(); }
 	void Update() { EgoSystems.Update(); }
-	void FixedUpdate() { EgoSystems.Update(); }
+	void FixedUpdate() { EgoSystems.FixedUpdate(); }
 }
