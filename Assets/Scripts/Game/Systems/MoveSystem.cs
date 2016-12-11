@@ -23,7 +23,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			&& controller.velocity.y < 0) {
 				state.Set(PlayerState.WallSlide);
 			} else if (state.Any(PlayerState.Walk, PlayerState.WallSlide)) {
-				state.Set(PlayerState.Fall);
+				state.Set(PlayerState.Fall); // TODO: right/left collision can get cleared while on wall
 			}
 		}
 	}
@@ -105,7 +105,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 
 			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
 
-			if (line.IsAnchored()) {
+			if (state.CurrentMode == PlayerState.Swing) {
 				CalculateSwingingVelocity(ref velocity, transform, stats, line);
 			} else if (state.CurrentMode != PlayerState.Flung) {
 				CalculateWalkingVelocity(ref velocity, stats, input, controller);
@@ -113,6 +113,8 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			if (state.CurrentMode == PlayerState.WallSlide) {
 				CalculateWallJumpVelocity(ref velocity, stats, input, controller);
 			}
+
+			if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
 
 			controller.Move(velocity * Time.deltaTime);
 			stats.Velocity = controller.velocity;

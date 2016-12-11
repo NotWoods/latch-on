@@ -11,13 +11,13 @@ public class CharacterData : MonoBehaviour, IDataComponent {
 
 	public float MaxWallSlideSpeed = 2.5f;
 	public float WallStickTime = 0.25f;
-	//[HideInInspector]
-	public float TimeToWallUnstick = 0;
+	internal float TimeToWallUnstick = 0;
 
 	public float GravityBase = -25f;
 	[Range(0, 5)]
 	public float GravityScale = 1;
 
-	[HideInInspector]
-	public Vector2 Velocity = new Vector2();
+	public float MaxFallSpeed = 15;
+
+	internal Vector2 Velocity = new Vector2();
 }

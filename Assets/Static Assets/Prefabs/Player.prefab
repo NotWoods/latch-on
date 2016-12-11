@@ -162,10 +162,9 @@ MonoBehaviour:
   SwingDamping: 0.5
   MaxWallSlideSpeed: 3
   WallStickTime: 0.25
-  TimeToWallUnstick: 0
   GravityBase: -25
   GravityScale: 1
-  Velocity: {x: 0, y: 0}
+  MaxFallSpeed: 25
 --- !u!114 &114539055424611204
 MonoBehaviour:
   m_ObjectHideFlags: 1
