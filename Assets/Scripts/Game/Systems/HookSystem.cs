@@ -6,7 +6,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 		ForEachGameObject((ego, transform, input, line, state, stats) => {
 			// TODO can't grapple when state == Fall...
 			if (!input.HookDown) {
-				if (state.CurrentMode == PlayerState.Swing) {
+				if (line.IsAnchored()) {
 					line.ClearPoints();
 					line.MarkedSides.Clear();
 					line.FreeLength = line.StartingLength;

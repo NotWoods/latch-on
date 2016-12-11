@@ -15,10 +15,9 @@ public class PlayerState : MonoBehaviour, IDataComponent {
 		return false;
 	}
 
-	public enum Mode { Walk, Swing, Flung, Fall, WallSlide }
+	public enum Mode { Walk, Swing, Flung, Fall }
 	public static readonly Mode Walk = Mode.Walk;
 	public static readonly Mode Swing = Mode.Swing;
 	public static readonly Mode Flung = Mode.Flung;
 	public static readonly Mode Fall = Mode.Fall;
-	public static readonly Mode WallSlide = Mode.WallSlide;
 }

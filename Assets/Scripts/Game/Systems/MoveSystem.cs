@@ -11,20 +11,17 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 	}
 
 	private void SetState(PlayerState state, CharacterController2D controller) {
-		if (controller.isGrounded) {
-			if (state.Any(PlayerState.Flung, PlayerState.Fall, PlayerState.WallSlide)) {
-				state.Set(PlayerState.Walk);
-			}
-		} else {
-			if (state.CurrentMode == PlayerState.Swing) return;
-			var collisions = controller.collisionState;
+		switch (state.CurrentMode) {
+			case PlayerState.Mode.Flung:
+			case PlayerState.Mode.Fall:
+				if (controller.isGrounded) state.Set(PlayerState.Walk); break;
 
-			if ((collisions.left || collisions.right) && !collisions.below
-			&& controller.velocity.y < 0) {
-				state.Set(PlayerState.WallSlide);
-			} else if (state.Any(PlayerState.Walk, PlayerState.WallSlide)) {
-				state.Set(PlayerState.Fall); // TODO: right/left collision can get cleared while on wall
-			}
+			case PlayerState.Mode.Walk:
+				if (!controller.isGrounded) state.Set(PlayerState.Fall); break;
+
+			case PlayerState.Mode.Swing:
+			default:
+				break;
 		}
 	}
 
@@ -110,7 +107,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 			} else if (state.CurrentMode != PlayerState.Flung) {
 				CalculateWalkingVelocity(ref velocity, stats, input, controller);
 			}
-			if (state.CurrentMode == PlayerState.WallSlide) {
+			if (false) {
 				CalculateWallJumpVelocity(ref velocity, stats, input, controller);
 			}
 
@@ -118,7 +115,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 
 			controller.Move(velocity * Time.deltaTime);
 			stats.Velocity = controller.velocity;
-			input.ClearPressed();
+			input.JumpPressed = input.SinkPressed = false;
 		});
 	}
 }
