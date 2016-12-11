@@ -118,6 +118,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 
 			controller.Move(velocity * Time.deltaTime);
 			stats.Velocity = controller.velocity;
+			input.ClearPressed();
 		});
 	}
 }

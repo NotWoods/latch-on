@@ -8,8 +8,7 @@ public class EgoInterface : MonoBehaviour {
 			new InputSystem(),
 			new LineRendererSystem(),
 			new CursorRendererSystem(),
-			new RespawnSystem(),
-			new GravitySystem()
+			new RespawnSystem()
 		);
 	}
 

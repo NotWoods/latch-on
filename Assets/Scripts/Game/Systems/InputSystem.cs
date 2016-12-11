@@ -7,9 +7,9 @@ public class InputSystem : EgoSystem<PlayerMarker, InputData, Transform> {
 		ForEachGameObject((ego, p, input, transform) => {
 			input.HorizontalInput = Input.GetAxis("Horizontal");
 			input.HorizontalInputRaw = Input.GetAxisRaw("Horizontal");
-			input.JumpPressed = Input.GetButtonDown("Jump");
-			input.SinkPressed = Input.GetKeyDown(KeyCode.S);
-			input.ShouldRespawn = Input.GetKeyDown(KeyCode.R);
+			if (Input.GetButtonDown("Jump")) input.JumpPressed = true;
+			if (Input.GetKeyDown(KeyCode.S)) input.SinkPressed = true;
+			if (Input.GetKeyDown(KeyCode.R)) input.ShouldRespawn = true;
 
 			bool touchDown = Input.touchCount > 0;
 			bool mouseDown = Input.GetButton("Grapple To Point");

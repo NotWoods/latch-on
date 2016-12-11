@@ -17,4 +17,8 @@ public class InputData : MonoBehaviour, IDataComponent {
 
 	public enum PointerMode { Mouse, Touch, Controller }
 	public PointerMode Mode = PointerMode.Mouse;
+
+	public void ClearPressed() {
+		JumpPressed = SinkPressed = false;
+	}
 }
