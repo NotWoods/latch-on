@@ -9,15 +9,10 @@ public class CharacterData : MonoBehaviour, IDataComponent {
 	public float InAirDamping = 5f;
 	public float SwingDamping = 0.5f;
 
-	public float MaxWallSlideSpeed = 2.5f;
-	public float WallStickTime = 0.25f;
-	internal float TimeToWallUnstick = 0;
-
 	public float GravityBase = -25f;
 	[Range(0, 5)]
 	public float GravityScale = 1;
 
 	public float MaxFallSpeed = 15;
-
 	internal Vector2 Velocity = new Vector2();
 }

@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 114364095066591076}
   - component: {fileID: 114623735105338834}
   - component: {fileID: 114055491992643176}
+  - component: {fileID: 114658940595419728}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -160,8 +161,6 @@ MonoBehaviour:
   GroundDamping: 20
   InAirDamping: 5
   SwingDamping: 0.5
-  MaxWallSlideSpeed: 3
-  WallStickTime: 0.25
   GravityBase: -25
   GravityScale: 1
   MaxFallSpeed: 25
@@ -202,6 +201,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   points: []
+--- !u!114 &114658940595419728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1674682676655902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c6eb356cf91344197a98b76d9cef69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxSlideSpeed: 2.5
+  StickTime: 0.25
 --- !u!114 &114776317598288742
 MonoBehaviour:
   m_ObjectHideFlags: 1
