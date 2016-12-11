@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CursorRendererSystem : EgoSystem<PlayerMarker, Transform, InspectableLineData, InputData, CursorAlias> {
+public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, InspectableLineData, InputData, CursorAlias> {
 	public float PreviewDistance = 2f;
 
 	public override void Update() {

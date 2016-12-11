@@ -29,7 +29,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		GameObject player = Instantiate(PlayerPrefab, spawnPoint.position, Quaternion.identity);
 		if (ActorContainer) player.transform.parent = ActorContainer;
 
-		PlayerMarker marker = player.AddComponent<PlayerMarker>();
+		LocalPlayer marker = player.AddComponent<LocalPlayer>();
 		marker.Controller = controller;
 
 		Players.Add(controller, player);

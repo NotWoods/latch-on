@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputSystem : EgoSystem<PlayerMarker, InputData, Transform> {
+public class InputSystem : EgoSystem<LocalPlayer, InputData, Transform> {
 	private Vector2 getPointerDir(InputData input, Vector2 playerPosition) {
 		Vector2 result = Vector2.zero;
 
