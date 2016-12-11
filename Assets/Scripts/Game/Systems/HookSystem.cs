@@ -1,9 +1,10 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, PlayerState> {
+public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, PlayerState, CharacterData> {
 	public override void Update() {
-		ForEachGameObject((ego, transform, input, line, state) => {
+		ForEachGameObject((ego, transform, input, line, state, stats) => {
+			// TODO can't grapple when state == Fall...
 			if (!input.HookDown) {
 				if (state.CurrentMode == PlayerState.Swing) {
 					line.ClearPoints();
@@ -38,7 +39,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 				line.NoHookGround
 			);
 			if (shouldWrap && line.GetLast() != shouldWrap.point) {
-				line.WrapPoint(shouldWrap.point);
+				line.WrapPoint(shouldWrap.point + stats.Velocity.normalized * -0.1f);
 				line.MarkedSides.Push(line.Side(transform.position));
 			}
 
