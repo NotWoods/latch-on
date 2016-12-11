@@ -20,8 +20,7 @@ public class LineData : MonoBehaviour, IDataComponent {
 		get { return (LayerMask) NormalGround.value & NoHookGround.value; }
 	}
 
-	[HideInInspector]
-	public Stack<int> MarkedSides = new Stack<int>();
+	internal Stack<int> MarkedSides = new Stack<int>();
 
 	// Internally, a stack is used for most points but a seperate variable
 	// represents the very top of the stack. This is done so that the

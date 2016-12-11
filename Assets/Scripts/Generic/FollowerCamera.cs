@@ -3,8 +3,7 @@ using UnityEngine;
 public class FollowerCamera : MonoBehaviour {
 	public Vector2 FocusZone = new Vector2(3, 6);
 
-	[HideInInspector]
-	public Collider2D Target;
+	internal Collider2D Target;
 	private Bounds focusBox;
 	private Vector3 cameraOffset;
 	private Color gizmoColor = new Color(1, 0, 0, 0.1f);
