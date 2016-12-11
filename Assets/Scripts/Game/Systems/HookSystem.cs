@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// Manages rope attachment and wrapping
 public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, PlayerState, CharacterData> {
-	public override void Update() {
+	public override void FixedUpdate() {
 		ForEachGameObject((ego, transform, input, line, state, stats) => {
 			// TODO can't grapple when state == Fall...
 			if (!input.HookDown) {

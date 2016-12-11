@@ -89,7 +89,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, InputData, Inspect
 		}
 	}
 
-	public override void Update() {
+	public override void FixedUpdate() {
 		ForEachGameObject((o, transform, stats, input, line, controller, state) => {
 			SetState(state, controller);
 
