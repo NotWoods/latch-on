@@ -15,4 +15,5 @@ public class EgoInterface : MonoBehaviour {
 	void Start() { EgoSystems.Start(); }
 	void Update() { EgoSystems.Update(); }
 	void FixedUpdate() { EgoSystems.FixedUpdate(); }
+	void LateUpdate() { EgoSystems.LateUpdate(); }
 }

@@ -71,7 +71,20 @@ public static class EgoSystems
             if( system.enabled ) system.FixedUpdate();
 #else
             system.FixedUpdate();
-#endif            
+#endif
+        }
+    }
+
+    public static void LateUpdate()
+    {
+        // Update all Systems
+        foreach( var system in _systems )
+        {
+#if UNITY_EDITOR
+            if( system.enabled ) system.LateUpdate();
+#else
+            system.LateUpdate();
+#endif
         }
     }
 }

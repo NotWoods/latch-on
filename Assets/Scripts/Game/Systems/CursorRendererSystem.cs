@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, InspectableLineData, InputData> {
 	public float PreviewDistance = 2f;
@@ -9,9 +8,7 @@ public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, Inspectabl
 	public Color HighlightColor = Color.white;
 	public Color DarkColor = Color.gray;
 
-	private List<Image> cursors = new List<Image>();
-
-	public override void Update() {
+	public override void LateUpdate() {
 		int i = 0;
 		ForEachGameObject((o, p, transform, line, input) => {
 			bool shouldHighlight = Physics2D.Raycast(transform.position,
@@ -23,10 +20,18 @@ public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, Inspectabl
 				? cursorCheck.point
 				: (Vector2) transform.position + (input.PointerDir * PreviewDistance);
 
-			Image cursor = cursors[i];
+			Image cursor = UIManager.Instance.GetCursor(i);
 			cursor.color = Color.Lerp(
 				cursor.color,
 				shouldHighlight ? HighlightColor : DarkColor,
+				Time.deltaTime * 10
+			);
+
+			RectTransform cursorTransform = cursor.rectTransform;
+			cursorTransform.position = Camera.main.WorldToScreenPoint(position);
+			cursorTransform.localScale = Vector2.Lerp(
+				cursorTransform.localScale,
+				Vector2.one * (shouldHighlight ? HighlightScale : DarkScale),
 				Time.deltaTime * 10
 			);
 
