@@ -7,7 +7,7 @@ public class Needle : MonoBehaviour {
 	// private SpriteRenderer spriteRenderer;
 	private Transform loop;
 
-	void Start() {
+	void Awake() {
 		// spriteRenderer = transform.Find(SpriteChildName).GetComponent<SpriteRenderer>();
 		loop = transform.Find(LoopChildName);
 	}

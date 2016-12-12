@@ -62,7 +62,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 
 			float newLength = Vector2.Distance(transform.position, line.GetLast());
 			newLength -= line.RetractSpeed * Time.deltaTime;
-			line.FreeLength = Mathf.Clamp(newLength, 0, line.StartingLength);
+			line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
 
 			TryWrap(line, transform, stats);
 			TryUnwrap(line, transform);

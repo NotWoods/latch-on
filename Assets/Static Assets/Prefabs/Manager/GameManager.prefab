@@ -85,6 +85,7 @@ MonoBehaviour:
     type: 2}
   CameraPrefab: {fileID: 175126, guid: fa7e08246711c2f4cba45c2b9aea7c03, type: 2}
   ActorContainer: {fileID: 0}
+  PropsContainer: {fileID: 0}
 --- !u!114 &114781716080590478
 MonoBehaviour:
   m_ObjectHideFlags: 1

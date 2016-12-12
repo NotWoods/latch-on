@@ -6,7 +6,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 
 	public GameObject PlayerPrefab;
 	public GameObject CameraPrefab;
+
 	public Transform ActorContainer;
+	public Transform PropsContainer;
 
 	[SerializeField]
 	private Dictionary<ControlType, GameObject> Players;

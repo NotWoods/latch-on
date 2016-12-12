@@ -29,5 +29,10 @@ public class LinkedProps : MonoBehaviour, IDataComponent {
 
 	public GameObject NeedlePrefab;
 	public Needle Needle {
-		get { return localInstance(NeedlePrefab).GetComponent<Needle>(); } }
+		get {
+			return localInstance(NeedlePrefab, (needle) => {
+				needle.transform.SetParent(GameManager.Instance.PropsContainer);
+			}).GetComponent<Needle>();
+		}
+	}
 }
