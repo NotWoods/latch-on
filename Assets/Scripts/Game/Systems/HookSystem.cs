@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, PlayerState, CharacterData> {
+public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, PlayerState, CharacterData, LinkedProps> {
 	public float MinFlingSpeed = 0.1f;
 
 	private void DisconnectLine(InspectableLineData line,
@@ -41,8 +41,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 	}
 
 	public override void FixedUpdate() {
-		ForEachGameObject((ego, transform, input, line, state, stats) => {
-			// TODO can't grapple when state == Fall...
+		ForEachGameObject((ego, transform, input, line, state, stats, links) => {
 			if (!input.HookDown) {
 				if (line.IsAnchored()) DisconnectLine(line, state, stats);
 				return;
@@ -55,7 +54,9 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 				);
 
 				if (!hit) return;
-				line.SetAnchor(hit.point);
+
+				Vector2 needleLoop = links.Needle.AttachTo(hit.point, input.PointerDir);
+				line.SetAnchor(needleLoop);
 				state.Set(PlayerState.Swing);
 			}
 

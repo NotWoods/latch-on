@@ -3,12 +3,13 @@ using System.Collections.Generic;
 
 [DisallowMultipleComponent]
 public class LinkedProps : MonoBehaviour, IDataComponent {
-	private Dictionary<GameObject, GameObject> instances;
+	private Dictionary<GameObject, GameObject> instances = new Dictionary<GameObject, GameObject>();
 	private delegate void NewInstanceDelegate(GameObject newInstance);
 	private GameObject localInstance(GameObject prefab, NewInstanceDelegate callback) {
 		if (instances.ContainsKey(prefab)) return instances[prefab];
 		GameObject result = Instantiate(prefab);
 		callback(result);
+		instances.Add(prefab, result);
 		return result;
 	}
 	private GameObject localInstance(GameObject prefab) {
