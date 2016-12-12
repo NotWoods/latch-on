@@ -28,7 +28,7 @@ public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, Inspectabl
 			);
 
 			RectTransform cursorTransform = cursor.rectTransform;
-			cursorTransform.position = Camera.main.WorldToScreenPoint(position);
+			cursorTransform.position = position;
 			cursorTransform.localScale = Vector2.Lerp(
 				cursorTransform.localScale,
 				Vector2.one * (shouldHighlight ? HighlightScale : DarkScale),
