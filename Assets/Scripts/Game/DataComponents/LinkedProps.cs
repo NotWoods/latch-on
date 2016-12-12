@@ -15,6 +15,8 @@ public class LinkedProps : MonoBehaviour, IDataComponent {
 		return localInstance(prefab, (p) => {});
 	}
 
+
+
 	public GameObject CursorPrefab;
 	public GameObject Cursor {
 		get {
@@ -23,7 +25,8 @@ public class LinkedProps : MonoBehaviour, IDataComponent {
 			});
 		}
 	}
+
 	public GameObject NeedlePrefab;
-	public GameObject Needle {
-		get { return localInstance(NeedlePrefab); } }
+	public Needle Needle {
+		get { return localInstance(NeedlePrefab).GetComponent<Needle>(); } }
 }
