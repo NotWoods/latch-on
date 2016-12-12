@@ -22,6 +22,9 @@ Layers
 ## Water
 ## UI
 
+## Actor
+Objects in this layer should be characters like players and NPCs
+
 ## Ground
 Objects representing the ground.
 Should be located in World/Ground in the scene.

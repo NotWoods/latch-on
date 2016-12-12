@@ -265,7 +265,7 @@ public class CharacterController2D : MonoBehaviour
 			handleVerticalSlope( ref deltaMovement );
 
 		// now we check movement in the horizontal dir
-		if( deltaMovement.x != 0f )
+		// if( deltaMovement.x != 0f )
 			moveHorizontally( ref deltaMovement );
 
 		// next, check movement in the vertical dir
