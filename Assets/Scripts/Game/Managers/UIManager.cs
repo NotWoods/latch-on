@@ -8,15 +8,15 @@ public class UIManager : SingletonMonoBehaviour<UIManager> {
 	public GameObject CursorPrefab;
 
 	private List<Image> cursors;
-	private Transform canvas;
+	public static Transform Canvas;
 
 	void Awake() {
 		cursors = new List<Image>();
 
 		if (GetComponent<Canvas>() != null) {
-			canvas = transform;
+			Canvas = transform;
 		} else {
-			canvas = transform.Find(CanvasName);
+			Canvas = transform.Find(CanvasName);
 		}
 	}
 
@@ -24,7 +24,7 @@ public class UIManager : SingletonMonoBehaviour<UIManager> {
 		if (cursors.Count > index) return cursors[index];
 
 		Image cursor = Instantiate(CursorPrefab).GetComponent<Image>();
-		cursor.rectTransform.SetParent(canvas, false);
+		cursor.rectTransform.SetParent(Canvas, false);
 		cursors.Add(cursor);
 		return cursor;
 	}
