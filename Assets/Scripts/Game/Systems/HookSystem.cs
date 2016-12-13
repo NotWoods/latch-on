@@ -43,7 +43,10 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 	public override void FixedUpdate() {
 		ForEachGameObject((ego, transform, input, line, state, stats, links) => {
 			if (!input.HookDown) {
-				if (line.IsAnchored()) DisconnectLine(line, state, stats);
+				if (line.IsAnchored()) {
+					DisconnectLine(line, state, stats);
+					links.Needle.GiveTo(transform);
+				}
 				return;
 			}
 
@@ -55,7 +58,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 
 				if (!hit) return;
 
-				Vector2 needleLoop = links.Needle.AttachTo(hit.point, input.PointerDir);
+				Vector2 needleLoop = links.Needle.ThrowTo(hit.point, input.PointerDir);
 				line.SetAnchor(needleLoop);
 				state.Set(PlayerState.Swing);
 			}
