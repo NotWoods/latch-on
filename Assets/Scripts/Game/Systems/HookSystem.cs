@@ -45,7 +45,7 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 			if (!input.HookDown) {
 				if (line.IsAnchored()) {
 					DisconnectLine(line, state, stats);
-					links.Needle.GiveTo(transform);
+					// links.Needle.GiveTo(transform);
 				}
 				return;
 			}
