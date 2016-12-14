@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa240d239a9fa54e9409918ddfa06a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoreOneWayPlatformsThisFrame: 0
+  ignoreOneWayPlatformsThisFrame: 1
   _skinWidth: 0.02
   platformMask:
     serializedVersion: 2
@@ -124,7 +124,7 @@ MonoBehaviour:
     m_Bits: 0
   oneWayPlatformMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   slopeLimit: 30
   jumpingThreshold: 0.07
   slopeSpeedMultiplier:
@@ -212,7 +212,7 @@ MonoBehaviour:
   RetractSpeed: 2
   NormalGround:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 2560
   NoHookGround:
     serializedVersion: 2
     m_Bits: 1536
