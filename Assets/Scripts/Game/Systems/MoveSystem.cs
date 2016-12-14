@@ -7,7 +7,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 	}
 
 	private void SetState(PlayerState state, WallSlideData wallData,
-		CharacterController2D controller) {
+		CharacterController2D controller, InputData input) {
 		switch (state.CurrentMode) {
 			case PlayerState.Mode.Flung:
 			case PlayerState.Mode.Fall:
@@ -22,7 +22,8 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 		}
 
 		var collided = controller.collisionState;
-		if ((collided.left || collided.right) && !collided.below) {
+		if ((collided.left || collided.right)
+		&& !collided.below && input.HorizontalInput != 0) {
 			if (collided.left) wallData.Side = -1;
 			else if (collided.right) wallData.Side = 1;
 		} else  {
@@ -59,15 +60,14 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 	}
 
 	private void CalculateWallJumpVelocity(ref Vector2 velocity,
-		CharacterData stats, WallSlideData wall,
-		InputData input, CharacterController2D controller
+		WallSlideData wall, InputData input, PlayerState state
 	) {
 		if (velocity.y < -wall.MaxSlideSpeed) velocity.y = -wall.MaxSlideSpeed;
 		int inputXSign = ExtraMath.Sign(input.HorizontalInputRaw);
 
-		if (wall.TimeToUnstick > 0) {
+		if (wall.TimeToUnstick > 0 && state.CurrentMode != PlayerState.Swing && inputXSign != 0) {
 			velocity.x = 0;
-			if (inputXSign != wall.Side && inputXSign != 0) {
+			if (inputXSign != wall.Side) {
 				wall.TimeToUnstick -= Time.deltaTime;
 			} else {
 				wall.ResetTime();
@@ -78,8 +78,9 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 
 		if (input.JumpPressed) {
 			Vector2 modifier;
-			if (inputXSign == wall.Side) modifier = wall.WallJumpClimb;
-			else if (inputXSign == 0) modifier = wall.WallJumpOff;
+			if (state.CurrentMode == PlayerState.Swing) modifier = wall.WallJumpSwing;
+			else if (inputXSign == wall.Side) modifier = wall.WallJumpClimb;
+			// else if (inputXSign == 0) modifier = wall.WallJumpOff;
 			else { modifier = wall.WallLeap; }
 
 			velocity.x = -wall.Side * modifier.x;
@@ -89,7 +90,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 
 	public override void FixedUpdate() {
 		ForEachGameObject((o, transform, stats, wallData, input, line, controller, state) => {
-			SetState(state, wallData, controller);
+			SetState(state, wallData, controller, input);
 
 			Vector2 velocity = stats.Velocity;
 			if (controller.isGrounded) {
@@ -109,7 +110,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 				CalculateWalkingVelocity(ref velocity, stats, input, controller);
 			}
 			if (wallData.IsSliding) {
-				CalculateWallJumpVelocity(ref velocity, stats, wallData, input, controller);
+				CalculateWallJumpVelocity(ref velocity, wallData, input, state);
 			}
 
 			if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;

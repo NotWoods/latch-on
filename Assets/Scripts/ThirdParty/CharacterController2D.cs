@@ -18,6 +18,7 @@ public class CharacterController2D : MonoBehaviour
 		public Vector3 bottomLeft;
 	}
 
+	[Serializable]
 	public class CharacterCollisionState2D
 	{
 		public bool right;
@@ -119,7 +120,8 @@ public class CharacterController2D : MonoBehaviour
 	/// <summary>
 	/// curve for multiplying speed based on slope (negative = down slope and positive = up slope)
 	/// </summary>
-	public AnimationCurve slopeSpeedMultiplier = new AnimationCurve( new Keyframe( -90f, 1.5f ), new Keyframe( 0f, 1f ), new Keyframe( 90f, 0f ) );
+	public AnimationCurve slopeSpeedMultiplier = new AnimationCurve(
+		new Keyframe(-90, 1.5f), new Keyframe(0, 1), new Keyframe(90, 0));
 
 	[Range( 2, 20 )]
 	public int totalHorizontalRays = 8;
@@ -141,7 +143,7 @@ public class CharacterController2D : MonoBehaviour
 	[HideInInspector][NonSerialized]
 	public Rigidbody2D rigidBody2D;
 
-	[HideInInspector][NonSerialized]
+	//[HideInInspector][NonSerialized]
 	public CharacterCollisionState2D collisionState = new CharacterCollisionState2D();
 	[HideInInspector][NonSerialized]
 	public Vector3 velocity;
@@ -265,8 +267,9 @@ public class CharacterController2D : MonoBehaviour
 			handleVerticalSlope( ref deltaMovement );
 
 		// now we check movement in the horizontal dir
-		// if( deltaMovement.x != 0f )
-			moveHorizontally( ref deltaMovement );
+		moveHorizontally( ref deltaMovement );
+		if( deltaMovement.x == 0f )
+			moveHorizontally( ref deltaMovement, true );
 
 		// next, check movement in the vertical dir
 		if( deltaMovement.y != 0f )
@@ -356,9 +359,10 @@ public class CharacterController2D : MonoBehaviour
 	/// we have to increase the ray distance skinWidth then remember to remove skinWidth from deltaMovement before
 	/// actually moving the player
 	/// </summary>
-	void moveHorizontally( ref Vector3 deltaMovement )
+	void moveHorizontally( ref Vector3 deltaMovement, bool forceRight = false )
 	{
-		var isGoingRight = deltaMovement.x > 0;
+		var isGoingRight = deltaMovement.x > 0 || forceRight;
+		var zeroXVelocity = deltaMovement.x == 0;
 		var rayDistance = Mathf.Abs( deltaMovement.x ) + _skinWidth;
 		var rayDirection = isGoingRight ? Vector2.right : -Vector2.right;
 		var initialRayOrigin = isGoingRight ? _raycastOrigins.bottomRight : _raycastOrigins.bottomLeft;
