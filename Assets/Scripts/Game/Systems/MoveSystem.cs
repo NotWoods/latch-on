@@ -22,8 +22,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 		}
 
 		var collided = controller.collisionState;
-		if ((collided.left || collided.right)
-		&& !collided.below && input.HorizontalInput != 0) {
+		if ((collided.left || collided.right) && !collided.below) {
 			if (collided.left) wallData.Side = -1;
 			else if (collided.right) wallData.Side = 1;
 		} else  {
@@ -80,7 +79,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 			Vector2 modifier;
 			if (state.CurrentMode == PlayerState.Swing) modifier = wall.WallJumpSwing;
 			else if (inputXSign == wall.Side) modifier = wall.WallJumpClimb;
-			// else if (inputXSign == 0) modifier = wall.WallJumpOff;
+			else if (inputXSign == 0) modifier = wall.WallJumpOff;
 			else { modifier = wall.WallLeap; }
 
 			velocity.x = -wall.Side * modifier.x;
