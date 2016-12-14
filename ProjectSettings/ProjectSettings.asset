@@ -484,9 +484,9 @@ PlayerSettings:
     Game_Performance: 0
     Hub: 0
     Purchasing: 0
-    UNet: 0
+    UNet: 1
     Unity_Ads: 0
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: f0861ad5-0421-4c93-8b15-2162705e5f96
+  projectName: Latch On
+  organizationId: notwoods
   cloudEnabled: 0
