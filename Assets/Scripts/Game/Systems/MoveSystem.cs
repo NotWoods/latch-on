@@ -10,6 +10,8 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 		CharacterController2D controller, InputData input) {
 		switch (state.CurrentMode) {
 			case PlayerState.Mode.Flung:
+				if (wallData.IsSliding) state.Set(PlayerState.Fall);
+				goto case PlayerState.Mode.Fall;
 			case PlayerState.Mode.Fall:
 				if (controller.isGrounded) state.Set(PlayerState.Walk); break;
 
