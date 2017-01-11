@@ -4,15 +4,27 @@ using UnityEngine;
 
 /// LineData, but easier to look at inspector.
 [DisallowMultipleComponent]
-public class InspectableLineData : LineData {
+public class InspectableLineData : MonoBehaviour {
+	public float StartingLength = 10f;
+	public float FreeLength = 10f;
+
+	public float RetractSpeed = 1f;
+
+	/// Layers which can be grappled
+	public LayerMask NormalGround;
+	/// Layers which cannot be grappled but will still impact the rope
+	public LayerMask NoHookGround;
+
+	internal Stack<int> MarkedSides = new Stack<int>();
+
 	[SerializeField]
 	private List<Vector2> points = new List<Vector2>();
 
-	public new void WrapPoint(Vector2 pos) {
+	public void WrapPoint(Vector2 pos) {
 		points.Add(pos);
 	}
 
-	public new void UnwrapLast() {
+	public void UnwrapLast() {
 		if (points.Count > 0) {
 			int count = points.Count;
 			FreeLength += Vector2.Distance(points[count - 1], points[count - 2]);
@@ -21,37 +33,37 @@ public class InspectableLineData : LineData {
 		else throw new InvalidOperationException("The LineComponent is empty");
 	}
 
-	public new Vector2 GetLast() {
+	public Vector2 GetLast() {
 		return points[points.Count - 1];
 	}
 
-	public new Vector2 GetPenultimate() {
+	public Vector2 GetPenultimate() {
 		return points[points.Count - 2];
 	}
 
-	public new bool IsAnchored() {
+	public bool IsAnchored() {
 		return points.Count > 0;
 	}
 
-	public new void SetAnchor(Vector2 pos) {
+	public void SetAnchor(Vector2 pos) {
 		if (IsAnchored()) throw new InvalidOperationException();
 		WrapPoint(pos);
 	}
 
 	/// Remove all points from the line
-	public new void ClearPoints() {
+	public void ClearPoints() {
 		points.Clear();
 	}
 
-	public new IEnumerable<Vector2> Points() {
+	public IEnumerable<Vector2> Points() {
 		foreach (Vector2 p in points) yield return p;
 	}
 
-	public new int Count {
+	public int Count {
 		get { return points.Count; }
 	}
 
-	public new int Side(Vector2 point) {
+	public int Side(Vector2 point) {
 		if (Count < 2) throw new InvalidOperationException();
 		return ExtraMath.SideOfLine(point, GetLast(), GetPenultimate());
 	}
