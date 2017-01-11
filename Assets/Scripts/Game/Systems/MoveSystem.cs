@@ -1,24 +1,24 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, PlayerState, Velocity> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, MoveState, Velocity> {
 	private float GetJumpVelocity(CharacterData stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
 
-	private void SetState(PlayerState state, WallJumper wallData,
+	private void SetState(MoveState state, WallJumper wallData,
 		CharacterController2D controller, VJoystick input) {
-		switch (state.CurrentMode) {
-			case PlayerState.Mode.Flung:
-				if (wallData.IsSliding) state.Set(PlayerState.Fall);
-				goto case PlayerState.Mode.Fall;
-			case PlayerState.Mode.Fall:
-				if (controller.isGrounded) state.Set(PlayerState.Walk); break;
+		switch (state.Value) {
+			case MoveState.Mode.Flung:
+				if (wallData.IsSliding) state.Value = MoveState.Fall;
+				goto case MoveState.Mode.Fall;
+			case MoveState.Mode.Fall:
+				if (controller.isGrounded) state.Value = MoveState.Walk; break;
 
-			case PlayerState.Mode.Walk:
-				if (!controller.isGrounded) state.Set(PlayerState.Fall); break;
+			case MoveState.Mode.Walk:
+				if (!controller.isGrounded) state.Value = MoveState.Fall; break;
 
-			case PlayerState.Mode.Swing:
+			case MoveState.Mode.Swing:
 			default:
 				break;
 		}
@@ -61,12 +61,12 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	private void CalculateWallJumpVelocity(ref Vector2 velocity,
-		WallJumper wall, VJoystick input, PlayerState state
+		WallJumper wall, VJoystick input, MoveState state
 	) {
 		if (velocity.y < -wall.MaxSlideSpeed) velocity.y = -wall.MaxSlideSpeed;
 		int inputXSign = ExtraMath.Sign(input.XMoveAxisRaw);
 
-		if (wall.TimeToUnstick > 0 && state.CurrentMode != PlayerState.Swing && inputXSign != 0) {
+		if (wall.TimeToUnstick > 0 && state.Value != MoveState.Swing && inputXSign != 0) {
 			velocity.x = 0;
 			if (inputXSign != wall.AgaisntSide) {
 				wall.TimeToUnstick -= Time.deltaTime;
@@ -79,7 +79,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 
 		if (input.JumpPressed) {
 			Vector2 modifier;
-			if (state.CurrentMode == PlayerState.Swing) modifier = wall.SwiningJump;
+			if (state.Value == MoveState.Swing) modifier = wall.SwiningJump;
 			else if (inputXSign == wall.AgaisntSide) modifier = wall.ClimbingJump;
 			else if (inputXSign == 0) modifier = wall.FallOffJump;
 			else { modifier = wall.LeapingJump; }
@@ -105,9 +105,9 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 
 			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
 
-			if (state.CurrentMode == PlayerState.Swing) {
+			if (state.Value == MoveState.Swing) {
 				CalculateSwingingVelocity(ref velocity, transform, stats, line);
-			} else if (state.CurrentMode != PlayerState.Flung) {
+			} else if (state.Value != MoveState.Flung) {
 				CalculateWalkingVelocity(ref velocity, stats, input, controller);
 			}
 			if (wallData.IsSliding) {

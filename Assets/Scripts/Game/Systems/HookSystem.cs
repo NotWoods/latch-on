@@ -1,19 +1,19 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState, Velocity, LinkedProps> {
+public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, Velocity, LinkedProps> {
 	public float MinFlingSpeed = 0.1f;
 
 	private void DisconnectLine(LineData line,
-		PlayerState state, Velocity velocity
+		MoveState state, Velocity velocity
 	) {
 		line.ClearPoints();
 		line.MarkedSides.Clear();
 		line.FreeLength = line.StartingLength;
 		if (velocity.x < -MinFlingSpeed || velocity.x > MinFlingSpeed)
-			state.Set(PlayerState.Flung);
+			state.Value = MoveState.Flung;
 		else
-			state.Set(PlayerState.Fall);
+			state.Value = MoveState.Fall;
 	}
 
 	private void TryWrap(LineData line,
@@ -60,7 +60,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState,
 
 				Vector2 needleLoop = links.Needle.ThrowTo(hit.point, input.AimAxis);
 				line.SetAnchor(needleLoop);
-				state.Set(PlayerState.Swing);
+				state.Value = MoveState.Swing;
 			}
 
 			float newLength = Vector2.Distance(transform.position, line.GetLast());
