@@ -1,12 +1,12 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, InputData, InspectableLineData, CharacterController2D, PlayerState> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, InputData, InspectableLineData, CharacterController2D, PlayerState> {
 	private float GetJumpVelocity(CharacterData stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
 
-	private void SetState(PlayerState state, WallSlideData wallData,
+	private void SetState(PlayerState state, WallJumper wallData,
 		CharacterController2D controller, InputData input) {
 		switch (state.CurrentMode) {
 			case PlayerState.Mode.Flung:
@@ -25,10 +25,10 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 
 		var collided = controller.collisionState;
 		if ((collided.left || collided.right) && !collided.below) {
-			if (collided.left) wallData.Side = -1;
-			else if (collided.right) wallData.Side = 1;
+			if (collided.left) wallData.AgaisntSide = -1;
+			else if (collided.right) wallData.AgaisntSide = 1;
 		} else  {
-			wallData.Side = 0;
+			wallData.AgaisntSide = 0;
 		}
 	}
 
@@ -61,14 +61,14 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 	}
 
 	private void CalculateWallJumpVelocity(ref Vector2 velocity,
-		WallSlideData wall, InputData input, PlayerState state
+		WallJumper wall, InputData input, PlayerState state
 	) {
 		if (velocity.y < -wall.MaxSlideSpeed) velocity.y = -wall.MaxSlideSpeed;
 		int inputXSign = ExtraMath.Sign(input.HorizontalInputRaw);
 
 		if (wall.TimeToUnstick > 0 && state.CurrentMode != PlayerState.Swing && inputXSign != 0) {
 			velocity.x = 0;
-			if (inputXSign != wall.Side) {
+			if (inputXSign != wall.AgaisntSide) {
 				wall.TimeToUnstick -= Time.deltaTime;
 			} else {
 				wall.ResetTime();
@@ -79,12 +79,12 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallSlideData, Inp
 
 		if (input.JumpPressed) {
 			Vector2 modifier;
-			if (state.CurrentMode == PlayerState.Swing) modifier = wall.WallJumpSwing;
-			else if (inputXSign == wall.Side) modifier = wall.WallJumpClimb;
-			else if (inputXSign == 0) modifier = wall.WallJumpOff;
-			else { modifier = wall.WallLeap; }
+			if (state.CurrentMode == PlayerState.Swing) modifier = wall.SwiningJump;
+			else if (inputXSign == wall.AgaisntSide) modifier = wall.ClimbingJump;
+			else if (inputXSign == 0) modifier = wall.FallOffJump;
+			else { modifier = wall.LeapingJump; }
 
-			velocity.x = -wall.Side * modifier.x;
+			velocity.x = -wall.AgaisntSide * modifier.x;
 			velocity.y = modifier.y;
 		}
 	}
