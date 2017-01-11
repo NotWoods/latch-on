@@ -1,23 +1,23 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState, CharacterData, LinkedProps> {
+public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState, Velocity, LinkedProps> {
 	public float MinFlingSpeed = 0.1f;
 
 	private void DisconnectLine(LineData line,
-		PlayerState state, CharacterData stats
+		PlayerState state, Velocity velocity
 	) {
 		line.ClearPoints();
 		line.MarkedSides.Clear();
 		line.FreeLength = line.StartingLength;
-		if (stats.Velocity.x < -MinFlingSpeed || stats.Velocity.x > MinFlingSpeed)
+		if (velocity.x < -MinFlingSpeed || velocity.x > MinFlingSpeed)
 			state.Set(PlayerState.Flung);
 		else
 			state.Set(PlayerState.Fall);
 	}
 
 	private void TryWrap(LineData line,
-		Transform transform, CharacterData stats
+		Transform transform, Velocity velocity
 	) {
 		RaycastHit2D shouldWrap = Physics2D.Linecast(
 			transform.position,
@@ -26,7 +26,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState,
 		);
 
 		if (shouldWrap && line.GetLast() != shouldWrap.point) {
-			line.WrapPoint(shouldWrap.point + stats.Velocity.normalized * -0.1f);
+			line.WrapPoint(shouldWrap.point + velocity.Value.normalized * -0.1f);
 			line.MarkedSides.Push(line.Side(transform.position));
 		}
 	}
@@ -41,10 +41,10 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState,
 	}
 
 	public override void FixedUpdate() {
-		ForEachGameObject((ego, transform, input, line, state, stats, links) => {
+		ForEachGameObject((ego, transform, input, line, state, velocity, links) => {
 			if (!input.HookDown) {
 				if (line.IsAnchored()) {
-					DisconnectLine(line, state, stats);
+					DisconnectLine(line, state, velocity);
 					// links.Needle.GiveTo(transform);
 				}
 				return;
@@ -67,7 +67,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState,
 			newLength -= line.RetractSpeed * Time.deltaTime;
 			line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
 
-			TryWrap(line, transform, stats);
+			TryWrap(line, transform, velocity);
 			TryUnwrap(line, transform);
 		});
 	}

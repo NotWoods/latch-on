@@ -1,7 +1,7 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, PlayerState> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, PlayerState, Velocity> {
 	private float GetJumpVelocity(CharacterData stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
@@ -90,10 +90,10 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	public override void FixedUpdate() {
-		ForEachGameObject((o, transform, stats, wallData, input, line, controller, state) => {
+		ForEachGameObject((o, transform, stats, wallData, input, line, controller, state, vel) => {
 			SetState(state, wallData, controller, input);
 
-			Vector2 velocity = stats.Velocity;
+			Vector2 velocity = vel.Value;
 			if (controller.isGrounded) {
 				velocity.y = input.JumpPressed ? GetJumpVelocity(stats) : 0;
 
@@ -117,7 +117,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 			if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
 
 			controller.Move(velocity * Time.deltaTime);
-			stats.Velocity = controller.velocity;
+			vel.Value = controller.velocity;
 			input.JumpPressed = input.SinkPressed = false;
 		});
 	}

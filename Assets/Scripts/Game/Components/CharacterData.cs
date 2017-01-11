@@ -14,5 +14,4 @@ public class CharacterData : MonoBehaviour {
 	public float GravityScale = 1;
 
 	public float MaxFallSpeed = 15;
-	internal Vector2 Velocity = new Vector2();
 }
