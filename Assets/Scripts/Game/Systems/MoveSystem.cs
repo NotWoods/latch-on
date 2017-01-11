@@ -1,7 +1,7 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, InspectableLineData, CharacterController2D, PlayerState> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, PlayerState> {
 	private float GetJumpVelocity(CharacterData stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
@@ -33,7 +33,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	private void CalculateSwingingVelocity(ref Vector2 velocity,
-		Transform transform, CharacterData stats, InspectableLineData line
+		Transform transform, CharacterData stats, LineData line
 	) {
 		velocity.x = Mathf.MoveTowards(velocity.x, 0, Time.deltaTime * stats.SwingDamping);
 

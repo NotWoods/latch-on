@@ -1,10 +1,10 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, VJoystick, InspectableLineData, PlayerState, CharacterData, LinkedProps> {
+public class HookSystem : EgoSystem<Transform, VJoystick, LineData, PlayerState, CharacterData, LinkedProps> {
 	public float MinFlingSpeed = 0.1f;
 
-	private void DisconnectLine(InspectableLineData line,
+	private void DisconnectLine(LineData line,
 		PlayerState state, CharacterData stats
 	) {
 		line.ClearPoints();
@@ -16,7 +16,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, InspectableLineData, P
 			state.Set(PlayerState.Fall);
 	}
 
-	private void TryWrap(InspectableLineData line,
+	private void TryWrap(LineData line,
 		Transform transform, CharacterData stats
 	) {
 		RaycastHit2D shouldWrap = Physics2D.Linecast(
@@ -31,7 +31,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, InspectableLineData, P
 		}
 	}
 
-	private void TryUnwrap(InspectableLineData line, Transform transform) {
+	private void TryUnwrap(LineData line, Transform transform) {
 		if (line.Count >= 2) {
 			if (line.MarkedSides.Peek() != line.Side(transform.position)) {
 				line.UnwrapLast();

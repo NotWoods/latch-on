@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, InspectableLineData, VJoystick> {
+public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, LineData, VJoystick> {
 	public float PreviewDistance = 2f;
 	public float HighlightScale = 1;
 	public float DarkScale = 0.5f;

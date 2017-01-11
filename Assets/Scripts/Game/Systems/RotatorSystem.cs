@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RotatorSystem : EgoSystem<Transform, InspectableLineData> {
+public class RotatorSystem : EgoSystem<Transform, LineData> {
 	public override void Update() {
 		ForEachGameObject((ego, transform, line) => {
 			Quaternion rotation;

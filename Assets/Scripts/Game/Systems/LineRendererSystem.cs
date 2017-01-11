@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LineRendererSystem : EgoSystem<Transform, InspectableLineData, LineRenderer> {
+public class LineRendererSystem : EgoSystem<Transform, LineData, LineRenderer> {
 	public override void Update() {
 		ForEachGameObject((ego, transform, line, renderer) => {
 			if (!line.IsAnchored()) {
