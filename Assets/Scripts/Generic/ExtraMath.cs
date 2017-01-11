@@ -1,6 +1,6 @@
 using UnityEngine;
 
-static class ExtraMath {
+public static class ExtraMath {
 	/// Like Mathf.Sign, but treats 0 seperate from positive numbers.
 	public static int Sign(float number) {
 		if (number < 0) return -1;
