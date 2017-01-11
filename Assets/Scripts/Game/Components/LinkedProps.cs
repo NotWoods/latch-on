@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [DisallowMultipleComponent]
-public class LinkedProps : MonoBehaviour, IDataComponent {
+public class LinkedProps : MonoBehaviour {
 	private Dictionary<GameObject, GameObject> instances = new Dictionary<GameObject, GameObject>();
 	private delegate void NewInstanceDelegate(GameObject newInstance);
 	private GameObject localInstance(GameObject prefab, NewInstanceDelegate callback) {

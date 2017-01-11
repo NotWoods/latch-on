@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class PlayerState : MonoBehaviour, IDataComponent {
+public class PlayerState : MonoBehaviour {
 	public Mode CurrentMode;
 
 	public void Set(Mode m) { CurrentMode = m; }

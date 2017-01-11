@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class WallSlideData : MonoBehaviour, IDataComponent {
+public class WallSlideData : MonoBehaviour {
 	public float MaxSlideSpeed = 2.5f;
 
 	public Vector2 WallJumpClimb = new Vector2(7.5f, 16);

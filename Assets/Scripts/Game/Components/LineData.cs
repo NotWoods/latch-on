@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// Used to store data representing a Rope/Line.
 [DisallowMultipleComponent]
-public class LineData : MonoBehaviour, IDataComponent {
+public class LineData : MonoBehaviour {
 	public float StartingLength = 10f;
 	public float FreeLength = 10f;
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class CharacterData : MonoBehaviour, IDataComponent {
+public class CharacterData : MonoBehaviour {
 	public float RunSpeed = 8f;
 	public float JumpHeight = 3f;
 

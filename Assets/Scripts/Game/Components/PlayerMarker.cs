@@ -15,6 +15,6 @@ public enum ControlType {
 
 /// Marks a GameObject as a local player.
 [DisallowMultipleComponent]
-public class LocalPlayer : MonoBehaviour, IDataComponent {
+public class LocalPlayer : MonoBehaviour {
 	public ControlType Controller = ControlType.Keyboard;
 }

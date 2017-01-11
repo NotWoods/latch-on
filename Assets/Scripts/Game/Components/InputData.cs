@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class InputData : MonoBehaviour, IDataComponent {
+public class InputData : MonoBehaviour {
 	[Range(-1, 1)]
 	public float HorizontalInput = 0;
 	[Range(-1, 1)]
