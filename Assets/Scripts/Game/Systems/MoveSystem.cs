@@ -1,7 +1,7 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, MoveState, Velocity> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, MoveState, Velocity, Damping> {
 	private float GetJumpVelocity(CharacterData stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
@@ -33,9 +33,11 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	private void CalculateSwingingVelocity(ref Vector2 velocity,
-		Transform transform, CharacterData stats, LineData line
+		Transform transform, Damping damping, LineData line
 	) {
-		velocity.x = Mathf.MoveTowards(velocity.x, 0, Time.deltaTime * stats.SwingDamping);
+		velocity.x = Mathf.MoveTowards(
+			velocity.x, 0, Time.deltaTime * damping.GetValue(MoveState.Swing)
+		);
 
 		Vector2 currentPosition = transform.position;
 		Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
@@ -49,14 +51,15 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	private void CalculateWalkingVelocity(ref Vector2 velocity,
-		CharacterData stats, VJoystick input, CharacterController2D controller
+		CharacterData stats, VJoystick input, CharacterController2D controller,
+		Damping damping
 	) {
-		float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
+		float damp = damping.GetValue(controller.isGrounded ? MoveState.Walk : MoveState.Fall);
 		// TODO: Change to use SmoothDamp instead later
 		velocity.x = Mathf.Lerp(
 			velocity.x,
 			input.XMoveAxis * stats.RunSpeed,
-			Time.deltaTime * damping
+			Time.deltaTime * damp
 		);
 	}
 
@@ -90,7 +93,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	public override void FixedUpdate() {
-		ForEachGameObject((o, transform, stats, wallData, input, line, controller, state, vel) => {
+		ForEachGameObject((o, transform, stats, wallData, input, line, controller, state, vel, damping) => {
 			SetState(state, wallData, controller, input);
 
 			Vector2 velocity = vel.Value;
@@ -106,9 +109,9 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
 
 			if (state.Value == MoveState.Swing) {
-				CalculateSwingingVelocity(ref velocity, transform, stats, line);
+				CalculateSwingingVelocity(ref velocity, transform, damping, line);
 			} else if (state.Value != MoveState.Flung) {
-				CalculateWalkingVelocity(ref velocity, stats, input, controller);
+				CalculateWalkingVelocity(ref velocity, stats, input, controller, damping);
 			}
 			if (wallData.IsSliding) {
 				CalculateWallJumpVelocity(ref velocity, wallData, input, state);

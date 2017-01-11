@@ -31,7 +31,7 @@ public class InputSystem : EgoSystem<LocalPlayer, VJoystick, Transform> {
 			input.XMoveAxisRaw = Input.GetAxisRaw("Horizontal");
 
 			if (Input.GetButtonDown("Jump")) input.JumpPressed = true;
-			if (Input.GetKeyDown(KeyCode.S)) input.SinkPressed = true;
+			if (Input.GetButtonDown("Sink")) input.SinkPressed = true;
 			if (Input.GetKeyDown(KeyCode.R)) input.ShouldRespawn = true;
 
 
