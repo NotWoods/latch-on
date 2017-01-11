@@ -6,32 +6,6 @@ public class MoveSystem : EgoSystem<WorldPosition, CharacterData, WallJumper, VJ
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
 
-	private void SetState(MoveState state, WallJumper wallData,
-		CharacterController2D controller, VJoystick input) {
-		switch (state.Value) {
-			case MoveState.Mode.Flung:
-				if (wallData.IsSliding) state.Value = MoveState.Fall;
-				goto case MoveState.Mode.Fall;
-			case MoveState.Mode.Fall:
-				if (controller.isGrounded) state.Value = MoveState.Walk; break;
-
-			case MoveState.Mode.Walk:
-				if (!controller.isGrounded) state.Value = MoveState.Fall; break;
-
-			case MoveState.Mode.Swing:
-			default:
-				break;
-		}
-
-		var collided = controller.collisionState;
-		if ((collided.left || collided.right) && !collided.below) {
-			if (collided.left) wallData.AgaisntSide = -1;
-			else if (collided.right) wallData.AgaisntSide = 1;
-		} else  {
-			wallData.AgaisntSide = 0;
-		}
-	}
-
 	private void CalculateSwingingVelocity(ref Vector2 velocity,
 		Vector2 position, Damping damping, LineData line
 	) {
@@ -94,8 +68,6 @@ public class MoveSystem : EgoSystem<WorldPosition, CharacterData, WallJumper, VJ
 
 	public override void FixedUpdate() {
 		ForEachGameObject((o, position, stats, wallData, input, line, controller, state, vel, damping) => {
-			SetState(state, wallData, controller, input);
-
 			Vector2 velocity = vel.Value;
 			if (controller.isGrounded) {
 				velocity.y = input.JumpPressed ? GetJumpVelocity(stats) : 0;
@@ -119,9 +91,10 @@ public class MoveSystem : EgoSystem<WorldPosition, CharacterData, WallJumper, VJ
 
 			if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
 
-			controller.Move(velocity * Time.deltaTime);
-			vel.Value = controller.velocity;
-			input.JumpPressed = input.SinkPressed = false;
+			vel.Value = velocity;
+			//controller.Move(velocity * Time.deltaTime);
+			//vel.Value = controller.velocity;
+			//input.JumpPressed = input.SinkPressed = false;
 		});
 	}
 }

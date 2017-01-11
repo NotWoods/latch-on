@@ -6,7 +6,10 @@ public class EgoInterface : MonoBehaviour {
 			new InputSystem(),
 
 			new HookSystem(),
+
+			new MoveStateSystem(),
 			new MoveSystem(),
+			new ApplyMoveSystem(),
 
 			new LineRendererSystem(),
 			new CursorRendererSystem(),
