@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, LineData, VJoystick> {
+public class CursorRendererSystem : EgoSystem<LocalPlayer, WorldPosition, LineData, VJoystick> {
 	public float PreviewDistance = 2f;
 	public float HighlightScale = 1;
 	public float DarkScale = 0.5f;
@@ -10,15 +10,15 @@ public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, LineData, 
 
 	public override void LateUpdate() {
 		int i = 0;
-		ForEachGameObject((o, p, transform, line, input) => {
-			bool shouldHighlight = Physics2D.Raycast(transform.position,
+		ForEachGameObject((o, p, position, line, input) => {
+			bool shouldHighlight = Physics2D.Raycast(position.Value,
 				input.AimAxis, line.StartingLength, line.NormalGround);
 
-			RaycastHit2D cursorCheck = Physics2D.Raycast(transform.position,
+			RaycastHit2D cursorCheck = Physics2D.Raycast(position.Value,
 				input.AimAxis, PreviewDistance, line.NormalGround);
-			Vector2 position = cursorCheck
+			Vector2 cursorPosition = cursorCheck
 				? cursorCheck.point
-				: (Vector2) transform.position + (input.AimAxis * PreviewDistance);
+				: position.Value + (input.AimAxis * PreviewDistance);
 
 			Image cursor = UIManager.Instance.GetCursor(i);
 			cursor.color = Color.Lerp(
@@ -28,7 +28,7 @@ public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, LineData, 
 			);
 
 			RectTransform cursorTransform = cursor.rectTransform;
-			cursorTransform.position = position;
+			cursorTransform.position = cursorPosition;
 			cursorTransform.localScale = Vector2.Lerp(
 				cursorTransform.localScale,
 				Vector2.one * (shouldHighlight ? HighlightScale : DarkScale),

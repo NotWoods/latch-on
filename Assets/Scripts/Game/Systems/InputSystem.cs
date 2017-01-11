@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputSystem : EgoSystem<LocalPlayer, VJoystick, Transform> {
+public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
 	private Vector2 getPointerDir(VJoystick input, Vector2 playerPosition) {
 		Vector2 result = Vector2.zero;
 
@@ -26,7 +26,7 @@ public class InputSystem : EgoSystem<LocalPlayer, VJoystick, Transform> {
 	public override void Update() {
 		if (GameManager.IsPaused()) return;
 
-		ForEachGameObject((ego, p, input, transform) => {
+		ForEachGameObject((ego, p, input, position) => {
 			input.XMoveAxis = Input.GetAxis("Horizontal");
 			input.XMoveAxisRaw = Input.GetAxisRaw("Horizontal");
 
@@ -43,7 +43,7 @@ public class InputSystem : EgoSystem<LocalPlayer, VJoystick, Transform> {
 			if (touchDown) input.Mode = VJoystick.PointerMode.Touch;
 			else if (mouseDown) input.Mode = VJoystick.PointerMode.Mouse;
 			else if (controllerDown) input.Mode = VJoystick.PointerMode.Controller;
-			input.AimAxis = getPointerDir(input, transform.position);
+			input.AimAxis = getPointerDir(input, position.Value);
 		});
 	}
 }

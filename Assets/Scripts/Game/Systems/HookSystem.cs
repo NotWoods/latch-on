@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, Velocity, LinkedProps> {
+public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, Velocity, LinkedProps> {
 	public float MinFlingSpeed = 0.1f;
 
 	private void DisconnectLine(LineData line,
@@ -17,23 +17,23 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 	}
 
 	private void TryWrap(LineData line,
-		Transform transform, Velocity velocity
+		Vector2 position, Velocity velocity
 	) {
 		RaycastHit2D shouldWrap = Physics2D.Linecast(
-			transform.position,
+			position,
 			line.WorldAnchor,
 			line.NoHookGround
 		);
 
 		if (shouldWrap && line.WorldAnchor != shouldWrap.point) {
 			line.Push(shouldWrap.point + velocity.Value.normalized * -0.1f);
-			line.MarkedSides.Push(line.Side(transform.position));
+			line.MarkedSides.Push(line.Side(position));
 		}
 	}
 
-	private void TryUnwrap(LineData line, Transform transform) {
+	private void TryUnwrap(LineData line, Vector2 position) {
 		if (line.Count >= 2) {
-			if (line.MarkedSides.Peek() != line.Side(transform.position)) {
+			if (line.MarkedSides.Peek() != line.Side(position)) {
 				line.Pop();
 				line.MarkedSides.Pop();
 			}
@@ -41,7 +41,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 	}
 
 	public override void FixedUpdate() {
-		ForEachGameObject((ego, transform, input, line, state, velocity, links) => {
+		ForEachGameObject((ego, position, input, line, state, velocity, links) => {
 			if (!input.HookDown) {
 				if (line.Anchored()) {
 					DisconnectLine(line, state, velocity);
@@ -52,7 +52,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 
 			if (!line.Anchored()) {
 				RaycastHit2D hit = Physics2D.Raycast(
-					transform.position, input.AimAxis,
+					position.Value, input.AimAxis,
 					line.StartingLength, line.NormalGround
 				);
 
@@ -63,12 +63,12 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 				state.Value = MoveState.Swing;
 			}
 
-			float newLength = Vector2.Distance(transform.position, line.WorldAnchor);
+			float newLength = Vector2.Distance(position.Value, line.WorldAnchor);
 			newLength -= line.RetractSpeed * Time.deltaTime;
 			line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
 
-			TryWrap(line, transform, velocity);
-			TryUnwrap(line, transform);
+			TryWrap(line, position.Value, velocity);
+			TryUnwrap(line, position.Value);
 		});
 	}
 }

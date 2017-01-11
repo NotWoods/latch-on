@@ -3,9 +3,11 @@
 public class EgoInterface : MonoBehaviour {
 	static EgoInterface() {
 		EgoSystems.Add(
-			new MoveSystem(),
-			new HookSystem(),
 			new InputSystem(),
+
+			new HookSystem(),
+			new MoveSystem(),
+
 			new LineRendererSystem(),
 			new CursorRendererSystem(),
 			new RespawnSystem()

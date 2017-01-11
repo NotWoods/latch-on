@@ -1,7 +1,7 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, MoveState, Velocity, Damping> {
+public class MoveSystem : EgoSystem<WorldPosition, CharacterData, WallJumper, VJoystick, LineData, CharacterController2D, MoveState, Velocity, Damping> {
 	private float GetJumpVelocity(CharacterData stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
@@ -33,13 +33,13 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	private void CalculateSwingingVelocity(ref Vector2 velocity,
-		Transform transform, Damping damping, LineData line
+		Vector2 position, Damping damping, LineData line
 	) {
 		velocity.x = Mathf.MoveTowards(
 			velocity.x, 0, Time.deltaTime * damping.GetValue(MoveState.Swing)
 		);
 
-		Vector2 currentPosition = transform.position;
+		Vector2 currentPosition = position;
 		Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
 		Vector2 tetherPoint = line.WorldAnchor;
 
@@ -93,7 +93,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 	}
 
 	public override void FixedUpdate() {
-		ForEachGameObject((o, transform, stats, wallData, input, line, controller, state, vel, damping) => {
+		ForEachGameObject((o, position, stats, wallData, input, line, controller, state, vel, damping) => {
 			SetState(state, wallData, controller, input);
 
 			Vector2 velocity = vel.Value;
@@ -109,7 +109,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
 
 			if (state.Value == MoveState.Swing) {
-				CalculateSwingingVelocity(ref velocity, transform, damping, line);
+				CalculateSwingingVelocity(ref velocity, position.Value, damping, line);
 			} else if (state.Value != MoveState.Flung) {
 				CalculateWalkingVelocity(ref velocity, stats, input, controller, damping);
 			}

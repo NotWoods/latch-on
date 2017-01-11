@@ -31,6 +31,8 @@ GameObject:
   - component: {fileID: 114503115908229072}
   - component: {fileID: 114759229703358148}
   - component: {fileID: 114921228809271472}
+  - component: {fileID: 114862614507499372}
+  - component: {fileID: 114672180045731880}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -181,6 +183,17 @@ MonoBehaviour:
   SwiningJump: {x: 1, y: 12}
   FallOffJump: {x: 8.5, y: 7}
   LeapingJump: {x: 18, y: 17}
+--- !u!114 &114672180045731880
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364614095386930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e68fc24955e055d41b333272481edc4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114759229703358148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,6 +221,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0
+--- !u!114 &114862614507499372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364614095386930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07dbd4ead00c54b4b9e74f871018ca74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WalkDamping: 20
+  SwingDamping: 0.5
+  FlungDamping: 1
+  FallDamping: 5
 --- !u!114 &114897965272264278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,9 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RunSpeed: 10
   JumpHeight: 3
-  GroundDamping: 20
-  InAirDamping: 5
-  SwingDamping: 0.5
   GravityBase: -25
   GravityScale: 1
   MaxFallSpeed: 25
