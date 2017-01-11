@@ -1,17 +1,26 @@
 using UnityEngine;
 
+/// Virtual joystick data
 [DisallowMultipleComponent]
-public class InputData : MonoBehaviour {
+public class VJoystick : MonoBehaviour {
 	[Range(-1, 1)]
-	public float HorizontalInput = 0;
+	public float XMoveAxis = 0;
 	[Range(-1, 1)]
-	public float HorizontalInputRaw = 0;
+	public float XMoveAxisRaw = 0;
+
+	[Range(-1, 1)]
+	public float XAimAxis = 0;
+	[Range(-1, 1)]
+	public float YAimAxis = 0;
+	public Vector2 AimAxis {
+		get { return new Vector2(XAimAxis, YAimAxis); }
+		set { XAimAxis = value.x; YAimAxis = value.y; }
+	}
 
 	public bool JumpPressed = false;
 	public bool SinkPressed = false;
 
 	public bool HookDown = false;
-	public Vector2 PointerDir = new Vector2();
 
 	public bool ShouldRespawn = false;
 

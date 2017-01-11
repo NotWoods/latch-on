@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, PlayerState, CharacterData, LinkedProps> {
+public class HookSystem : EgoSystem<Transform, VJoystick, InspectableLineData, PlayerState, CharacterData, LinkedProps> {
 	public float MinFlingSpeed = 0.1f;
 
 	private void DisconnectLine(InspectableLineData line,
@@ -52,13 +52,13 @@ public class HookSystem : EgoSystem<Transform, InputData, InspectableLineData, P
 
 			if (!line.IsAnchored()) {
 				RaycastHit2D hit = Physics2D.Raycast(
-					transform.position, input.PointerDir,
+					transform.position, input.AimAxis,
 					line.StartingLength, line.NormalGround
 				);
 
 				if (!hit) return;
 
-				Vector2 needleLoop = links.Needle.ThrowTo(hit.point, input.PointerDir);
+				Vector2 needleLoop = links.Needle.ThrowTo(hit.point, input.AimAxis);
 				line.SetAnchor(needleLoop);
 				state.Set(PlayerState.Swing);
 			}

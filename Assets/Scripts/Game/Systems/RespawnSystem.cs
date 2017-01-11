@@ -1,7 +1,7 @@
 using UnityEngine;
 using Prime31;
 
-public class RespawnSystem : EgoSystem<InputData, CharacterController2D, CharacterData> {
+public class RespawnSystem : EgoSystem<VJoystick, CharacterController2D, CharacterData> {
 	public override void FixedUpdate() {
 		ForEachGameObject((ego, input, controller, stats) => {
 			if (input.ShouldRespawn) {

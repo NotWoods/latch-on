@@ -15,7 +15,7 @@ public class EgoComponent : MonoBehaviour
         {
             mask[ ComponentIDs.Get( component.GetType() ) ] = true;
         }
-    }    
+    }
 
     public bool HasComponents<C1>()
         where C1 : Component

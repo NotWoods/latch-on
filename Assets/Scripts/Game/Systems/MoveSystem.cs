@@ -1,13 +1,13 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, InputData, InspectableLineData, CharacterController2D, PlayerState> {
+public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoystick, InspectableLineData, CharacterController2D, PlayerState> {
 	private float GetJumpVelocity(CharacterData stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
 	}
 
 	private void SetState(PlayerState state, WallJumper wallData,
-		CharacterController2D controller, InputData input) {
+		CharacterController2D controller, VJoystick input) {
 		switch (state.CurrentMode) {
 			case PlayerState.Mode.Flung:
 				if (wallData.IsSliding) state.Set(PlayerState.Fall);
@@ -49,22 +49,22 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, InputD
 	}
 
 	private void CalculateWalkingVelocity(ref Vector2 velocity,
-		CharacterData stats, InputData input, CharacterController2D controller
+		CharacterData stats, VJoystick input, CharacterController2D controller
 	) {
 		float damping = controller.isGrounded ? stats.GroundDamping : stats.InAirDamping;
 		// TODO: Change to use SmoothDamp instead later
 		velocity.x = Mathf.Lerp(
 			velocity.x,
-			input.HorizontalInput * stats.RunSpeed,
+			input.XMoveAxis * stats.RunSpeed,
 			Time.deltaTime * damping
 		);
 	}
 
 	private void CalculateWallJumpVelocity(ref Vector2 velocity,
-		WallJumper wall, InputData input, PlayerState state
+		WallJumper wall, VJoystick input, PlayerState state
 	) {
 		if (velocity.y < -wall.MaxSlideSpeed) velocity.y = -wall.MaxSlideSpeed;
-		int inputXSign = ExtraMath.Sign(input.HorizontalInputRaw);
+		int inputXSign = ExtraMath.Sign(input.XMoveAxisRaw);
 
 		if (wall.TimeToUnstick > 0 && state.CurrentMode != PlayerState.Swing && inputXSign != 0) {
 			velocity.x = 0;

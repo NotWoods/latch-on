@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, InspectableLineData, InputData> {
+public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, InspectableLineData, VJoystick> {
 	public float PreviewDistance = 2f;
 	public float HighlightScale = 1;
 	public float DarkScale = 0.5f;
@@ -12,13 +12,13 @@ public class CursorRendererSystem : EgoSystem<LocalPlayer, Transform, Inspectabl
 		int i = 0;
 		ForEachGameObject((o, p, transform, line, input) => {
 			bool shouldHighlight = Physics2D.Raycast(transform.position,
-				input.PointerDir, line.StartingLength, line.NormalGround);
+				input.AimAxis, line.StartingLength, line.NormalGround);
 
 			RaycastHit2D cursorCheck = Physics2D.Raycast(transform.position,
-				input.PointerDir, PreviewDistance, line.NormalGround);
+				input.AimAxis, PreviewDistance, line.NormalGround);
 			Vector2 position = cursorCheck
 				? cursorCheck.point
-				: (Vector2) transform.position + (input.PointerDir * PreviewDistance);
+				: (Vector2) transform.position + (input.AimAxis * PreviewDistance);
 
 			Image cursor = UIManager.Instance.GetCursor(i);
 			cursor.color = Color.Lerp(
