@@ -153,6 +153,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   totalHorizontalRays: 8
   totalVerticalRays: 4
+  collisionState:
+    right: 0
+    left: 0
+    above: 0
+    below: 0
+    becameGroundedThisFrame: 0
+    wasGroundedLastFrame: 0
+    movingDownSlope: 0
+    slopeAngle: 0
 --- !u!114 &114503115908229072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,7 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSlideSpeed: 2.5
-  WallJumpClimb: {x: 7.5, y: 16}
+  WallJumpClimb: {x: 7.5, y: 4}
+  WallJumpSwing: {x: 1, y: 12}
   WallJumpOff: {x: 8.5, y: 7}
   WallLeap: {x: 18, y: 17}
   StickTime: 0.25
