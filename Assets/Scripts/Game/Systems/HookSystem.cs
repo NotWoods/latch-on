@@ -7,7 +7,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 	private void DisconnectLine(LineData line,
 		MoveState state, Velocity velocity
 	) {
-		line.ClearPoints();
+		line.Clear();
 		line.MarkedSides.Clear();
 		line.FreeLength = line.StartingLength;
 		if (velocity.x < -MinFlingSpeed || velocity.x > MinFlingSpeed)
@@ -21,12 +21,12 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 	) {
 		RaycastHit2D shouldWrap = Physics2D.Linecast(
 			transform.position,
-			line.GetLast(),
+			line.WorldAnchor,
 			line.NoHookGround
 		);
 
-		if (shouldWrap && line.GetLast() != shouldWrap.point) {
-			line.WrapPoint(shouldWrap.point + velocity.Value.normalized * -0.1f);
+		if (shouldWrap && line.WorldAnchor != shouldWrap.point) {
+			line.Push(shouldWrap.point + velocity.Value.normalized * -0.1f);
 			line.MarkedSides.Push(line.Side(transform.position));
 		}
 	}
@@ -34,7 +34,7 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 	private void TryUnwrap(LineData line, Transform transform) {
 		if (line.Count >= 2) {
 			if (line.MarkedSides.Peek() != line.Side(transform.position)) {
-				line.UnwrapLast();
+				line.Pop();
 				line.MarkedSides.Pop();
 			}
 		}
@@ -43,14 +43,14 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 	public override void FixedUpdate() {
 		ForEachGameObject((ego, transform, input, line, state, velocity, links) => {
 			if (!input.HookDown) {
-				if (line.IsAnchored()) {
+				if (line.Anchored()) {
 					DisconnectLine(line, state, velocity);
 					// links.Needle.GiveTo(transform);
 				}
 				return;
 			}
 
-			if (!line.IsAnchored()) {
+			if (!line.Anchored()) {
 				RaycastHit2D hit = Physics2D.Raycast(
 					transform.position, input.AimAxis,
 					line.StartingLength, line.NormalGround
@@ -59,11 +59,11 @@ public class HookSystem : EgoSystem<Transform, VJoystick, LineData, MoveState, V
 				if (!hit) return;
 
 				Vector2 needleLoop = links.Needle.ThrowTo(hit.point, input.AimAxis);
-				line.SetAnchor(needleLoop);
+				line.WorldAnchor = needleLoop;
 				state.Value = MoveState.Swing;
 			}
 
-			float newLength = Vector2.Distance(transform.position, line.GetLast());
+			float newLength = Vector2.Distance(transform.position, line.WorldAnchor);
 			newLength -= line.RetractSpeed * Time.deltaTime;
 			line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
 

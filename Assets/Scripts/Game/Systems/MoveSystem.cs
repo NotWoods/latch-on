@@ -39,7 +39,7 @@ public class MoveSystem : EgoSystem<Transform, CharacterData, WallJumper, VJoyst
 
 		Vector2 currentPosition = transform.position;
 		Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
-		Vector2 tetherPoint = line.GetLast();
+		Vector2 tetherPoint = line.WorldAnchor;
 
 		if (Vector2.Distance(testPosition, tetherPoint) > line.FreeLength) {
 			Vector2 direction = testPosition - tetherPoint;

@@ -20,11 +20,11 @@ public class LineData : MonoBehaviour {
 	[SerializeField]
 	private List<Vector2> points = new List<Vector2>();
 
-	public void WrapPoint(Vector2 pos) {
+	public void Push(Vector2 pos) {
 		points.Add(pos);
 	}
 
-	public void UnwrapLast() {
+	public void Pop() {
 		if (points.Count > 0) {
 			int count = points.Count;
 			FreeLength += Vector2.Distance(points[count - 1], points[count - 2]);
@@ -33,38 +33,26 @@ public class LineData : MonoBehaviour {
 		else throw new InvalidOperationException("The LineComponent is empty");
 	}
 
-	public Vector2 GetLast() {
-		return points[points.Count - 1];
-	}
+	public Vector2 Peek() { return points[points.Count - 2]; }
 
-	public Vector2 GetPenultimate() {
-		return points[points.Count - 2];
-	}
+	public bool Anchored() { return points.Count > 0; }
 
-	public bool IsAnchored() {
-		return points.Count > 0;
-	}
-
-	public void SetAnchor(Vector2 pos) {
-		if (IsAnchored()) throw new InvalidOperationException();
-		WrapPoint(pos);
+	public Vector2 WorldAnchor {
+		get { return points[points.Count - 1]; }
+		set { Push(value); }
 	}
 
 	/// Remove all points from the line
-	public void ClearPoints() {
-		points.Clear();
-	}
+	public void Clear() { points.Clear(); }
 
 	public IEnumerable<Vector2> Points() {
 		foreach (Vector2 p in points) yield return p;
 	}
 
-	public int Count {
-		get { return points.Count; }
-	}
+	public int Count { get { return points.Count; } }
 
 	public int Side(Vector2 point) {
 		if (Count < 2) throw new InvalidOperationException();
-		return ExtraMath.SideOfLine(point, GetLast(), GetPenultimate());
+		return ExtraMath.SideOfLine(point, WorldAnchor, Peek());
 	}
 }
