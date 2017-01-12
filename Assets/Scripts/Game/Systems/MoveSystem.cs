@@ -3,7 +3,7 @@ using Prime31;
 
 public class MoveSystem : EgoSystem<CharacterData, Velocity, CharacterController2D, VJoystick, MoveState> {
 	private float GetJumpVelocity(CharacterData stats) {
-		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.GravityBase);
+		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
 	}
 
 	private void CalculateWalkingVelocity(ref Vector2 velocity,
@@ -36,7 +36,7 @@ public class MoveSystem : EgoSystem<CharacterData, Velocity, CharacterController
 				}
 			}
 
-			velocity.y += stats.GravityBase * stats.GravityScale * Time.deltaTime;
+			velocity.y += stats.Gravity * Time.deltaTime;
 
 			if (!state.Any(MoveState.Swing, MoveState.Flung)) {
 				CalculateWalkingVelocity(ref velocity, stats, input, state, ego);
