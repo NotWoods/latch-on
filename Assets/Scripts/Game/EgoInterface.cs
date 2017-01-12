@@ -11,6 +11,7 @@ public class EgoInterface : MonoBehaviour {
 			new MoveSystem(),
 			new SwingingSystem(),
 			new WallJumpingSystem(),
+			// new DiveSystem(),
 			new ApplyMoveSystem(),
 
 			new LineRendererSystem(),

@@ -1,21 +1,33 @@
 using UnityEngine;
 
-/// Rudimentary diving system. Needs to be remodeled based on the wall
-/// jump impulses.
+/// Rudimentary diving system.
 public class DiveSystem : EgoSystem<Velocity, MoveState, VJoystick> {
+	Vector2 DivingVelocity = new Vector2(30, -10);
+
 	public override void FixedUpdate() {
 		ForEachGameObject((ego, velocity, state, input) => {
 			if (state.Any(MoveState.Fall, MoveState.Flung)
-			&& input.SinkPressed && AtDivingVelocity(velocity.Value)) {
+			&& input.SinkPressed && CanDive(velocity.Value, ego)) {
 				Debug.Log("Dive! Dive! Dive!");
-				Vector2 angle = new Vector2(Mathf.Sign(velocity.x) * 3, -1);
-				velocity.Value = angle * 10;
+				velocity.Value = new Vector2(
+					Mathf.Sign(velocity.x) * DivingVelocity.x,
+					DivingVelocity.y
+				);
 			}
 		});
 	}
 
-	private bool AtDivingVelocity(Vector2 velocity) {
+	private bool CanDive(Vector2 velocity, EgoComponent ego) {
 		float ySpeed = Mathf.Abs(velocity.y);
-		return ySpeed < 2;
+		if (ySpeed < 2) {
+			WallJumper wallJumper;
+			if (ego.TryGetComponents<WallJumper>(out wallJumper)) {
+				return !wallJumper.IsSliding;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 }
