@@ -38,7 +38,7 @@ public class MoveSystem : EgoSystem<MoveConfig, Velocity, CharacterController2D,
 
 			velocity.y += stats.Gravity * Time.deltaTime;
 
-			if (!state.Any(MoveState.Swing, MoveState.Flung)) {
+			if (state.Any(MoveState.Walk, MoveState.Fall)) {
 				CalculateWalkingVelocity(ref velocity, stats, input, state, ego);
 			}
 

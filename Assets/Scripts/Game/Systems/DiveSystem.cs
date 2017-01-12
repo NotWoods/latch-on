@@ -1,25 +1,30 @@
 using UnityEngine;
+using Prime31;
 
 /// Rudimentary diving system.
-public class DiveSystem : EgoSystem<Velocity, MoveState, VJoystick> {
-	Vector2 DivingVelocity = new Vector2(30, -10);
-
+public class DiveSystem : EgoSystem<Diver, Velocity, MoveState, VJoystick, CharacterController2D> {
 	public override void FixedUpdate() {
-		ForEachGameObject((ego, velocity, state, input) => {
-			if (state.Any(MoveState.Fall, MoveState.Flung)
-			&& input.SinkPressed && CanDive(velocity.Value, ego)) {
-				Debug.Log("Dive! Dive! Dive!");
+		ForEachGameObject((ego, diver, velocity, state, input, controller) => {
+			if (state.Value == MoveState.Dive) {
+				if (controller.collisionState.hasCollision()) {
+					state.Value = MoveState.Fall;
+					return;
+				}
+
 				velocity.Value = new Vector2(
-					Mathf.Sign(velocity.x) * DivingVelocity.x,
-					DivingVelocity.y
+					Mathf.Sign(velocity.x) * diver.DivingVelocity.x,
+					diver.DivingVelocity.y
 				);
+			} else if (input.SinkPressed && CanDive(diver, velocity.Value, state, ego)) {
+				state.Value = MoveState.Dive;
 			}
 		});
 	}
 
-	private bool CanDive(Vector2 velocity, EgoComponent ego) {
-		float ySpeed = Mathf.Abs(velocity.y);
-		if (ySpeed < 2) {
+	private bool CanDive(Diver diver, Vector2 velocity, MoveState state, EgoComponent ego) {
+		if (!state.Any(MoveState.Fall, MoveState.Flung)) return false;
+
+		if (velocity.y >= diver.MinYVelocity && velocity.y <= diver.MaxYVelocity) {
 			WallJumper wallJumper;
 			if (ego.TryGetComponents<WallJumper>(out wallJumper)) {
 				return !wallJumper.IsSliding;

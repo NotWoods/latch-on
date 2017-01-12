@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 61809429052798118}
   - component: {fileID: 120257267735098432}
   - component: {fileID: 50055113803053860}
+  - component: {fileID: 198025163195175568}
   - component: {fileID: 114423765116629868}
   - component: {fileID: 114931518532070412}
   - component: {fileID: 114211141950139380}
@@ -33,8 +34,8 @@ GameObject:
   - component: {fileID: 114921228809271472}
   - component: {fileID: 114862614507499372}
   - component: {fileID: 114672180045731880}
-  - component: {fileID: 198025163195175568}
   - component: {fileID: 199295897400259486}
+  - component: {fileID: 114371469269374666}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -108,6 +109,20 @@ MonoBehaviour:
   SinkPressed: 0
   HookDown: 0
   ShouldRespawn: 0
+--- !u!114 &114371469269374666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364614095386930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5339c30c933f912499bd61f9352816bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinYVelocity: -2
+  MaxYVelocity: 2
+  DivingVelocity: {x: 11, y: -11}
 --- !u!114 &114423765116629868
 MonoBehaviour:
   m_ObjectHideFlags: 1
