@@ -4,11 +4,9 @@ public class LineRendererSystem : EgoSystem<WorldPosition, LineData, LineRendere
 	public override void Update() {
 		ForEachGameObject((ego, position, line, renderer) => {
 			if (!line.Anchored()) {
-				renderer.enabled = false;
+				renderer.numPositions = 0;
 				return;
 			}
-
-			renderer.enabled = true;
 
 			Vector3[] points = new Vector3[line.Count + 1];
 			int i = 0;
