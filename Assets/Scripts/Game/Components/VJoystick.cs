@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// Virtual joystick data
+/// Virtual joystick data, set by the player or some AI
 [DisallowMultipleComponent]
 public class VJoystick : MonoBehaviour {
 	[Range(-1, 1)]
@@ -23,9 +23,6 @@ public class VJoystick : MonoBehaviour {
 	public bool HookDown = false;
 
 	public bool ShouldRespawn = false;
-
-	public enum PointerMode { Mouse, Touch, Controller }
-	public PointerMode Mode = PointerMode.Mouse;
 
 	public void ClearPressed() {
 		JumpPressed = SinkPressed = false;

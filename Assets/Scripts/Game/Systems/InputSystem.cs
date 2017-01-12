@@ -1,21 +1,31 @@
 using UnityEngine;
 
 public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
-	private Vector2 getPointerDir(VJoystick input, Vector2 playerPosition) {
+	private Vector2 getPointerDir(ControlType controlType, Vector2 playerPosition) {
 		Vector2 result = Vector2.zero;
+		Vector2? cursorScreenPoint = null;
 
-		switch (input.Mode) {
-			case VJoystick.PointerMode.Touch:
-			case VJoystick.PointerMode.Mouse:
-				Vector2 cursorPoint = Camera.main.ScreenToWorldPoint(
-					input.Mode == VJoystick.PointerMode.Touch
-						? Input.GetTouch(0).position
-						: (Vector2) Input.mousePosition
-				);
+		switch (controlType) {
+			case ControlType.Touch:
+				cursorScreenPoint = Input.GetTouch(0).position;
+				goto case ControlType.Keyboard;
+
+			case ControlType.Keyboard:
+				cursorScreenPoint = cursorScreenPoint.HasValue
+					? cursorScreenPoint
+					: (Vector2) Input.mousePosition;
+				Vector2 cursorPoint = Camera.main.ScreenToWorldPoint(cursorScreenPoint.Value);
 				result = cursorPoint - playerPosition;
 				break;
 
-			case VJoystick.PointerMode.Controller:
+			case ControlType.Joystick1:
+			case ControlType.Joystick2:
+			case ControlType.Joystick3:
+			case ControlType.Joystick4:
+			case ControlType.Joystick5:
+			case ControlType.Joystick6:
+			case ControlType.Joystick7:
+			case ControlType.Joystick8:
 				result.Set(Input.GetAxis("Pointer X"), Input.GetAxis("Pointer Y"));
 				break;
 		}
@@ -26,7 +36,7 @@ public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
 	public override void Update() {
 		if (GameManager.IsPaused()) return;
 
-		ForEachGameObject((ego, p, input, position) => {
+		ForEachGameObject((ego, player, input, position) => {
 			input.XMoveAxis = Input.GetAxis("Horizontal");
 			input.XMoveAxisRaw = Input.GetAxisRaw("Horizontal");
 
@@ -40,10 +50,10 @@ public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
 			bool controllerDown = Input.GetButton("Grapple Using Pointer");
 
 			input.HookDown = touchDown || mouseDown || controllerDown;
-			if (touchDown) input.Mode = VJoystick.PointerMode.Touch;
-			else if (mouseDown) input.Mode = VJoystick.PointerMode.Mouse;
-			else if (controllerDown) input.Mode = VJoystick.PointerMode.Controller;
-			input.AimAxis = getPointerDir(input, position.Value);
+			if (touchDown) player.Controller = ControlType.Touch;
+			else if (mouseDown) player.Controller = ControlType.Keyboard;
+			else if (controllerDown) player.Controller = ControlType.Joystick1;
+			input.AimAxis = getPointerDir(player.Controller, position.Value);
 		});
 	}
 }
