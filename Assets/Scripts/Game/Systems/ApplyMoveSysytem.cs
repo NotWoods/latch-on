@@ -6,8 +6,8 @@ public class ApplyMoveSystem : EgoSystem<Velocity, CharacterController2D> {
 		ForEachGameObject((ego, vel, controller) => {
 			Vector2 velocity = vel.Value;
 
-			CharacterData stats;
-			if (ego.TryGetComponents<CharacterData>(out stats)) {
+			MoveConfig stats;
+			if (ego.TryGetComponents<MoveConfig>(out stats)) {
 				if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
 			}
 

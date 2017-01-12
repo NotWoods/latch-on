@@ -1,13 +1,13 @@
 using UnityEngine;
 using Prime31;
 
-public class MoveSystem : EgoSystem<CharacterData, Velocity, CharacterController2D, VJoystick, MoveState> {
-	private float GetJumpVelocity(CharacterData stats) {
+public class MoveSystem : EgoSystem<MoveConfig, Velocity, CharacterController2D, VJoystick, MoveState> {
+	private float GetJumpVelocity(MoveConfig stats) {
 		return Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
 	}
 
 	private void CalculateWalkingVelocity(ref Vector2 velocity,
-		CharacterData stats, VJoystick input, MoveState state,
+		MoveConfig stats, VJoystick input, MoveState state,
 		EgoComponent ego
 	) {
 		float damp = 1;
