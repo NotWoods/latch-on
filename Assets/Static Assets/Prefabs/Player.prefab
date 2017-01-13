@@ -120,8 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5339c30c933f912499bd61f9352816bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinYVelocity: -2
-  MaxYVelocity: 2
+  MinYVelocity: -5
+  MaxYVelocity: 5
   DivingVelocity: {x: 11, y: -11}
 --- !u!114 &114423765116629868
 MonoBehaviour:

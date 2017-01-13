@@ -6,7 +6,7 @@ public class SwingingParticleSystem : EgoSystem<ParticleSystem, MoveState, Veloc
 
 	public override void Update() {
 		ForEachGameObject((ego, particleSys, state, velocity) => {
-			if (state.Any(MoveState.Swing, MoveState.Flung)
+			if (state.Any(MoveState.Swing, MoveState.Flung, MoveState.Dive)
 			&& velocity.Value.sqrMagnitude > Mathf.Pow(MinSpeed, 2)) {
 				if (!particleSys.isPlaying) {
 					particleSys.Play();
