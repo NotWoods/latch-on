@@ -4,50 +4,32 @@ using System.Collections.Generic;
 class MissingComponentException : System.Exception {}
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, Velocity> {
+public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState> {
 	public float MinFlingSpeed = 0.1f;
 
 	private void DisconnectLine(LineData line,
-		MoveState state, Velocity velocity
+		MoveState state, float velocityX
 	) {
 		line.Clear();
 		line.MarkedSides.Clear();
 		line.FreeLength = line.StartingLength;
-		if (velocity.x < -MinFlingSpeed || velocity.x > MinFlingSpeed)
+		if (velocityX < -MinFlingSpeed || velocityX > MinFlingSpeed)
 			state.Value = MoveState.Flung;
 		else
 			state.Value = MoveState.Fall;
 	}
 
-	private void TryWrap(LineData line,
-		Vector2 position, Velocity velocity
-	) {
-		RaycastHit2D shouldWrap = Physics2D.Linecast(
-			position,
-			line.WorldAnchor,
-			line.NoHookGround
-		);
-
-		if (shouldWrap && line.WorldAnchor != shouldWrap.point) {
-			line.Push(shouldWrap.point + velocity.Value.normalized * -0.1f);
-			line.MarkedSides.Push(line.Side(position));
-		}
-	}
-
-	private void TryUnwrap(LineData line, Vector2 position) {
-		if (line.Count >= 2) {
-			if (line.MarkedSides.Peek() != line.Side(position)) {
-				line.Pop();
-				line.MarkedSides.Pop();
-			}
-		}
-	}
-
 	public override void FixedUpdate() {
-		ForEachGameObject((ego, position, input, line, state, velocity) => {
+		ForEachGameObject((ego, position, input, line, state) => {
 			if (!input.HookDown) {
 				if (line.Anchored()) {
-					DisconnectLine(line, state, velocity);
+					Velocity velocity;
+					if (ego.TryGetComponents<Velocity>(out velocity)) {
+						DisconnectLine(line, state, velocity.x);
+					} else {
+						DisconnectLine(line, state, MinFlingSpeed + 1);
+					}
+
 					// links.Needle.GiveTo(transform);
 				}
 				return;
