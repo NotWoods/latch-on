@@ -75,9 +75,6 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 			float newLength = Vector2.Distance(position.Value, line.WorldAnchor);
 			newLength -= line.RetractSpeed * Time.deltaTime;
 			line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
-
-			TryWrap(line, position.Value, velocity);
-			TryUnwrap(line, position.Value);
 		});
 	}
 
