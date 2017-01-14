@@ -30,12 +30,12 @@ GameObject:
   - component: {fileID: 114897965272264278}
   - component: {fileID: 114767122894940638}
   - component: {fileID: 114503115908229072}
-  - component: {fileID: 114759229703358148}
   - component: {fileID: 114921228809271472}
   - component: {fileID: 114862614507499372}
   - component: {fileID: 114672180045731880}
   - component: {fileID: 199295897400259486}
   - component: {fileID: 114371469269374666}
+  - component: {fileID: 114498537544546882}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -182,6 +182,20 @@ MonoBehaviour:
     wasGroundedLastFrame: 0
     movingDownSlope: 0
     slopeAngle: 0
+--- !u!114 &114498537544546882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364614095386930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2ea3f8e50df87479f53519b9e088f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NeedlePrefab: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c,
+    type: 2}
+  Needle: {fileID: 0}
 --- !u!114 &114503115908229072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,21 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68fc24955e055d41b333272481edc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114759229703358148
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1364614095386930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9957413a68d49874b8dffeec49847da0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CursorPrefab: {fileID: 1548369207386528, guid: 04c5d6a924107e244bf77fe6cf80566a,
-    type: 2}
-  NeedlePrefab: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c,
-    type: 2}
 --- !u!114 &114767122894940638
 MonoBehaviour:
   m_ObjectHideFlags: 1

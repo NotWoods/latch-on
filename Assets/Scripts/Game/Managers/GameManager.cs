@@ -69,4 +69,12 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	public static bool IsPaused() {
 		return Time.timeScale == 0;
 	}
+
+	public EgoComponent NewEntity(GameObject prefab = null) {
+		if (prefab == null) {
+			return Ego.AddGameObject(new GameObject());
+		} else {
+			return Ego.AddGameObject(Instantiate(prefab));
+		}
+	}
 }

@@ -1,7 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
+
+class MissingComponentException : System.Exception {}
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, Velocity, LinkedProps> {
+public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, Velocity> {
 	public float MinFlingSpeed = 0.1f;
 
 	private void DisconnectLine(LineData line,
@@ -41,7 +44,7 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 	}
 
 	public override void FixedUpdate() {
-		ForEachGameObject((ego, position, input, line, state, velocity, links) => {
+		ForEachGameObject((ego, position, input, line, state, velocity) => {
 			if (!input.HookDown) {
 				if (line.Anchored()) {
 					DisconnectLine(line, state, velocity);
@@ -58,8 +61,14 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 
 				if (!hit) return;
 
-				Vector2 needleLoop = links.Needle.ThrowTo(hit.point, input.AimAxis);
-				line.WorldAnchor = needleLoop;
+				NeedleHolder needleHolder;
+				if (ego.TryGetComponents<NeedleHolder>(out needleHolder)) {
+					Hook needle = GetHook(needleHolder);
+					line.WorldAnchor = ThrowTo(needle.transform, hit.point, input.AimAxis);
+				} else {
+					line.WorldAnchor = hit.point;
+				}
+
 				state.Value = MoveState.Swing;
 			}
 
@@ -70,5 +79,36 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 			TryWrap(line, position.Value, velocity);
 			TryUnwrap(line, position.Value);
 		});
+	}
+
+	private Dictionary<NeedleHolder, Hook> hookCache = new Dictionary<NeedleHolder, Hook>();
+	private Hook GetHook(NeedleHolder holder) {
+		if (hookCache.ContainsKey(holder)) return hookCache[holder];
+
+		EgoComponent needleObject;
+		if (holder.Needle == null) {
+			needleObject = GameManager.Instance.NewEntity(holder.NeedlePrefab);
+		} else {
+			needleObject = holder.Needle.GetComponent<EgoComponent>();
+		}
+
+		Hook hook;
+		if (needleObject.TryGetComponents<Hook>(out hook)) {
+			hookCache[holder] = hook;
+			return hook;
+		} else {
+			throw new MissingComponentException();
+		}
+	}
+
+	private Transform GetLoop(Transform needleTransform) {
+		return needleTransform.Find("Loop");
+	}
+
+	private Vector2 ThrowTo(Transform needle, Vector2 point, Vector2 direction) {
+		needle.position = point;
+		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
+		needle.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+		return GetLoop(needle).position;
 	}
 }
