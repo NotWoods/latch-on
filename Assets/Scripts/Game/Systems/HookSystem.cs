@@ -13,50 +13,55 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 		line.Clear();
 		line.MarkedSides.Clear();
 		line.FreeLength = line.StartingLength;
-		if (velocityX < -MinFlingSpeed || velocityX > MinFlingSpeed)
+
+		bool hasLargeXVelocity = velocityX < -MinFlingSpeed || velocityX > MinFlingSpeed;
+		if (hasLargeXVelocity) {
 			state.Value = MoveState.Flung;
-		else
+		} else {
 			state.Value = MoveState.Fall;
+		}
 	}
 
 	public override void FixedUpdate() {
 		ForEachGameObject((ego, position, input, line, state) => {
-			if (!input.HookDown) {
-				if (line.Anchored()) {
-					Velocity velocity;
-					if (ego.TryGetComponents<Velocity>(out velocity)) {
-						DisconnectLine(line, state, velocity.x);
+			NeedleHolder needleHolder;
+			Hook needle;
+			bool anchored = line.Anchored();
+
+			if (input.HookDown) {
+				bool hasNeedleComponent = ego.TryGetComponents<NeedleHolder>(out needleHolder);
+				needle = GetHook(needleHolder);
+
+				if (!anchored) {
+					RaycastHit2D hit = Physics2D.Raycast(
+						position.Value, input.AimAxis,
+						line.StartingLength, line.NormalGround
+					);
+
+					if (hit) {
+						if (!hasNeedleComponent) {
+							line.WorldAnchor = hit.point;
+						} else {
+							line.WorldAnchor = ThrowTo(needle.transform, hit.point, input.AimAxis);
+						}
+
+						state.Value = MoveState.Swing;
 					} else {
-						DisconnectLine(line, state, MinFlingSpeed + 1);
+						return;
 					}
-
-					// links.Needle.GiveTo(transform);
-				}
-				return;
-			}
-
-			if (!line.Anchored()) {
-				RaycastHit2D hit = Physics2D.Raycast(
-					position.Value, input.AimAxis,
-					line.StartingLength, line.NormalGround
-				);
-
-				if (!hit) return;
-
-				NeedleHolder needleHolder;
-				if (ego.TryGetComponents<NeedleHolder>(out needleHolder)) {
-					Hook needle = GetHook(needleHolder);
-					line.WorldAnchor = ThrowTo(needle.transform, hit.point, input.AimAxis);
-				} else {
-					line.WorldAnchor = hit.point;
 				}
 
-				state.Value = MoveState.Swing;
-			}
+				float newLength = Vector2.Distance(position.Value, line.WorldAnchor);
+				newLength -= line.RetractSpeed * Time.deltaTime;
+				line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
+			} else {
+				if (anchored) {
+					Velocity velocity;
+					bool hasVelocityComponent = ego.TryGetComponents<Velocity>(out velocity);
 
-			float newLength = Vector2.Distance(position.Value, line.WorldAnchor);
-			newLength -= line.RetractSpeed * Time.deltaTime;
-			line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
+					DisconnectLine(line, state, hasVelocityComponent ? velocity.x : MinFlingSpeed + 1);
+				}
+			}
 		});
 	}
 
