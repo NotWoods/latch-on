@@ -14,6 +14,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	private Dictionary<ControlType, GameObject> Players;
 	private Transform spawnPoint;
 
+	public Queue<GameObject> DestroyedObjects = new Queue<GameObject>();
+
 	void Awake() {
 		Players = new Dictionary<ControlType, GameObject>();
 		spawnPoint = transform.Find(SpawnPointName);
@@ -77,4 +79,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 			return Ego.AddGameObject(Instantiate(prefab));
 		}
 	}
+
+	public void Destory(GameObject go) { Destroy(go); }
 }
