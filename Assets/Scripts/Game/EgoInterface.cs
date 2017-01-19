@@ -18,7 +18,8 @@ public class EgoInterface : MonoBehaviour {
 			new LineRendererSystem(),
 			new CursorRendererSystem(),
 			new RespawnSystem(),
-			new SwingingParticleSystem()
+			new SwingingParticleSystem(),
+			new HookTrailSystem()
 		);
 	}
 
