@@ -59,6 +59,7 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 		}
 	}
 
+	/// Step the swinging loop
 	private void KeepSwinging(LineData line, Vector2 position) {
 		float newLength = Vector2.Distance(position, line.WorldAnchor);
 		newLength -= line.RetractSpeed * Time.deltaTime;
@@ -67,6 +68,7 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 		line.FreeLength = newLength;
 	}
 
+	/// Cancel the swing
 	private void StopSwinging(LineData line, MoveState state, EgoComponent egoComponent) {
 		line.Clear();
 		line.MarkedSides.Clear();
@@ -81,31 +83,24 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 		state.Value = smallXSpeed ? MoveState.Fall : MoveState.Flung;
 	}
 
+	/// Check if the target has been reached by the hook
 	private bool TargetReached(Hook hook) {
 		WorldPosition needlePos = hook.GetComponent<WorldPosition>();
 
 		return hook.Target == needlePos.Value;
 	}
 
-	private Vector2 GetLoopPoint(Hook hook) {
-		Transform transform = hook.transform;
-		Vector2 direction = transform.rotation * Vector2.up;
-		Vector2 shift = (direction.normalized * hook.HookLength);
-
-		return (Vector2) transform.position + shift;
-	}
-
 	private void StartSwinging(LineData line, MoveState state, NeedleHolder needleHolder, Vector2 playerPosition) {
 		Hook hook = GetHook(needleHolder);
 
 		state.Value = MoveState.Swing;
-		line.WorldAnchor = GetLoopPoint(hook);
+		line.WorldAnchor = hook.CalculatePinHead();
 		needleHolder.DidThrow = false;
 		line.FreeLength = Vector2.Distance(playerPosition, line.WorldAnchor);
 	}
 
 	private bool PathInterupted(Hook hook, Vector2 position, LineData line) {
-		Vector2 loopPoint = GetLoopPoint(hook);
+		Vector2 loopPoint = hook.CalculatePinHead();
 
 		return Physics2D.Linecast(loopPoint, position, line.NoHookGround);
 		// || Vector2.Distance(loopPoint, position) > line.StartingLength;
