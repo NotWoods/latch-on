@@ -4,62 +4,35 @@ using System.Collections.Generic;
 class MissingComponentException : System.Exception {}
 
 /// Manages rope attachment and wrapping
-public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState> {
+public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, NeedleHolder> {
 	public float MinFlingSpeed = 0.1f;
 
-	private void DisconnectLine(LineData line,
-		MoveState state, float velocityX
-	) {
-		line.Clear();
-		line.MarkedSides.Clear();
-		line.FreeLength = line.StartingLength;
-
-		bool hasLargeXVelocity = velocityX < -MinFlingSpeed || velocityX > MinFlingSpeed;
-		if (hasLargeXVelocity) {
-			state.Value = MoveState.Flung;
-		} else {
-			state.Value = MoveState.Fall;
-		}
-	}
-
 	public override void FixedUpdate() {
-		ForEachGameObject((ego, position, input, line, state) => {
-			NeedleHolder needleHolder;
-			Hook needle;
-			bool anchored = line.Anchored();
+		ForEachGameObject((ego, pos, input, line, state, needleHolder) => {
+			Hook hook = GetHook(needleHolder);
+			Vector2 position = pos.Value;
 
-			if (input.HookDown) {
-				bool hasNeedleComponent = ego.TryGetComponents<NeedleHolder>(out needleHolder);
-				needle = GetHook(needleHolder);
+			bool isSwinging = line.Anchored();
+			bool buttonHeld = input.HookDown;
+			bool didThrow = needleHolder.DidThrow;
 
-				if (!anchored) {
-					RaycastHit2D hit = Physics2D.Raycast(
-						position.Value, input.AimAxis,
-						line.StartingLength, line.NormalGround
-					);
-
-					if (hit) {
-						if (!hasNeedleComponent) {
-							line.WorldAnchor = hit.point;
-						} else {
-							line.WorldAnchor = ThrowTo(needle.transform, hit.point, input.AimAxis);
-						}
-
-						state.Value = MoveState.Swing;
-					} else {
-						return;
-					}
+			if (isSwinging) {
+				if (buttonHeld) KeepSwinging(line, position);
+				else {
+					StopSwinging(line, state, ego);
+					RetractHook(hook);
 				}
-
-				float newLength = Vector2.Distance(position.Value, line.WorldAnchor);
-				newLength -= line.RetractSpeed * Time.deltaTime;
-				line.FreeLength = Mathf.Clamp(newLength, 0.5f, line.StartingLength);
-			} else {
-				if (anchored) {
-					Velocity velocity;
-					bool hasVelocityComponent = ego.TryGetComponents<Velocity>(out velocity);
-
-					DisconnectLine(line, state, hasVelocityComponent ? velocity.x : MinFlingSpeed + 1);
+			} else if (didThrow) {
+				if (TargetReached(hook)) StartSwinging(line, state, needleHolder, position);
+				else if (PathInterupted(hook, position, line)) {
+					CancelThrow(needleHolder);
+					RetractHook(hook);
+				}
+				else KeepThrowing(hook);
+			} else if (buttonHeld) {
+				Vector2 newTarget;
+				if (PathExists(position, input, line, out newTarget)) {
+					StartThrow(needleHolder, newTarget, position);
 				}
 			}
 		});
@@ -72,6 +45,7 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 		EgoComponent needleObject;
 		if (holder.Needle == null) {
 			needleObject = GameManager.Instance.NewEntity(holder.NeedlePrefab);
+			holder.Needle = needleObject.gameObject;
 		} else {
 			needleObject = holder.Needle.GetComponent<EgoComponent>();
 		}
@@ -85,14 +59,100 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 		}
 	}
 
-	private Transform GetLoop(Transform needleTransform) {
-		return needleTransform.Find("Loop");
+	private void KeepSwinging(LineData line, Vector2 position) {
+		float newLength = Vector2.Distance(position, line.WorldAnchor);
+		newLength -= line.RetractSpeed * Time.deltaTime;
+
+		if (newLength < 0.5f) newLength = 0.5f;
+		line.FreeLength = newLength;
 	}
 
-	private Vector2 ThrowTo(Transform needle, Vector2 point, Vector2 direction) {
-		needle.position = point;
+	private void StopSwinging(LineData line, MoveState state, EgoComponent egoComponent) {
+		line.Clear();
+		line.MarkedSides.Clear();
+		line.FreeLength = line.StartingLength;
+
+		bool smallXSpeed = false;
+		Velocity velocity;
+		if (egoComponent.TryGetComponents<Velocity>(out velocity)) {
+			smallXSpeed = Mathf.Abs(velocity.x) <= MinFlingSpeed;
+		}
+
+		state.Value = smallXSpeed ? MoveState.Fall : MoveState.Flung;
+	}
+
+	private bool TargetReached(Hook hook) {
+		WorldPosition needlePos = hook.GetComponent<WorldPosition>();
+
+		return hook.Target == needlePos.Value;
+	}
+
+	private Vector2 GetLoopPoint(Hook hook) {
+		Transform transform = hook.transform;
+		Vector2 direction = transform.rotation * Vector2.up;
+		Vector2 shift = (direction.normalized * hook.HookLength);
+
+		return (Vector2) transform.position + shift;
+	}
+
+	private void StartSwinging(LineData line, MoveState state, NeedleHolder needleHolder, Vector2 playerPosition) {
+		Hook hook = GetHook(needleHolder);
+
+		state.Value = MoveState.Swing;
+		line.WorldAnchor = GetLoopPoint(hook);
+		needleHolder.DidThrow = false;
+		line.FreeLength = Vector2.Distance(playerPosition, line.WorldAnchor);
+	}
+
+	private bool PathInterupted(Hook hook, Vector2 position, LineData line) {
+		Vector2 loopPoint = GetLoopPoint(hook);
+
+		return Physics2D.Linecast(loopPoint, position, line.NoHookGround);
+		// || Vector2.Distance(loopPoint, position) > line.StartingLength;
+	}
+
+	private void CancelThrow(NeedleHolder needleHolder) {
+		needleHolder.DidThrow = false;
+	}
+
+	private void RetractHook(Hook hook) {
+		hook.transform.position = hook.StorageLocation;
+		hook.Deployed = false;
+	}
+
+	private void KeepThrowing(Hook hook) {
+		Transform hookTransform = hook.transform;
+
+		hookTransform.position = Vector2.MoveTowards(
+			hookTransform.position,
+			hook.Target,
+			hook.Speed * Time.deltaTime
+		);
+	}
+
+	private bool PathExists(Vector2 position, VJoystick input, LineData line, out Vector2 newTarget) {
+		RaycastHit2D hit = Physics2D.Raycast(
+			position, input.AimAxis,
+			line.StartingLength, line.NormalGround
+		);
+
+		newTarget = hit ? hit.point : Vector2.zero;
+		return hit;
+	}
+
+	private void StartThrow(NeedleHolder needleHolder, Vector2 target, Vector2 start) {
+		Hook hook = GetHook(needleHolder);
+		Transform transform = hook.transform;
+
+		Vector2 direction = target - start;
 		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
-		needle.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-		return GetLoop(needle).position;
+		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+		Vector2 shift = (direction.normalized * hook.HookLength * -1);
+		transform.position = start - shift;
+
+		needleHolder.DidThrow = true;
+		hook.Target = target;
+		hook.Deployed = true;
 	}
 }
