@@ -6,7 +6,6 @@ public class HookTrailSystem : EgoSystem<Hook, TrailRenderer> {
 			if (hook.Deployed != trailRenderer.enabled) {
 				trailRenderer.enabled = hook.Deployed;
 				if (hook.Deployed) {
-					Debug.Log("Started!");
 					trailRenderer.Clear();
 				}
 			}
