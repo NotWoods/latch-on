@@ -30,7 +30,8 @@ public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
 				break;
 		}
 
-		return result.normalized;
+		if (result.sqrMagnitude > 1) result.Normalize();
+		return result;
 	}
 
 	public override void Update() {
@@ -42,7 +43,7 @@ public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
 
 			if (Input.GetButtonDown("Jump")) input.JumpPressed = true;
 			if (Input.GetButtonDown("Sink")) input.SinkPressed = true;
-			if (Input.GetKeyDown(KeyCode.R)) input.ShouldRespawn = true;
+			if (Input.GetButtonDown("Respawn")) input.ShouldRespawn = true;
 
 
 			bool touchDown = Input.touchCount > 0;

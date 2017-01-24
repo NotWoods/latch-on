@@ -52,6 +52,7 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 
 		Hook hook;
 		if (needleObject.TryGetComponents<Hook>(out hook)) {
+			needleObject.transform.position = hook.StorageLocation;
 			hookCache[holder] = hook;
 			return hook;
 		} else {
