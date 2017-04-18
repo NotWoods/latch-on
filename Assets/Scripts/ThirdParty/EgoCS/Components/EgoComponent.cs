@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 [DisallowMultipleComponent]
 public class EgoComponent : MonoBehaviour
@@ -65,6 +66,15 @@ public class EgoComponent : MonoBehaviour
             && mask[ComponentIDs.Get( typeof( C3 ) ) ]
             && mask[ComponentIDs.Get( typeof( C4 ) ) ]
             && mask[ComponentIDs.Get( typeof( C5 ) ) ];
+    }
+
+    public C QueryComponent<C>() where C : Component {
+        C component;
+        if (TryGetComponents<C>(out component)) {
+            return component;
+        }
+
+        throw new Exception("Component not found");
     }
 
     public bool TryGetComponents<C1>( out C1 component1 )
