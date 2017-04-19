@@ -1,43 +1,43 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Rope;
 
-/// Manages rope attachment and wrapping
-public class WrapSystem : EgoSystem<LineData, WorldPosition> {
-	private void TryWrap(LineData line, Vector2 position, Vector2 velocity) {
-		RaycastHit2D shouldWrap = Physics2D.Linecast(
-			position,
-			line.WorldAnchor,
-			line.NoHookGround
-		);
+namespace LatchOn.ECS.Systems {
+	/// Manages rope attachment and wrapping
+	public class WrapSystem : EgoSystem<LineData, WrappingLine, WorldPosition, Velocity> {
+		void TryWrap(LineData line, WrappingLine wrapper, Vector2 position, Vector2 velocity) {
+			var anchorPoint = wrapper.Peek().point;
+			RaycastHit2D shouldWrap = Physics2D.Linecast(position, anchorPoint,
+				wrapper.ShouldWrap);
 
-		if (shouldWrap && line.WorldAnchor != shouldWrap.point) {
-			line.Push(shouldWrap.point + velocity.normalized * -0.1f);
-			line.MarkedSides.Push(line.Side(position));
-		}
-	}
+			if (shouldWrap && anchorPoint != shouldWrap.point) {
+				Vector2 newAnchor = shouldWrap.point + velocity.normalized * -0.1f;
 
-	private void TryUnwrap(LineData line, Vector2 position) {
-		if (line.Count >= 2) {
-			if (line.MarkedSides.Peek() != line.Side(position)) {
-				line.Pop();
-				line.MarkedSides.Pop();
+				line.AnchorPoint = newAnchor;
+				wrapper.Push(newAnchor);
 			}
 		}
-	}
 
-	public override void FixedUpdate() {
-		ForEachGameObject((ego, line, position) => {
-			if (line.Anchored()) {
-				Velocity velocity;
-				Vector2 velocityValue;
-				if (ego.TryGetComponents<Velocity>(out velocity)) {
-					velocityValue = velocity.Value;
-				} else {
-					velocityValue = Vector2.zero;
+		void TryUnwrap(LineData line, WrappingLine wrapper, Vector2 position) {
+			int count = wrapper.Entries.Count;
+			bool canUnwrap = count < 2;
+			if (canUnwrap) return;
+
+			var topEntry = wrapper.Peek();
+			bool playerOnOtherSideOfLine = topEntry.side != wrapper.SideOfLine(position);
+			if (playerOnOtherSideOfLine) {
+				wrapper.Pop();
+				line.AnchorPoint = wrapper.Peek().point;
+			}
+		}
+
+		public override void FixedUpdate() {
+			ForEachGameObject((ego, line, wrapper, position, velocity) => {
+				if (line.IsAnchored) {
+					TryWrap(line, wrapper, position.Value, velocity.Value);
+					TryUnwrap(line, wrapper, position.Value);
 				}
-
-				TryWrap(line, position.Value, velocityValue);
-				TryUnwrap(line, position.Value);
-			}
-		});
+			});
+		}
 	}
 }

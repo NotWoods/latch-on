@@ -1,19 +1,23 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Rope;
 
-public class LineRendererSystem : EgoSystem<WorldPosition, LineData, LineRenderer> {
+public class LineRendererSystem : EgoSystem<WorldPosition, LineData, WrappingLine, LineRenderer> {
 	public override void Update() {
-		ForEachGameObject((ego, position, line, renderer) => {
-			if (!line.Anchored()) {
-				renderer.numPositions = 0;
+		ForEachGameObject((ego, position, line, wrapper, renderer) => {
+			if (!line.IsAnchored) {
+				renderer.positionCount = 0;
 				return;
 			}
 
-			Vector3[] points = new Vector3[line.Count + 1];
+			Vector3[] points = new Vector3[wrapper.Count + 1];
 			int i = 0;
-			foreach (Vector2 p in line.Points()) { points[i] = p; i++; }
-			points[i] = position.Value;
+			foreach (var entry in wrapper.Entries) {
+				points[i] = entry.point;
+				i++;
+			}
 
-			renderer.numPositions = points.Length;
+			renderer.positionCount = points.Length;
 			renderer.SetPositions(points);
 		});
 	}
