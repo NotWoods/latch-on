@@ -68,15 +68,6 @@ public class EgoComponent : MonoBehaviour
             && mask[ComponentIDs.Get( typeof( C5 ) ) ];
     }
 
-    public C QueryComponent<C>() where C : Component {
-        C component;
-        if (TryGetComponents<C>(out component)) {
-            return component;
-        }
-
-        throw new Exception("Component not found");
-    }
-
     public bool TryGetComponents<C1>( out C1 component1 )
         where C1 : Component
     {

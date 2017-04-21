@@ -12,7 +12,7 @@ public class LineRendererSystem : EgoSystem<WorldPosition, LineData, WrappingLin
 
 			Vector3[] points = new Vector3[wrapper.Count + 1];
 			int i = 0;
-			foreach (var entry in wrapper.Entries) {
+			foreach (var entry in wrapper) {
 				points[i] = entry.point;
 				i++;
 			}

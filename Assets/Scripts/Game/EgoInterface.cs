@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using LatchOn.ECS.Systems;
 
 public class EgoInterface : MonoBehaviour {
 	static EgoInterface() {

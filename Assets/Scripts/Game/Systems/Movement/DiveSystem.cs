@@ -26,9 +26,9 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		bool CanDive(Diver diver, Vector2 velocity, MoveState state, EgoComponent ego) {
-			if (!state.Any(MoveType.Fall, MoveType.Flung)) return false;
+			if (!state.IsType(MoveType.Fall | MoveType.Flung)) return false;
 
-			if (velocity.y >= diver.MinYVelocity && velocity.y <= diver.MaxYVelocity) {
+			if (ExtraMath.InRange(velocity.y, diver.MinYVelocity, diver.MaxYVelocity)) {
 				WallJumper wallJumper;
 				if (ego.TryGetComponents<WallJumper>(out wallJumper)) {
 					return wallJumper.AgainstSide == Side.None;

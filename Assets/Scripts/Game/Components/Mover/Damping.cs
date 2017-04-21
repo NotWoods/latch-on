@@ -15,7 +15,7 @@ namespace LatchOn.ECS.Components.Mover {
 
 		/// Multiplier for velocity.
 		/// A value of 1 has no effect on the base velocity.
-		public float CurrentDamping(MoveType state) {
+		public float GetDamping(MoveType state) {
 			switch (state) {
 				case MoveType.Walk: return WalkDamping;
 				case MoveType.Swing: return SwingDamping;

@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace LatchOn.ECS.Components.Rope {
 	/// Wrapping line data, enhancing the normal LineData item
 	[DisallowMultipleComponent]
-	public class WrappingLine : MonoBehaviour {
+	public class WrappingLine : MonoBehaviour, IEnumerable<WrappingLine.Entry> {
 		/// Layers that the rope should wrap around
 		public LayerMask ShouldWrap;
 
@@ -26,33 +27,41 @@ namespace LatchOn.ECS.Components.Rope {
 			}
 		}
 
-		public List<Entry> Entries = new List<Entry>();
+		[SerializeField]
+		List<Entry> entries = new List<Entry>();
 
-		public int Count { get { return Entries.Count; } }
+		public IEnumerator<Entry> GetEnumerator() { return entries.GetEnumerator(); }
+		IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
+
+		public int Count { get { return entries.Count; } }
 
 		public void Push(Vector2 point, Side side) {
-			Entries.Add(new Entry(point, side));
+			entries.Add(new Entry(point, side));
 		}
-		public void Push(Vector2 point) {
-			Push(point, SideOfLine(point));
+		public void Push(Vector2 point, Vector2 playerPosition) {
+			Push(point, Side.None);
+			Entry justPushed = Peek();
+			justPushed.side = SideOfLine(playerPosition);
 		}
 
 		public Entry Peek() {
-			return Entries[Entries.Count - 1];
+			return entries[entries.Count - 1];
 		}
 		public Entry Pop() {
-			Entry removed = Entries[Entries.Count - 1];
-			Entries.RemoveAt(Entries.Count - 1);
+			Entry removed = entries[entries.Count - 1];
+			entries.RemoveAt(entries.Count - 1);
 			return removed;
 		}
 
+		public void Clear() { entries.Clear(); }
+
 		public Side SideOfLine(Vector2 point) {
-			int count = Entries.Count;
+			int count = entries.Count;
 			if (count < 2) throw new InvalidOperationException();
 
 			// The line checked agaisnt is represented by these two points
-			Vector2 currentAnchor = Entries[count - 1].point;
-			Vector2 topWrappedPoint = Entries[count - 2].point;
+			Vector2 currentAnchor = entries[count - 1].point;
+			Vector2 topWrappedPoint = entries[count - 2].point;
 
 			return (Side) ExtraMath.SideOfLine(point, currentAnchor, topWrappedPoint);
 		}

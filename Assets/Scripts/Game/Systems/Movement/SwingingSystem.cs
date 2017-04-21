@@ -8,20 +8,28 @@ namespace LatchOn.ECS.Systems {
 	public class SwingingSystem : EgoSystem<LineData, WorldPosition, Velocity, Damping> {
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, line, position, vel, damp) => {
+				// Only use swing system when line is active
 				if (!line.IsAnchored) return;
 				Vector2 velocity = vel.Value;
 
-				float damping = damp.CurrentDamping(MoveType.Swing);
+				float damping = damp.GetDamping(MoveType.Swing);
 
+				// Adjust velocity to dampened value
 				velocity.x = Mathf.MoveTowards(velocity.x, 0, Time.deltaTime * damping);
 
 				Vector2 currentPosition = position.Value;
-				Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
 				Vector2 tetherPoint = line.AnchorPoint;
 
+				// Represents where the entity will be in the next frame
+				Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
+
+				// If the player will be past the current line length, adjust it so
+				// the player is within the swinging radius.
 				if (Vector2.Distance(testPosition, tetherPoint) > line.CurrentLength) {
-					Vector2 direction = testPosition - tetherPoint;
-					testPosition = tetherPoint + (direction.normalized * line.CurrentLength);
+					Vector2 direction = (testPosition - tetherPoint).normalized;
+					testPosition = tetherPoint + (direction * line.CurrentLength);
+
+					// Alter the velocity to match the new location
 					velocity = (testPosition - currentPosition) / Time.deltaTime;
 				}
 

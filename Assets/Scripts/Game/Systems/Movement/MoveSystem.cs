@@ -20,7 +20,7 @@ namespace LatchOn.ECS.Systems {
 			float damp = 1;
 			Damping dampDictionary;
 			if (ego.TryGetComponents<Damping>(out dampDictionary)) {
-				damp = dampDictionary.CurrentDamping(state.Value);
+				damp = dampDictionary.GetDamping(state.Value);
 			}
 
 			// TODO: Change to use SmoothDamp instead later
@@ -30,6 +30,8 @@ namespace LatchOn.ECS.Systems {
 				Time.deltaTime * damp
 			);
 		}
+
+		MoveType Controllable = MoveType.Walk | MoveType.Fall;
 
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, vel, controller, input, state, fallStats, jumpStats, speed) => {
@@ -45,7 +47,7 @@ namespace LatchOn.ECS.Systems {
 
 				velocity.y += fallStats.Gravity * Time.deltaTime;
 
-				if (state.Any(MoveType.Walk, MoveType.Fall)) {
+				if (state.IsType(Controllable)) {
 					CalculateWalkingVelocity(ref velocity, speed, input, state, ego);
 				}
 

@@ -14,6 +14,6 @@ namespace LatchOn {
 		Swing,
 		Flung,
 		Fall,
-		Dive
+		Dive,
 	}
 }

@@ -14,12 +14,12 @@ namespace LatchOn.ECS.Systems {
 				Vector2 newAnchor = shouldWrap.point + velocity.normalized * -0.1f;
 
 				line.AnchorPoint = newAnchor;
-				wrapper.Push(newAnchor);
+				wrapper.Push(newAnchor, position);
 			}
 		}
 
 		void TryUnwrap(LineData line, WrappingLine wrapper, Vector2 position) {
-			int count = wrapper.Entries.Count;
+			int count = wrapper.Count;
 			bool canUnwrap = count < 2;
 			if (canUnwrap) return;
 

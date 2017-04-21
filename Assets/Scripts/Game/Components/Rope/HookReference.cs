@@ -3,11 +3,11 @@ using UnityEngine;
 namespace LatchOn.ECS.Components.Rope {
 	[DisallowMultipleComponent]
 	public class HookReference : MonoBehaviour {
-		GameObject HookPrefab;
-		GameObject Hook;
+		public GameObject HookPrefab;
 
-		/// Hook object entity ID
-		public int HookID;
+		/// Hook object entity reference
+		public EgoComponent Hook;
+
 		public bool DidThrow = false;
 	}
 }

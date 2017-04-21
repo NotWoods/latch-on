@@ -19,4 +19,14 @@ public static class ExtraMath {
 	public static int SideOfLine(Vector2 point, Vector2 A, Vector2 B) {
 		return Sign((B.x - A.x) * (point.y - A.y) - (B.y - A.y) * (point.x - A.x));
 	}
+
+	/// <summary>
+	/// Checks if a number is between two values (inclusive).
+	/// </summary>
+	/// <param name="toCheck">Number to check</param>
+	/// <param name="min">Smallest valid value</param>
+	/// <param name="max">Largest valid value</param>
+	public static bool InRange(float toCheck, float min, float max) {
+		return toCheck >= min && toCheck <= max;
+	}
 }

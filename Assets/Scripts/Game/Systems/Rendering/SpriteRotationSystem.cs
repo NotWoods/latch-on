@@ -17,7 +17,7 @@ namespace LatchOn.ECS.Systems {
 
 				Quaternion newRotation = Quaternion.identity;
 				if (anchored) {
-					Vector2 direction = line.WorldAnchor - position.Value;
+					Vector2 direction = line.AnchorPoint - position.Value;
 					float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 					newRotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 				}

@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using LatchOn.ECS.Components.Input;
+using Entity = UnityEngine.GameObject;
 
 public class GameManager : SingletonMonoBehaviour<GameManager> {
 	const string SpawnPointName = "Spawn Point";
@@ -11,32 +13,29 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	public Transform PropsContainer;
 
 	[SerializeField]
-	private Dictionary<ControlType, GameObject> Players;
+	private List<Entity> players;
 	private Transform spawnPoint;
 
 	public Queue<GameObject> DestroyedObjects = new Queue<GameObject>();
 
 	void Awake() {
-		Players = new Dictionary<ControlType, GameObject>();
+		players = new List<Entity>();
 		spawnPoint = transform.Find(SpawnPointName);
 
 		InitGame();
 	}
 
 	void InitGame() {
-		if (Players.Count == 0) SpawnCamera(SpawnPlayer());
+		if (players.Count == 0) SpawnCamera(SpawnPlayer());
 	}
 
-	GameObject SpawnPlayer(ControlType controller = ControlType.Keyboard) {
-		if (Players.ContainsKey(controller)) return Players[controller];
-
+	GameObject SpawnPlayer() {
 		GameObject player = Instantiate(PlayerPrefab, spawnPoint.position, Quaternion.identity);
 		if (ActorContainer) player.transform.parent = ActorContainer;
 
-		LocalPlayer marker = player.AddComponent<LocalPlayer>();
-		marker.Controller = controller;
+		player.AddComponent<LocalPlayer>();
 
-		Players.Add(controller, player);
+		players.Add(player);
 		player.GetComponent<Prime31.CharacterController2D>().warpToGrounded();
 
 		Ego.AddGameObject(player);
@@ -54,22 +53,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	}
 
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			Time.timeScale = Time.timeScale == 0 ? 1 : 0;
-		}
-
-		if (Input.GetKeyDown(KeyCode.F5)) {
-			foreach (ControlType c in System.Enum.GetValues(typeof (ControlType))) {
-				if (!Players.ContainsKey(c)) {
-					SpawnPlayer(c);
-					break;
-				}
-			}
-		}
-	}
-
-	public static bool IsPaused() {
-		return Time.timeScale == 0;
+		if (Input.GetKeyDown(KeyCode.F5)) SpawnPlayer();
 	}
 
 	public EgoComponent NewEntity(GameObject prefab = null) {
