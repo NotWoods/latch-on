@@ -8,7 +8,7 @@
 
     public EgoSystem() { }
 
-    protected bool CanUpdate(EgoComponent entity) {
+    public bool CanUpdate(EgoComponent entity) {
         return Ego.CanUpdate( _mask, entity.mask );
     }
 
