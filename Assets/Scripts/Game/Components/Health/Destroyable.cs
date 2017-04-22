@@ -8,7 +8,5 @@ namespace LatchOn.ECS.Components.Health {
 
 		public int MaxHealth { get { return _maxHealth; } }
 		public int CurrentHealth = 3;
-
-		public bool ShouldRespawn = true;
 	}
 }

@@ -1,5 +1,5 @@
-using UnityEngine;
 using LatchOn.ECS.Components.Health;
+using LatchOn.ECS.Events;
 
 namespace LatchOn.ECS.Systems {
 	public class DestroySystem : EgoSystem<Destroyable> {
@@ -8,9 +8,8 @@ namespace LatchOn.ECS.Systems {
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, destroyable) => {
 				if (destroyable.CurrentHealth < 0) {
-					GameObject go = ego.gameObject;
-					gameManager.Destory(go);
-					if (destroyable.ShouldRespawn) gameManager.DestroyedObjects.Enqueue(go);
+					gameManager.Destory(ego.gameObject);
+					EgoEvents<EntityDestroyed>.AddEvent(new EntityDestroyed(ego));
 				}
 			});
 		}

@@ -26,8 +26,6 @@ namespace LatchOn.ECS.Components.Input {
 		public bool SinkPressed = false;
 		/// True if hook button is held down
 		public bool HookDown = false;
-		/// True if respawn button was pressed
-		public bool ShouldRespawn = false;
 		/// Sets all `_____Pressed` properties to false
 		public void ClearPressed() {
 			JumpPressed = SinkPressed = false;

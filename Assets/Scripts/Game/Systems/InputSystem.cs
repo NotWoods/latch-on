@@ -35,7 +35,6 @@ namespace LatchOn.ECS.Systems {
 
 				if (Input.GetButtonDown("Jump")) input.JumpPressed = true;
 				if (Input.GetButtonDown("Sink")) input.SinkPressed = true;
-				if (Input.GetButtonDown("Respawn")) input.ShouldRespawn = true;
 
 				bool touchDown = Input.touchCount > 0;
 				bool mouseDown = Input.GetButton("Grapple To Point");

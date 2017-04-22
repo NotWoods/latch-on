@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Input;
 using LatchOn.ECS.Components.Mover;
@@ -54,7 +55,10 @@ namespace LatchOn.ECS.Systems {
 			});
 		}
 
-		private HookBundle GetHook(HookReference hookRef) {
+		Dictionary<HookReference, HookBundle> cache = new Dictionary<HookReference, HookBundle>();
+		HookBundle GetHook(HookReference hookRef) {
+			if (cache.ContainsKey(hookRef)) return cache[hookRef];
+
 			EgoComponent hookObject = hookRef.Hook;
 			if (hookObject == null) {
 				hookObject = GameManager.Instance.NewEntity(hookRef.HookPrefab);
@@ -67,6 +71,7 @@ namespace LatchOn.ECS.Systems {
 			var bundle = new HookBundle(hookObject, hook, transform, speed);
 
 			RetractHook(bundle);
+			cache[hookRef] = bundle;
 			return bundle;
 		}
 

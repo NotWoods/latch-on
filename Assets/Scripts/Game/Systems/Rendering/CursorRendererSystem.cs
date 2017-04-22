@@ -1,48 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
-using LatchOn.ECS.Components.Base;
-using LatchOn.ECS.Components.Input;
-using LatchOn.ECS.Components.Rope;
+using LatchOn.ECS.Components;
 
 namespace LatchOn.ECS.Systems {
 	public class CursorRendererSystem : EgoSystem<
-		LocalPlayer, WorldPosition, LineData, CanGrapple, VJoystick
+		CursorData, Image, RectTransform
 	> {
-		public float PreviewDistance = 2f;
-		public float HighlightScale = 1;
-		public float DarkScale = 0.5f;
-		public Color HighlightColor = Color.white;
-		public Color DarkColor = Color.gray;
+		public void UpdateCursor(EgoComponent cursor, bool highlighted, Vector2 position) {
+			var bundle = _bundles[cursor];
+			CursorData data = bundle.component1;
+			Image image = bundle.component2;
+			RectTransform transform = bundle.component3;
 
-		public override void LateUpdate() {
-			int i = 0;
-			ForEachGameObject((o, p, position, line, grapple, input) => {
-				bool shouldHighlight = Physics2D.Raycast(position.Value,
-					input.AimAxis, grapple.StartingLength, grapple.ShouldGrapple);
+			float t = Time.deltaTime * 10;
 
-				RaycastHit2D cursorCheck = Physics2D.Raycast(position.Value,
-					input.AimAxis, PreviewDistance, grapple.Solids);
-				Vector2 cursorPosition = cursorCheck
-					? cursorCheck.point
-					: position.Value + (input.AimAxis * PreviewDistance);
+			image.color = Color.Lerp(image.color,
+				highlighted ? data.HighlightColor : data.DarkColor, t);
 
-				Image cursor = UIManager.Instance.GetCursor(i);
-				cursor.color = Color.Lerp(
-					cursor.color,
-					shouldHighlight ? HighlightColor : DarkColor,
-					Time.deltaTime * 10
-				);
-
-				RectTransform cursorTransform = cursor.rectTransform;
-				cursorTransform.position = cursorPosition;
-				cursorTransform.localScale = Vector2.Lerp(
-					cursorTransform.localScale,
-					Vector2.one * (shouldHighlight ? HighlightScale : DarkScale),
-					Time.deltaTime * 10
-				);
-
-				i++;
-			});
+			transform.position = position;
+			transform.localScale = Vector2.Lerp(transform.localScale,
+				Vector2.one * (highlighted ? data.HighlightScale : data.DarkScale), t);
 		}
 	}
 }
