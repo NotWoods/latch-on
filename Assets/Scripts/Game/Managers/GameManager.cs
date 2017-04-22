@@ -14,13 +14,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 
 	[SerializeField]
 	private List<Entity> players;
-	private Transform spawnPoint;
-
-	public Queue<GameObject> DestroyedObjects = new Queue<GameObject>();
 
 	void Awake() {
 		players = new List<Entity>();
-		spawnPoint = transform.Find(SpawnPointName);
 
 		InitGame();
 	}
@@ -30,7 +26,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	}
 
 	GameObject SpawnPlayer() {
-		GameObject player = Instantiate(PlayerPrefab, spawnPoint.position, Quaternion.identity);
+		GameObject player = Instantiate(PlayerPrefab, Vector2.up * 2, Quaternion.identity);
 		if (ActorContainer) player.transform.parent = ActorContainer;
 
 		player.AddComponent<LocalPlayer>();
@@ -65,4 +61,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	}
 
 	public void Destory(GameObject go) { Destroy(go); }
+
+	public Transform Find(string name) {
+		return transform.Find(name);
+	}
 }

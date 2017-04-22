@@ -6,6 +6,8 @@ using LatchOn.ECS.Events;
 
 namespace LatchOn.ECS.Systems {
 	public class RespawnSystem : EgoSystem<Transform, CharacterController2D, Velocity> {
+		const string SpawnPointName = "Spawn Point";
+
 		Queue<EgoComponent> deadEntities = new Queue<EgoComponent>();
 		Vector2 spawnPosition = Vector2.up * 2;
 
@@ -26,6 +28,9 @@ namespace LatchOn.ECS.Systems {
 
 		public override void Start() {
 			EgoEvents<EntityDestroyed>.AddHandler(Handle);
+
+			var spawnPoint = GameManager.Instance.Find(SpawnPointName);
+			if (spawnPoint) spawnPosition = spawnPoint.position;
 		}
 
 		public override void Update() {
