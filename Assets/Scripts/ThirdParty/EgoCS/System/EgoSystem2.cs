@@ -6,7 +6,7 @@ public class EgoSystem<C1, C2> : EgoSystem
     where C2 : Component
 {
     protected Dictionary<EgoComponent, EgoBundle<C1, C2>> _bundles = new Dictionary<EgoComponent, EgoBundle<C1, C2>>();
-    
+
     protected delegate void ForEachGameObjectDelegate( EgoComponent egoComponent, C1 component1, C2 component2 );
 
     public EgoSystem()
@@ -77,6 +77,11 @@ public class EgoSystem<C1, C2> : EgoSystem
         {
             callback( bundle.egoComponent, bundle.component1, bundle.component2 );
         }
+    }
+
+    protected void ExtractComponents(EgoComponent entity, ForEachGameObjectDelegate callback) {
+        var bundle = _bundles[entity];
+        callback( bundle.egoComponent, bundle.component1, bundle.component2 );
     }
 
     //

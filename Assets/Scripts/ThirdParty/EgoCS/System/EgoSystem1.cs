@@ -56,6 +56,11 @@ public class EgoSystem<C1> : EgoSystem
         }
     }
 
+    protected void ExtractComponents(EgoComponent entity, ForEachGameObjectDelegate callback) {
+        var bundle = _bundles[entity];
+        callback( bundle.egoComponent, bundle.component1 );
+    }
+
     //
     // Event Handlers
     //

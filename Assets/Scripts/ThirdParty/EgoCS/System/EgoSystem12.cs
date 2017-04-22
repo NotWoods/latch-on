@@ -16,7 +16,7 @@ public class EgoSystem<C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12> : EgoS
     where C12 : Component
 {
     protected Dictionary<EgoComponent, EgoBundle<C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12>> _bundles = new Dictionary<EgoComponent, EgoBundle<C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12>>();
-    
+
     protected delegate void ForEachGameObjectDelegate( EgoComponent egoComponent, C1 component1, C2 component2, C3 component3, C4 component4, C5 component5, C6 component6, C7 component7, C8 component8, C9 component9, C10 component10, C11 component11, C12 component12 );
 
     public EgoSystem()
@@ -126,7 +126,7 @@ public class EgoSystem<C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12> : EgoS
             var component10 = egoComponent.GetComponent<C10>();
             var component11 = egoComponent.GetComponent<C11>();
             var component12 = egoComponent.GetComponent<C12>();
-            CreateBundle( egoComponent, component1, component2, component3, component4, component5, component6, component7, component8, component9, component10, component11, component12  );            
+            CreateBundle( egoComponent, component1, component2, component3, component4, component5, component6, component7, component8, component9, component10, component11, component12  );
         }
     }
 
@@ -337,6 +337,11 @@ public class EgoSystem<C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12> : EgoS
         {
             callback( bundle.egoComponent, bundle.component1, bundle.component2, bundle.component3, bundle.component4, bundle.component5, bundle.component6, bundle.component7, bundle.component8, bundle.component9, bundle.component10, bundle.component11, bundle.component12 );
         }
+    }
+
+    protected void ExtractComponents(EgoComponent entity, ForEachGameObjectDelegate callback) {
+        var bundle = _bundles[entity];
+        callback( bundle.egoComponent, bundle.component1, bundle.component2, bundle.component3, bundle.component4, bundle.component5, bundle.component6, bundle.component7, bundle.component8, bundle.component9, bundle.component10, bundle.component11, bundle.component12 );
     }
 
     //

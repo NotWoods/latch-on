@@ -115,6 +115,11 @@ public class EgoSystem<C1, C2, C3, C4> : EgoSystem
         }
     }
 
+    protected void ExtractComponents(EgoComponent entity, ForEachGameObjectDelegate callback) {
+        var bundle = _bundles[entity];
+        callback( bundle.egoComponent, bundle.component1, bundle.component2, bundle.component3, bundle.component4 );
+    }
+
     //
     // Event Handlers
     //

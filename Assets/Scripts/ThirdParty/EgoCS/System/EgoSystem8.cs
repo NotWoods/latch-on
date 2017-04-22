@@ -12,7 +12,7 @@ public class EgoSystem<C1, C2, C3, C4, C5, C6, C7, C8> : EgoSystem
     where C8 : Component
 {
     protected Dictionary<EgoComponent, EgoBundle<C1, C2, C3, C4, C5, C6, C7, C8>> _bundles = new Dictionary<EgoComponent, EgoBundle<C1, C2, C3, C4, C5, C6, C7, C8>>();
-    
+
     protected delegate void ForEachGameObjectDelegate( EgoComponent egoComponent, C1 component1, C2 component2, C3 component3, C4 component4, C5 component5, C6 component6, C7 component7, C8 component8 );
 
     public EgoSystem()
@@ -98,7 +98,7 @@ public class EgoSystem<C1, C2, C3, C4, C5, C6, C7, C8> : EgoSystem
             var component6 = egoComponent.GetComponent<C6>();
             var component7 = egoComponent.GetComponent<C7>();
             var component8 = egoComponent.GetComponent<C8>();
-            CreateBundle( egoComponent, component1, component2, component3, component4, component5, component6, component7, component8 );            
+            CreateBundle( egoComponent, component1, component2, component3, component4, component5, component6, component7, component8 );
         }
     }
 
@@ -209,6 +209,11 @@ public class EgoSystem<C1, C2, C3, C4, C5, C6, C7, C8> : EgoSystem
         {
             callback( bundle.egoComponent, bundle.component1, bundle.component2, bundle.component3, bundle.component4, bundle.component5, bundle.component6, bundle.component7, bundle.component8 );
         }
+    }
+
+    protected void ExtractComponents(EgoComponent entity, ForEachGameObjectDelegate callback) {
+        var bundle = _bundles[entity];
+        callback( bundle.egoComponent, bundle.component1, bundle.component2, bundle.component3, bundle.component4, bundle.component5, bundle.component6, bundle.component7, bundle.component8 );
     }
 
     //
