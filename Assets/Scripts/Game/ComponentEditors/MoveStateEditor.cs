@@ -1,10 +1,11 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
+using LatchOn.ECS.Components.Mover;
 
 [CanEditMultipleObjects]
-[CustomEditor(typeof (Velocity))]
-public class VelocityEditor : Editor {
+[CustomEditor(typeof (MoveState))]
+public class MoveStateEditor : Editor {
 	SerializedProperty val;
 
 	void OnEnable() {
@@ -15,9 +16,6 @@ public class VelocityEditor : Editor {
 		serializedObject.Update();
   	EditorGUILayout.PropertyField(val, GUIContent.none);
   	serializedObject.ApplyModifiedProperties();
-
-		EditorGUILayout.LabelField("Speed: " + val.vector2Value.magnitude);
-		EditorGUILayout.LabelField("Direction: " + val.vector2Value.normalized);
 	}
 }
 #endif

@@ -1,12 +1,15 @@
 fileFormatVersion: 2
 guid: 0d2ea3f8e50df87479f53519b9e088f7
-timeCreated: 1484378921
+timeCreated: 1492989597
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - HookPrefab: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c,
+      type: 2}
+  - Hook: {instanceID: 0}
   executionOrder: 0
-  icon: {instanceID: 0}
+  icon: {fileID: 2800000, guid: 2e7809c042e9bc74bb0ec39b7568508d, type: 3}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
