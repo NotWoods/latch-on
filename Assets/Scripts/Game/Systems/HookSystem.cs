@@ -32,6 +32,8 @@ namespace LatchOn.ECS.Systems {
 				bool buttonHeld = input.HookDown;
 				bool didThrow = hookRef.DidThrow;
 
+				Debug.Log("");
+
 				if (isSwinging) {
 					if (buttonHeld) KeepSwinging(line, position);
 					else {
@@ -68,6 +70,11 @@ namespace LatchOn.ECS.Systems {
 			Hook hook = hookObject.GetComponent<Hook>();
 			Transform transform = hookObject.GetComponent<Transform>();
 			Speed speed = hookObject.GetComponent<Speed>();
+
+			if (!hook || !transform || !speed) {
+				throw new System.Exception("Hook missing component");
+			}
+
 			var bundle = new HookBundle(hookObject, hook, transform, speed);
 
 			RetractHook(bundle);

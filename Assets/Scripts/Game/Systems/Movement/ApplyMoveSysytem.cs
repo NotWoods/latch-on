@@ -7,14 +7,18 @@ using LatchOn.ECS.Components.Mover;
 namespace LatchOn.ECS.Systems {
 	/// Finalized move step
 	public class ApplyMoveSystem : EgoSystem<
-		Velocity, CharacterController2D, VJoystick, HasGravity
+		Velocity, CharacterController2D, VJoystick
 	> {
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, vel, controller, input, hasGravity) => {
+			ForEachGameObject((ego, vel, controller, input) => {
 				Vector2 velocity = vel.Value;
 
-				if (velocity.y < -hasGravity.MaxFallSpeed)
-					velocity.y = -hasGravity.MaxFallSpeed;
+				/// Limit max falling speed if needed
+				HasGravity fallStats;
+				if (ego.TryGetComponents<HasGravity>(out fallStats)) {
+					if (velocity.y < -fallStats.MaxFallSpeed)
+						velocity.y = -fallStats.MaxFallSpeed;
+				}
 
 				controller.Move(velocity * Time.deltaTime);
 				vel.Value = controller.velocity;

@@ -35,9 +35,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4991228188434842}
-  - component: {fileID: 114217938446900944}
   - component: {fileID: 114245967738303668}
+  - component: {fileID: 114217938446900944}
   - component: {fileID: 96444398503555480}
+  - component: {fileID: 114428686118971284}
   m_Layer: 0
   m_Name: Needle
   m_TagString: Untagged
@@ -132,6 +133,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.2
   m_Parameters:
@@ -156,30 +158,15 @@ TrailRenderer:
       m_PostInfinity: 2
       m_RotationOrder: 0
     colorGradient:
-      key0:
-        serializedVersion: 2
-        rgba: 4294967295
-      key1:
-        serializedVersion: 2
-        rgba: 4294967295
-      key2:
-        serializedVersion: 2
-        rgba: 0
-      key3:
-        serializedVersion: 2
-        rgba: 0
-      key4:
-        serializedVersion: 2
-        rgba: 0
-      key5:
-        serializedVersion: 2
-        rgba: 0
-      key6:
-        serializedVersion: 2
-        rgba: 0
-      key7:
-        serializedVersion: 2
-        rgba: 0
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
       ctime2: 0
@@ -216,9 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6cc9b254ceec44baba855c7db5aa02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 50
-  HookLength: 1
-  StorageLocation: {x: 0, y: 0, z: -20}
+  _length: 1
   Target: {x: 0, y: 0}
   Deployed: 0
 --- !u!114 &114245967738303668
@@ -232,6 +217,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68fc24955e055d41b333272481edc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114428686118971284
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530518826808254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bd8ebb9a2e0ef4a8dce5cf7a12877d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 20
 --- !u!212 &212128780619840400
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -262,8 +259,13 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 670f01d4e145e6e48840ec4c6ce305db, type: 3}
   m_Color: {r: 0.5294118, g: 0.5568628, b: 0.59607846, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
