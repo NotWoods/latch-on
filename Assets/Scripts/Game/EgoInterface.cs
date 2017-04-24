@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using LatchOn.ECS.Systems;
+using LatchOn.ECS.Systems.Movement;
+using LatchOn.ECS.Systems.Rendering;
 
 public class EgoInterface : MonoBehaviour {
 	static EgoInterface() {

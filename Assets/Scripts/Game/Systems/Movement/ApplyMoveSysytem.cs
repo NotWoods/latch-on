@@ -2,24 +2,26 @@ using UnityEngine;
 using Prime31;
 using LatchOn.ECS.Components.Base;
 
-public class ApplyMoveSystem : EgoSystem<Velocity, CharacterController2D> {
-	public override void FixedUpdate() {
-		ForEachGameObject((ego, vel, controller) => {
-			Vector2 velocity = vel.Value;
+namespace LatchOn.ECS.Systems.Movement {
+	public class ApplyMoveSystem : EgoSystem<Velocity, CharacterController2D> {
+		public override void FixedUpdate() {
+			ForEachGameObject((ego, vel, controller) => {
+				Vector2 velocity = vel.Value;
 
-			MoveConfig stats;
-			if (ego.TryGetComponents<MoveConfig>(out stats)) {
-				if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
-			}
+				MoveConfig stats;
+				if (ego.TryGetComponents<MoveConfig>(out stats)) {
+					if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
+				}
 
-			controller.Move(velocity * Time.deltaTime);
-			vel.Value = controller.velocity;
+				controller.Move(velocity * Time.deltaTime);
+				vel.Value = controller.velocity;
 
-			VJoystick input;
-			if (ego.TryGetComponents<VJoystick>(out input)) {
-				input.JumpPressed = false;
-				input.SinkPressed = false;
-			}
-		});
+				VJoystick input;
+				if (ego.TryGetComponents<VJoystick>(out input)) {
+					input.JumpPressed = false;
+					input.SinkPressed = false;
+				}
+			});
+		}
 	}
 }
