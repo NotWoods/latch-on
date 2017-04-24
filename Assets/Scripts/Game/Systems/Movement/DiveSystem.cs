@@ -31,7 +31,7 @@ namespace LatchOn.ECS.Systems.Movement {
 			if (velocity.y >= diver.MinYVelocity && velocity.y <= diver.MaxYVelocity) {
 				WallJumper wallJumper;
 				if (ego.TryGetComponents<WallJumper>(out wallJumper)) {
-					return !wallJumper.IsSliding;
+					return wallJumper.AgainstSide == Side.None;
 				} else {
 					return true;
 				}

@@ -10,8 +10,8 @@ namespace LatchOn.ECS.Systems.Movement {
 			ForEachGameObject((ego, vel, controller) => {
 				Vector2 velocity = vel.Value;
 
-				MoveConfig stats;
-				if (ego.TryGetComponents<MoveConfig>(out stats)) {
+				Descends stats;
+				if (ego.TryGetComponents<Descends>(out stats)) {
 					if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
 				}
 

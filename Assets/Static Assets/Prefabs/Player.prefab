@@ -66,7 +66,6 @@ GameObject:
   - component: {fileID: 114498083657615348}
   - component: {fileID: 114326972296716322}
   - component: {fileID: 114099284345838122}
-  - component: {fileID: 114013334937713078}
   - component: {fileID: 114577052791088178}
   m_Layer: 8
   m_Name: Player
@@ -251,18 +250,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.6}
   m_EdgeRadius: 0
---- !u!114 &114013334937713078
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1259570501106154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d2ea3f8e50df87479f53519b9e088f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Needle: {fileID: 0}
 --- !u!114 &114028175776281298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,9 +310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5339c30c933f912499bd61f9352816bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinYVelocity: -5
-  MaxYVelocity: 5
-  DivingVelocity: {x: 11, y: -11}
+  _minYVelocity: -5
+  _maxYVelocity: 5
+  _divingVelocity: {x: 11, y: -11}
 --- !u!114 &114133840020625986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,11 +342,6 @@ MonoBehaviour:
   _retractSpeed: 2
   CurrentLength: 10
   IsAnchored: 0
-  StartingLength: 20
-  FreeLength: 10
-  NormalGround:
-    serializedVersion: 2
-    m_Bits: 2560
   NoHookGround:
     serializedVersion: 2
     m_Bits: 1536

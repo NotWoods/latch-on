@@ -5,8 +5,8 @@ using LatchOn.ECS.Components.Mover;
 using LatchOn.ECS.Components.Input;
 
 namespace LatchOn.ECS.Systems.Movement {
-	public class MoveSystem : EgoSystem<MoveConfig, Velocity, CharacterController2D, VJoystick, MoveState, Speed> {
-		private float GetJumpVelocity(MoveConfig stats) {
+	public class MoveSystem : EgoSystem<Descends, Velocity, CharacterController2D, VJoystick, MoveState, Speed> {
+		private float GetJumpVelocity(Descends stats) {
 			return Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
 		}
 

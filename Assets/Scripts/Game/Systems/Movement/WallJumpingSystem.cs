@@ -8,13 +8,13 @@ namespace LatchOn.ECS.Systems.Movement {
 	public class WallJumpingSystem : EgoSystem<WallJumper, Velocity, VJoystick> {
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, wallJumper, vel, input) => {
-				if (!wallJumper.IsSliding) return;
+				if (wallJumper.AgainstSide == Side.None) return;
 				Vector2 velocity = vel.Value;
 
 				if (velocity.y < -wallJumper.MaxSlideSpeed) {
 					velocity.y = -wallJumper.MaxSlideSpeed;
 				}
-				int inputXSign = ExtraMath.Sign(input.XMoveAxisRaw);
+				Side inputXSide = (Side) ExtraMath.Sign(input.XMoveAxisRaw);
 
 				bool isSwinging = false;
 				MoveState state;
@@ -22,29 +22,29 @@ namespace LatchOn.ECS.Systems.Movement {
 					isSwinging = state.Value == MoveType.Swing;
 				}
 
-				if (wallJumper.TimeToUnstick > 0 && !isSwinging && inputXSign != 0) {
+				if (wallJumper.TimeToUnstick > 0 && !isSwinging && inputXSide != Side.None) {
 					velocity.x = 0;
-					if (inputXSign != wallJumper.AgaisntSide) {
+					if (inputXSide != wallJumper.AgainstSide) {
 						wallJumper.TimeToUnstick -= Time.deltaTime;
 					} else {
-						wallJumper.ResetTime();
+						wallJumper.ResetUnstickTime();
 					}
 				} else {
-					wallJumper.ResetTime();
+					wallJumper.ResetUnstickTime();
 				}
 
 				if (input.JumpPressed) {
 				Vector2 modifier;
 				if (isSwinging)
-					modifier = wallJumper.SwiningJump;
-				else if (inputXSign == wallJumper.AgaisntSide)
+					modifier = wallJumper.SwingingJump;
+				else if (inputXSide == wallJumper.AgainstSide)
 					modifier = wallJumper.ClimbingJump;
-				else if (inputXSign == 0)
+				else if (inputXSide == Side.None)
 					modifier = wallJumper.FallOffJump;
 				else
 					modifier = wallJumper.LeapingJump;
 
-				velocity.x = -wallJumper.AgaisntSide * modifier.x;
+				velocity.x = (int) wallJumper.AgainstSide * -modifier.x;
 				velocity.y = modifier.y;
 			}
 

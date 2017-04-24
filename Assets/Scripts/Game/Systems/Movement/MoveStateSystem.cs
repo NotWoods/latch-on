@@ -12,7 +12,7 @@ namespace LatchOn.ECS.Systems.Movement {
 
 				switch (state.Value) {
 					case MoveType.Flung:
-						if (canWallJump && wallJumper.IsSliding) state.Value = MoveType.Fall;
+						if (canWallJump && wallJumper.AgainstSide != Side.None) state.Value = MoveType.Fall;
 						goto case MoveType.Fall;
 
 					case MoveType.Fall:
@@ -25,10 +25,10 @@ namespace LatchOn.ECS.Systems.Movement {
 				if (canWallJump) {
 					var collided = controller.collisionState;
 					if (!collided.below && (collided.left || collided.right)) {
-						if (collided.left) wallJumper.AgaisntSide = -1;
-						else wallJumper.AgaisntSide = 1;
+						if (collided.left) wallJumper.AgainstSide = Side.Left;
+						else wallJumper.AgainstSide = Side.Right;
 					} else {
-						wallJumper.AgaisntSide = 0;
+						wallJumper.AgainstSide = Side.None;
 					}
 				}
 			});
