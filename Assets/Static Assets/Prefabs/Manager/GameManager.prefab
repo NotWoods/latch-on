@@ -81,11 +81,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13df4c5613b0ea4ba10f7d983aa1883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 1259570501106154, guid: a382a089d0ed2cc44a1c2a1f17c564ca,
-    type: 2}
-  CameraPrefab: {fileID: 175126, guid: fa7e08246711c2f4cba45c2b9aea7c03, type: 2}
+  prefabs:
+    Player: {fileID: 1259570501106154, guid: a382a089d0ed2cc44a1c2a1f17c564ca, type: 2}
+    Camera: {fileID: 175126, guid: fa7e08246711c2f4cba45c2b9aea7c03, type: 2}
+    Hook: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c, type: 2}
   ActorContainer: {fileID: 0}
   PropsContainer: {fileID: 0}
+  players: []
 --- !u!114 &114781716080590478
 MonoBehaviour:
   m_ObjectHideFlags: 1

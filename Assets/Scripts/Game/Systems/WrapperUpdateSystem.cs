@@ -10,6 +10,7 @@ namespace LatchOn.ECS.Systems {
 
 		void Handle(LineConnected e) {
 			WrappingLine wrapper = _bundles[e.egoComponent].component1;
+			wrapper.Clear();
 			wrapper.Push(e.anchor, Side.None);
 		}
 

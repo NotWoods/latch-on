@@ -24,6 +24,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	void Awake() {
 		players = new List<Entity>();
 
+		if (ActorContainer == null)
+			ActorContainer = GameObject.Find("Actor").transform;
+		if (PropsContainer == null)
+			PropsContainer = GameObject.Find("Props").transform;
+
 		InitGame();
 	}
 
@@ -58,12 +63,16 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		if (Input.GetKeyDown(KeyCode.F5)) SpawnPlayer();
 	}
 
-	public EgoComponent NewEntity(GameObject prefab = null) {
+	public EgoComponent NewEntity(GameObject prefab = null, Transform parent = null) {
+		EgoComponent entity;
 		if (prefab == null) {
-			return Ego.AddGameObject(new GameObject());
+			entity = Ego.AddGameObject(new GameObject());
 		} else {
-			return Ego.AddGameObject(Instantiate(prefab));
+			entity = Ego.AddGameObject(Instantiate(prefab));
 		}
+
+		if (parent != null) entity.transform.parent = parent;
+		return entity;
 	}
 
 	public void Destory(GameObject go) { Destroy(go); }

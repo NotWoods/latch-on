@@ -61,7 +61,8 @@ namespace LatchOn.ECS.Systems {
 
 			EgoComponent hookObject = hookRef.Hook;
 			if (hookObject == null) {
-				hookObject = GameManager.Instance.NewEntity(GameManager.Instance.prefabs.Hook);
+				GameManager gm = GameManager.Instance;
+				hookObject = gm.NewEntity(gm.prefabs.Hook, gm.PropsContainer);
 				hookRef.Hook = hookObject;
 			}
 

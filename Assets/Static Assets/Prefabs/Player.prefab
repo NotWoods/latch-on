@@ -51,26 +51,25 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4391873962721960}
+  - component: {fileID: 114883735941637540}
   - component: {fileID: 61927851541306054}
   - component: {fileID: 120556170814804164}
   - component: {fileID: 50273437412386958}
+  - component: {fileID: 114853956182612044}
   - component: {fileID: 114416232568172826}
-  - component: {fileID: 114577052791088178}
-  - component: {fileID: 114326972296716322}
+  - component: {fileID: 114592647523202764}
+  - component: {fileID: 114079133344390962}
   - component: {fileID: 114830166393391800}
   - component: {fileID: 114028175776281298}
-  - component: {fileID: 114079133344390962}
   - component: {fileID: 114498083657615348}
-  - component: {fileID: 114883735941637540}
-  - component: {fileID: 114106222552548656}
-  - component: {fileID: 114013334937713078}
-  - component: {fileID: 114853956182612044}
   - component: {fileID: 114456803495846154}
   - component: {fileID: 114754351193581290}
-  - component: {fileID: 114807335449905670}
+  - component: {fileID: 114106222552548656}
   - component: {fileID: 114050222997591252}
+  - component: {fileID: 114326972296716322}
   - component: {fileID: 114063914896626758}
-  - component: {fileID: 114592647523202764}
+  - component: {fileID: 114807335449905670}
+  - component: {fileID: 114577052791088178}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -254,20 +253,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.6}
   m_EdgeRadius: 0
---- !u!114 &114013334937713078
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1259570501106154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d2ea3f8e50df87479f53519b9e088f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HookPrefab: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c, type: 2}
-  Hook: {fileID: 0}
-  DidThrow: 0
 --- !u!114 &114028175776281298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -298,13 +283,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876a38b03c67a764e8ca5f6e6456d087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingLength: 10
+  _startingLength: 30
   Solids:
     serializedVersion: 2
-    m_Bits: 4294964991
+    m_Bits: 3584
   ShouldGrapple:
     serializedVersion: 2
     m_Bits: 2560
+  Hook: {fileID: 0}
+  DidThrow: 0
 --- !u!114 &114063914896626758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,7 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShouldWrap:
     serializedVersion: 2
-    m_Bits: 4294964991
+    m_Bits: 1536
   entries: []
 --- !u!114 &114079133344390962
 MonoBehaviour:

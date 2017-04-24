@@ -35,10 +35,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4991228188434842}
-  - component: {fileID: 114245967738303668}
-  - component: {fileID: 114217938446900944}
   - component: {fileID: 96444398503555480}
+  - component: {fileID: 114245967738303668}
   - component: {fileID: 114428686118971284}
+  - component: {fileID: 114217938446900944}
   m_Layer: 0
   m_Name: Needle
   m_TagString: Untagged
@@ -135,16 +135,16 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.2
+  m_Time: 1
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.1
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 1
+        value: 0.09553909
         inSlope: 0
         outSlope: 0
         tangentMode: 0
