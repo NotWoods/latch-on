@@ -1,10 +1,17 @@
 fileFormatVersion: 2
 guid: f13df4c5613b0ea4ba10f7d983aa1883
-timeCreated: 1481316852
+timeCreated: 1492997512
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - PlayerPrefab: {fileID: 1259570501106154, guid: a382a089d0ed2cc44a1c2a1f17c564ca,
+      type: 2}
+  - CameraPrefab: {fileID: 175126, guid: fa7e08246711c2f4cba45c2b9aea7c03, type: 2}
+  - HookPrefab: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c,
+      type: 2}
+  - ActorContainer: {instanceID: 0}
+  - PropsContainer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

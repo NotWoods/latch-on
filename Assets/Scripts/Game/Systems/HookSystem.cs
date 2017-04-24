@@ -44,7 +44,8 @@ public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveStat
 
 		EgoComponent needleObject;
 		if (holder.Needle == null) {
-			needleObject = GameManager.Instance.NewEntity(holder.NeedlePrefab);
+			var gm = GameManager.Instance;
+			needleObject = gm.NewEntity(gm.HookPrefab);
 			holder.Needle = needleObject.gameObject;
 		} else {
 			needleObject = holder.Needle.GetComponent<EgoComponent>();

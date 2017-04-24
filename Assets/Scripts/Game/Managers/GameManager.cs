@@ -4,13 +4,15 @@ using System.Collections.Generic;
 public class GameManager : SingletonMonoBehaviour<GameManager> {
 	const string SpawnPointName = "Spawn Point";
 
+	[Header("Prefabs")]
 	public GameObject PlayerPrefab;
 	public GameObject CameraPrefab;
+	public GameObject HookPrefab;
 
+	[Header("Containers")]
 	public Transform ActorContainer;
 	public Transform PropsContainer;
 
-	[SerializeField]
 	private Dictionary<ControlType, GameObject> Players;
 	private Transform spawnPoint;
 
