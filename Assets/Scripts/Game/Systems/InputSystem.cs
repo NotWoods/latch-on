@@ -38,7 +38,7 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		public override void Update() {
-			if (GameManager.IsPaused()) return;
+			if (PauseSystem.Paused) return;
 
 			ForEachGameObject((ego, player, input, position) => {
 				input.XMoveAxis = Input.GetAxis("Horizontal");

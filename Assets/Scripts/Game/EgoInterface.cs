@@ -8,6 +8,7 @@ public class EgoInterface : MonoBehaviour {
 		var cursorRenderSys = new CursorRendererSystem();
 		EgoSystems.Add(
 			new InputSystem(),
+			new PauseSystem(),
 
 			new HookSystem(),
 			new WrapSystem(),
