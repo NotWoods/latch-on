@@ -5,11 +5,13 @@ using LatchOn.ECS.Components.Input;
 using LatchOn.ECS.Components.Mover;
 
 namespace LatchOn.ECS.Systems.Movement {
+	/// Finalized move step
 	public class ApplyMoveSystem : EgoSystem<Velocity, CharacterController2D> {
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, vel, controller) => {
 				Vector2 velocity = vel.Value;
 
+				/// Limit max falling speed if needed
 				Descends stats;
 				if (ego.TryGetComponents<Descends>(out stats)) {
 					if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;

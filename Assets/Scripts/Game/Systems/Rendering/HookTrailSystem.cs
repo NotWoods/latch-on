@@ -7,9 +7,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 			ForEachGameObject((ego, hook, trailRenderer) => {
 				if (hook.Deployed != trailRenderer.enabled) {
 					trailRenderer.enabled = hook.Deployed;
-					if (hook.Deployed) {
+					if (hook.Deployed)
 						trailRenderer.Clear();
-					}
 				}
 			});
 		}

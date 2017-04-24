@@ -28,16 +28,14 @@ namespace LatchOn.ECS.Systems.Movement {
 		private bool CanDive(Diver diver, Vector2 velocity, MoveState state, EgoComponent ego) {
 			if (!state.Any(MoveType.Fall, MoveType.Flung)) return false;
 
-			if (velocity.y >= diver.MinYVelocity && velocity.y <= diver.MaxYVelocity) {
-				WallJumper wallJumper;
-				if (ego.TryGetComponents<WallJumper>(out wallJumper)) {
-					return wallJumper.AgainstSide == Side.None;
-				} else {
-					return true;
-				}
-			} else {
+			if (!ExtraMath.InRange(velocity.y, diver.MinYVelocity, diver.MaxYVelocity))
 				return false;
-			}
+
+			WallJumper wallJumper;
+			if (ego.TryGetComponents<WallJumper>(out wallJumper))
+				return wallJumper.AgainstSide == Side.None;
+			else
+				return true;
 		}
 	}
 }
