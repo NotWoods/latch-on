@@ -23,11 +23,11 @@ namespace LatchOn.ECS.Systems {
 
 				Vector2 currentPosition = position.Value;
 				Vector2 testPosition = currentPosition + (velocity * Time.deltaTime);
-				Vector2 tetherPoint = line.WorldAnchor;
+				Vector2 tetherPoint = line.AnchorPoint;
 
-				if (Vector2.Distance(testPosition, tetherPoint) > line.FreeLength) {
+				if (Vector2.Distance(testPosition, tetherPoint) > line.CurrentLength) {
 					Vector2 direction = testPosition - tetherPoint;
-					testPosition = tetherPoint + (direction.normalized * line.FreeLength);
+					testPosition = tetherPoint + (direction.normalized * line.CurrentLength);
 					velocity = (testPosition - currentPosition) / Time.deltaTime;
 				}
 

@@ -9,11 +9,12 @@ class MissingComponentException : System.Exception {}
 
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
-	public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, NeedleHolder> {
+	public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, NeedleHolder, CanGrapple> {
 		public float MinFlingSpeed = 0.1f;
+		public Vector3 StorageLocation = Vector3.back * 20;
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, pos, input, line, state, needleHolder) => {
+			ForEachGameObject((ego, pos, input, line, state, needleHolder, grappler) => {
 				Hook hook = GetHook(needleHolder);
 				Vector2 position = pos.Value;
 
@@ -24,19 +25,19 @@ namespace LatchOn.ECS.Systems {
 				if (isSwinging) {
 					if (buttonHeld) KeepSwinging(line, position);
 					else {
-						StopSwinging(line, state, ego);
+						StopSwinging(line, grappler, state, ego);
 						RetractHook(hook);
 					}
 				} else if (didThrow) {
 					if (TargetReached(hook)) StartSwinging(line, state, needleHolder, position);
-					else if (PathInterupted(hook, position, line)) {
+					else if (PathInterupted(hook, position, line, grappler)) {
 						CancelThrow(needleHolder);
 						RetractHook(hook);
 					}
 					else KeepThrowing(hook);
 				} else if (buttonHeld) {
 					Vector2 newTarget;
-					if (PathExists(position, input, line, out newTarget)) {
+					if (PathExists(position, input, grappler, out newTarget)) {
 						StartThrow(needleHolder, newTarget, position);
 					}
 				}
@@ -58,7 +59,7 @@ namespace LatchOn.ECS.Systems {
 
 			Hook hook;
 			if (needleObject.TryGetComponents<Hook>(out hook)) {
-				needleObject.transform.position = hook.StorageLocation;
+				needleObject.transform.position = StorageLocation;
 				hookCache[holder] = hook;
 				return hook;
 			} else {
@@ -68,18 +69,18 @@ namespace LatchOn.ECS.Systems {
 
 		/// Step the swinging loop
 		private void KeepSwinging(LineData line, Vector2 position) {
-			float newLength = Vector2.Distance(position, line.WorldAnchor);
+			float newLength = Vector2.Distance(position, line.AnchorPoint);
 			newLength -= line.RetractSpeed * Time.deltaTime;
 
 			if (newLength < 0.5f) newLength = 0.5f;
-			line.FreeLength = newLength;
+			line.CurrentLength = newLength;
 		}
 
 		/// Cancel the swing
-		private void StopSwinging(LineData line, MoveState state, EgoComponent egoComponent) {
+		private void StopSwinging(LineData line, CanGrapple grappler, MoveState state, EgoComponent egoComponent) {
 			line.Clear();
 			line.MarkedSides.Clear();
-			line.FreeLength = line.StartingLength;
+			line.CurrentLength = grappler.StartingLength;
 
 			bool smallXSpeed = false;
 			Velocity velocity;
@@ -101,15 +102,15 @@ namespace LatchOn.ECS.Systems {
 			Hook hook = GetHook(needleHolder);
 
 			state.Value = MoveState.Swing;
-			line.WorldAnchor = hook.CalculatePinHead();
+			line.AnchorPoint = hook.CalculatePinHead();
 			needleHolder.DidThrow = false;
-			line.FreeLength = Vector2.Distance(playerPosition, line.WorldAnchor);
+			line.CurrentLength = Vector2.Distance(playerPosition, line.AnchorPoint);
 		}
 
-		private bool PathInterupted(Hook hook, Vector2 position, LineData line) {
+		private bool PathInterupted(Hook hook, Vector2 position, LineData line, CanGrapple grappler) {
 			Vector2 loopPoint = hook.CalculatePinHead();
 
-			return Physics2D.Linecast(loopPoint, position, line.NoHookGround);
+			return Physics2D.Linecast(loopPoint, position, grappler.Solids);
 			// || Vector2.Distance(loopPoint, position) > line.StartingLength;
 		}
 
@@ -118,24 +119,25 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		private void RetractHook(Hook hook) {
-			hook.transform.position = hook.StorageLocation;
+			hook.transform.position = StorageLocation;
 			hook.Deployed = false;
 		}
 
 		private void KeepThrowing(Hook hook) {
 			Transform hookTransform = hook.transform;
+			float hookSpeed = hook.GetComponent<Speed>().Value;
 
 			hookTransform.position = Vector2.MoveTowards(
 				hookTransform.position,
 				hook.Target,
-				hook.Speed * Time.deltaTime
+				hookSpeed * Time.deltaTime
 			);
 		}
 
-		private bool PathExists(Vector2 position, VJoystick input, LineData line, out Vector2 newTarget) {
+		private bool PathExists(Vector2 position, VJoystick input, CanGrapple grappler, out Vector2 newTarget) {
 			RaycastHit2D hit = Physics2D.Raycast(
 				position, input.AimAxis,
-				line.StartingLength, line.NormalGround
+				grappler.StartingLength, grappler.ShouldGrapple
 			);
 
 			newTarget = hit ? hit.point : Vector2.zero;
@@ -150,7 +152,7 @@ namespace LatchOn.ECS.Systems {
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
 			transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-			Vector2 shift = (direction.normalized * hook.HookLength * -1);
+			Vector2 shift = (direction.normalized * hook.Length * -1);
 			transform.position = start - shift;
 
 			needleHolder.DidThrow = true;

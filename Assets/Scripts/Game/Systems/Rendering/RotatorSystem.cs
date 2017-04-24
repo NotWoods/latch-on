@@ -7,7 +7,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 			ForEachGameObject((ego, transform, line) => {
 				Quaternion rotation;
 				if (line.Anchored()) {
-					Vector2 direction = line.WorldAnchor - (Vector2) transform.position;
+					Vector2 direction = line.AnchorPoint - (Vector2) transform.position;
 					float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 					rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 				} else {

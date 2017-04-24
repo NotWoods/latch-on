@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 114106222552548656}
   - component: {fileID: 114498083657615348}
   - component: {fileID: 114326972296716322}
+  - component: {fileID: 114099284345838122}
   - component: {fileID: 114013334937713078}
   - component: {fileID: 114577052791088178}
   m_Layer: 8
@@ -291,6 +292,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: {x: 0, y: 0}
+--- !u!114 &114099284345838122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259570501106154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876a38b03c67a764e8ca5f6e6456d087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startingLength: 20
+  Solids:
+    serializedVersion: 2
+    m_Bits: 2560
+  ShouldGrapple:
+    serializedVersion: 2
+    m_Bits: 1536
+  Hook: {fileID: 0}
+  DidThrow: 0
 --- !u!114 &114106222552548656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -316,7 +337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e169c93653adc5a4f9c43b4a9746a34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunSpeed: 10
   JumpHeight: 3
   Gravity: -25
   MaxFallSpeed: 25
@@ -331,9 +351,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8586aef57f982e645b5c03cb13bf01a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minLength: 0.5
+  _retractSpeed: 2
+  CurrentLength: 10
+  IsAnchored: 0
   StartingLength: 20
   FreeLength: 10
-  RetractSpeed: 2
   NormalGround:
     serializedVersion: 2
     m_Bits: 2560
@@ -440,8 +463,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   XMoveAxis: 0
   XMoveAxisRaw: 0
-  XAimAxis: 0
-  YAimAxis: 0
+  xAimAxis: 0
+  yAimAxis: 0
   JumpPressed: 0
   SinkPressed: 0
   HookDown: 0

@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4991228188434842}
   - component: {fileID: 114245967738303668}
   - component: {fileID: 96444398503555480}
+  - component: {fileID: 114692250181525044}
   - component: {fileID: 114217938446900944}
   m_Layer: 0
   m_Name: Needle
@@ -202,11 +203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6cc9b254ceec44baba855c7db5aa02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 50
-  HookLength: 1
-  StorageLocation: {x: 0, y: 0, z: -20}
+  _length: 1
   Target: {x: 0, y: 0}
   Deployed: 0
+  Speed: 50
 --- !u!114 &114245967738303668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,6 +218,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68fc24955e055d41b333272481edc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114692250181525044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530518826808254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2538f8f8f13bee24399c18bf01f8b03e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 50
 --- !u!212 &212128780619840400
 SpriteRenderer:
   m_ObjectHideFlags: 1

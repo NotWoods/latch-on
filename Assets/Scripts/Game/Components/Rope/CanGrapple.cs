@@ -4,7 +4,7 @@ namespace LatchOn.ECS.Components.Rope {
 	[DisallowMultipleComponent]
 	public class CanGrapple : MonoBehaviour {
 		[SerializeField]
-		float _startingLength = 10f;
+		float _startingLength = 20f;
 
 		/// Initial length of the rope (usually used for raycast limits)
 		public float StartingLength { get { return _startingLength; } }

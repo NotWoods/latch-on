@@ -8,11 +8,11 @@ namespace LatchOn.ECS.Systems {
 		private void TryWrap(LineData line, Vector2 position, Vector2 velocity) {
 			RaycastHit2D shouldWrap = Physics2D.Linecast(
 				position,
-				line.WorldAnchor,
+				line.AnchorPoint,
 				line.NoHookGround
 			);
 
-			if (shouldWrap && line.WorldAnchor != shouldWrap.point) {
+			if (shouldWrap && line.AnchorPoint != shouldWrap.point) {
 				line.Push(shouldWrap.point + velocity.normalized * -0.1f);
 				line.MarkedSides.Push(line.Side(position));
 			}
