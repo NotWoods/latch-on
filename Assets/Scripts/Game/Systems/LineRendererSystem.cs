@@ -4,7 +4,7 @@ public class LineRendererSystem : EgoSystem<WorldPosition, LineData, LineRendere
 	public override void Update() {
 		ForEachGameObject((ego, position, line, renderer) => {
 			if (!line.Anchored()) {
-				renderer.numPositions = 0;
+				renderer.positionCount = 0;
 				return;
 			}
 
@@ -13,7 +13,7 @@ public class LineRendererSystem : EgoSystem<WorldPosition, LineData, LineRendere
 			foreach (Vector2 p in line.Points()) { points[i] = p; i++; }
 			points[i] = position.Value;
 
-			renderer.numPositions = points.Length;
+			renderer.positionCount = points.Length;
 			renderer.SetPositions(points);
 		});
 	}
