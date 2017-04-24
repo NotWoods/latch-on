@@ -11,12 +11,12 @@ namespace LatchOn.ECS.Systems.Rendering {
 					return;
 				}
 
-				int totalPoints = 2 + wrap.WrappedPoints.Count;
+				int totalPoints = 2 + wrap.WrappedItems.Count;
 				Vector3[] points = new Vector3[totalPoints];
 
 				int i = 0;
-				foreach (Vector2 point in wrap.WrappedPoints) {
-					points[i] = point;
+				foreach (WrappingLine.Entry item in wrap.WrappedItems) {
+					points[i] = item.point;
 					i++;
 				}
 

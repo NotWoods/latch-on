@@ -13,29 +13,30 @@ namespace LatchOn.ECS.Systems {
 				line.AnchorPoint, wrap.ShouldWrap);
 
 			if (shouldWrap && line.AnchorPoint != shouldWrap.point) {
-				wrap.WrappedPoints.Add(line.AnchorPoint);
-				line.AnchorPoint = shouldWrap.point + velocity.normalized * -0.1f;
+				Vector2 lastAnchor = line.AnchorPoint;
+				Vector2 newAnchor = shouldWrap.point + velocity.normalized * -0.1f;
 
 				Side entityRelativeToLine = (Side) ExtraMath.SideOfLine(position,
-					wrap.WrappedPoints[wrap.WrappedPoints.Count - 1], line.AnchorPoint);
-				wrap.MarkedSides.Add(entityRelativeToLine);
+					lastAnchor, newAnchor);
+
+				line.AnchorPoint = newAnchor;
+				wrap.Push(lastAnchor, entityRelativeToLine);
 			}
 		}
 
 		private void TryUnwrap(LineData line, WrappingLine wrap, Vector2 position) {
-			if (wrap.WrappedPoints.Count == 0) return;
+			if (wrap.WrappedItems.Count == 0) return;
 
-			int topPointIndex = wrap.WrappedPoints.Count - 1;
-			Vector2 lastWrappedPoint = wrap.WrappedPoints[topPointIndex];
+			Vector2 lastWrappedPoint;
+			Side lastSideOfLine;
+			wrap.Peek(out lastWrappedPoint, out lastSideOfLine);
 
-			Side lastSideOfLine = wrap.MarkedSides[wrap.MarkedSides.Count - 1];
 			Side currentSideOfLine = (Side) ExtraMath.SideOfLine(position,
 				lastWrappedPoint, line.AnchorPoint);
 
 			if (lastSideOfLine != currentSideOfLine) {
-				wrap.MarkedSides.RemoveAt(wrap.MarkedSides.Count - 1);
+				wrap.Pop();
 				line.CurrentLength += Vector2.Distance(line.AnchorPoint, lastWrappedPoint);
-				wrap.WrappedPoints.RemoveAt(topPointIndex);
 				line.AnchorPoint = lastWrappedPoint;
 			}
 		}
@@ -54,8 +55,7 @@ namespace LatchOn.ECS.Systems {
 					TryWrap(line, wrap, position.Value, velocityValue);
 					TryUnwrap(line, wrap, position.Value);
 				} else {
-					wrap.WrappedPoints.Clear();
-					wrap.MarkedSides.Clear();
+					wrap.Clear();
 				}
 			});
 		}
