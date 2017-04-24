@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 using LatchOn.ECS.Components.Input;
 using Entity = UnityEngine.GameObject;
@@ -6,8 +7,13 @@ using Entity = UnityEngine.GameObject;
 public class GameManager : SingletonMonoBehaviour<GameManager> {
 	const string SpawnPointName = "Spawn Point";
 
-	public GameObject PlayerPrefab;
-	public GameObject CameraPrefab;
+	[Serializable]
+	public struct Prefabs {
+		public GameObject Player;
+		public GameObject Camera;
+		public GameObject Hook;
+	}
+	public Prefabs prefabs;
 
 	public Transform ActorContainer;
 	public Transform PropsContainer;
@@ -26,7 +32,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	}
 
 	GameObject SpawnPlayer() {
-		GameObject player = Instantiate(PlayerPrefab, Vector2.up * 2, Quaternion.identity);
+		GameObject player = Instantiate(prefabs.Player, Vector2.up * 2, Quaternion.identity);
 		if (ActorContainer) player.transform.parent = ActorContainer;
 
 		player.AddComponent<LocalPlayer>();
@@ -41,7 +47,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	Camera SpawnCamera(GameObject target) {
 		Collider2D collider = target.GetComponent<Collider2D>();
 		Camera camera = Camera.main == null
-			? Instantiate(CameraPrefab).GetComponent<Camera>()
+			? Instantiate(prefabs.Camera).GetComponent<Camera>()
 			: Camera.main;
 
 		camera.GetComponent<FollowerCamera>().Target = collider;

@@ -13,5 +13,10 @@ namespace LatchOn.ECS.Components.Rope {
 		public LayerMask Solids;
 		/// Layers that can be hit by the grapple.
 		public LayerMask ShouldGrapple;
+
+		/// Hook object entity reference
+		public EgoComponent Hook;
+
+		public bool DidThrow = false;
 	}
 }

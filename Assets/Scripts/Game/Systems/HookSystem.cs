@@ -9,10 +9,10 @@ using LatchOn.ECS.Events;
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
 	public class HookSystem : EgoSystem<
-		WorldPosition, VJoystick, LineData, MoveState, HookReference, CanGrapple
+		WorldPosition, VJoystick, LineData, MoveState, CanGrapple
 	> {
 		public float MinFlingSpeed = 0.1f;
-		public Vector2 StorageLocation = Vector3.back * 20;
+		public Vector2 StorageLocation = Vector3.back * 40;
 
 		class HookBundle: EgoBundle<Hook, Transform, Speed> {
 			public HookBundle(EgoComponent ego, Hook h, Transform t, Speed s):
@@ -24,15 +24,13 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, pos, input, line, state, hookRef, grappler) => {
+			ForEachGameObject((ego, pos, input, line, state, hookRef) => {
 				HookBundle bundle = GetHook(hookRef);
 				Vector2 position = pos.Value;
 
 				bool isSwinging = line.IsAnchored;
 				bool buttonHeld = input.HookDown;
 				bool didThrow = hookRef.DidThrow;
-
-				Debug.Log("");
 
 				if (isSwinging) {
 					if (buttonHeld) KeepSwinging(line, position);
@@ -43,27 +41,27 @@ namespace LatchOn.ECS.Systems {
 				} else if (didThrow) {
 					if (TargetReached(bundle)) {
 						StartSwinging(line, state, hookRef, position, bundle.hook, ego);
-					} else if (PathInterupted(bundle.hook, position, line, grappler)) {
+					} else if (PathInterupted(bundle.hook, position, line, hookRef)) {
 						CancelThrow(hookRef);
 						RetractHook(bundle);
 					}
 					else KeepThrowing(bundle);
 				} else if (buttonHeld) {
 					Vector2 newTarget;
-					if (PathExists(position, input, line, grappler, out newTarget)) {
+					if (PathExists(position, input, line, hookRef, out newTarget)) {
 						StartThrow(hookRef, newTarget, position);
 					}
 				}
 			});
 		}
 
-		Dictionary<HookReference, HookBundle> cache = new Dictionary<HookReference, HookBundle>();
-		HookBundle GetHook(HookReference hookRef) {
+		Dictionary<CanGrapple, HookBundle> cache = new Dictionary<CanGrapple, HookBundle>();
+		HookBundle GetHook(CanGrapple hookRef) {
 			if (cache.ContainsKey(hookRef)) return cache[hookRef];
 
 			EgoComponent hookObject = hookRef.Hook;
 			if (hookObject == null) {
-				hookObject = GameManager.Instance.NewEntity(hookRef.HookPrefab);
+				hookObject = GameManager.Instance.NewEntity(GameManager.Instance.prefabs.Hook);
 				hookRef.Hook = hookObject;
 			}
 
@@ -97,11 +95,10 @@ namespace LatchOn.ECS.Systems {
 			EgoEvents<LineDisconnected>.AddEvent(new LineDisconnected(egoComponent));
 
 			Velocity velocity;
+			state.Value = MoveType.Flung;
 			if (egoComponent.TryGetComponents<Velocity>(out velocity)) {
 				bool smallXSpeed = Mathf.Abs(velocity.x) <= MinFlingSpeed;
-				state.Value = smallXSpeed ? MoveType.Fall : MoveType.Flung;
-			} else {
-				state.Value = MoveType.Flung;
+				if (smallXSpeed) state.Value = MoveType.Fall;
 			}
 		}
 
@@ -114,7 +111,7 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		void StartSwinging(
-			LineData line, MoveState state, HookReference hookRef,
+			LineData line, MoveState state, CanGrapple hookRef,
 			Vector2 playerPosition, Hook hook, EgoComponent ego
 		) {
 			Vector2 anchor = hook.CalculatePinHead();
@@ -122,6 +119,7 @@ namespace LatchOn.ECS.Systems {
 			state.Value = MoveType.Swing;
 			hookRef.DidThrow = false;
 			line.AnchorPoint = anchor;
+			line.IsAnchored = true;
 			line.CurrentLength = Vector2.Distance(playerPosition, anchor);
 
 			EgoEvents<LineConnected>.AddEvent(new LineConnected(ego, line.AnchorPoint));
@@ -134,7 +132,7 @@ namespace LatchOn.ECS.Systems {
 			// || Vector2.Distance(loopPoint, position) > line.StartingLength;
 		}
 
-		void CancelThrow(HookReference hookRef) {
+		void CancelThrow(CanGrapple hookRef) {
 			hookRef.DidThrow = false;
 		}
 
@@ -166,7 +164,7 @@ namespace LatchOn.ECS.Systems {
 			return hit;
 		}
 
-		private void StartThrow(HookReference hookRef, Vector2 target, Vector2 start) {
+		private void StartThrow(CanGrapple hookRef, Vector2 target, Vector2 start) {
 			HookBundle bundle = GetHook(hookRef);
 			Hook hook = bundle.hook;
 			Transform transform = bundle.transform;

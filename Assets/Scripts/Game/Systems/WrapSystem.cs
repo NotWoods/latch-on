@@ -6,7 +6,7 @@ namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
 	public class WrapSystem : EgoSystem<LineData, WrappingLine, WorldPosition, Velocity> {
 		void TryWrap(LineData line, WrappingLine wrapper, Vector2 position, Vector2 velocity) {
-			var anchorPoint = wrapper.Peek().point;
+			var anchorPoint = line.AnchorPoint;
 			RaycastHit2D shouldWrap = Physics2D.Linecast(position, anchorPoint,
 				wrapper.ShouldWrap);
 
@@ -20,8 +20,8 @@ namespace LatchOn.ECS.Systems {
 
 		void TryUnwrap(LineData line, WrappingLine wrapper, Vector2 position) {
 			int count = wrapper.Count;
-			bool canUnwrap = count < 2;
-			if (canUnwrap) return;
+			bool canUnwrap = count >= 2;
+			if (!canUnwrap) return;
 
 			var topEntry = wrapper.Peek();
 			bool playerOnOtherSideOfLine = topEntry.side != wrapper.SideOfLine(position);

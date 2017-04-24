@@ -10,12 +10,15 @@ public class LineRendererSystem : EgoSystem<WorldPosition, LineData, WrappingLin
 				return;
 			}
 
-			Vector3[] points = new Vector3[wrapper.Count + 1];
+			Vector3[] points = new Vector3[wrapper.Count + 2];
 			int i = 0;
 			foreach (var entry in wrapper) {
 				points[i] = entry.point;
 				i++;
 			}
+
+			points[i] = line.AnchorPoint;
+			points[i + 1] = position.Value;
 
 			renderer.positionCount = points.Length;
 			renderer.SetPositions(points);
