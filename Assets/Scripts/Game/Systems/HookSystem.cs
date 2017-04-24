@@ -9,18 +9,18 @@ class MissingComponentException : System.Exception {}
 
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
-	public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState, NeedleHolder, CanGrapple> {
+	public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState,  CanGrapple> {
 		public float MinFlingSpeed = 0.1f;
 		public Vector3 StorageLocation = Vector3.back * 20;
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, pos, input, line, state, needleHolder, grappler) => {
-				Hook hook = GetHook(needleHolder);
+			ForEachGameObject((ego, pos, input, line, state, grappler) => {
+				Hook hook = GetHook(grappler);
 				Vector2 position = pos.Value;
 
 				bool isSwinging = line.Anchored();
 				bool buttonHeld = input.HookDown;
-				bool didThrow = needleHolder.DidThrow;
+				bool didThrow = grappler.DidThrow;
 
 				if (isSwinging) {
 					if (buttonHeld) KeepSwinging(line, position);
@@ -29,32 +29,32 @@ namespace LatchOn.ECS.Systems {
 						RetractHook(hook);
 					}
 				} else if (didThrow) {
-					if (TargetReached(hook)) StartSwinging(line, state, needleHolder, position);
+					if (TargetReached(hook)) StartSwinging(line, state, grappler, position);
 					else if (PathInterupted(hook, position, line, grappler)) {
-						CancelThrow(needleHolder);
+						CancelThrow(grappler);
 						RetractHook(hook);
 					}
 					else KeepThrowing(hook);
 				} else if (buttonHeld) {
 					Vector2 newTarget;
 					if (PathExists(position, input, grappler, out newTarget)) {
-						StartThrow(needleHolder, newTarget, position);
+						StartThrow(grappler, newTarget, position);
 					}
 				}
 			});
 		}
 
-		private Dictionary<NeedleHolder, Hook> hookCache = new Dictionary<NeedleHolder, Hook>();
-		private Hook GetHook(NeedleHolder holder) {
+		private Dictionary<CanGrapple, Hook> hookCache = new Dictionary<CanGrapple, Hook>();
+		private Hook GetHook(CanGrapple holder) {
 			if (hookCache.ContainsKey(holder)) return hookCache[holder];
 
 			EgoComponent needleObject;
-			if (holder.Needle == null) {
+			if (holder.Hook == null) {
 				var gm = GameManager.Instance;
 				needleObject = gm.NewEntity(gm.HookPrefab);
-				holder.Needle = needleObject.gameObject;
+				holder.Hook = needleObject;
 			} else {
-				needleObject = holder.Needle.GetComponent<EgoComponent>();
+				needleObject = holder.Hook.GetComponent<EgoComponent>();
 			}
 
 			Hook hook;
@@ -98,12 +98,12 @@ namespace LatchOn.ECS.Systems {
 			return hook.Target == needlePos.Value;
 		}
 
-		private void StartSwinging(LineData line, MoveState state, NeedleHolder needleHolder, Vector2 playerPosition) {
-			Hook hook = GetHook(needleHolder);
+		private void StartSwinging(LineData line, MoveState state, CanGrapple grappler, Vector2 playerPosition) {
+			Hook hook = GetHook(grappler);
 
 			state.Value = MoveState.Swing;
 			line.AnchorPoint = hook.CalculatePinHead();
-			needleHolder.DidThrow = false;
+			grappler.DidThrow = false;
 			line.CurrentLength = Vector2.Distance(playerPosition, line.AnchorPoint);
 		}
 
@@ -114,8 +114,8 @@ namespace LatchOn.ECS.Systems {
 			// || Vector2.Distance(loopPoint, position) > line.StartingLength;
 		}
 
-		private void CancelThrow(NeedleHolder needleHolder) {
-			needleHolder.DidThrow = false;
+		private void CancelThrow(CanGrapple grappler) {
+			grappler.DidThrow = false;
 		}
 
 		private void RetractHook(Hook hook) {
@@ -144,8 +144,8 @@ namespace LatchOn.ECS.Systems {
 			return hit;
 		}
 
-		private void StartThrow(NeedleHolder needleHolder, Vector2 target, Vector2 start) {
-			Hook hook = GetHook(needleHolder);
+		private void StartThrow(CanGrapple grappler, Vector2 target, Vector2 start) {
+			Hook hook = GetHook(grappler);
 			Transform transform = hook.transform;
 
 			Vector2 direction = target - start;
@@ -155,7 +155,7 @@ namespace LatchOn.ECS.Systems {
 			Vector2 shift = (direction.normalized * hook.Length * -1);
 			transform.position = start - shift;
 
-			needleHolder.DidThrow = true;
+			grappler.DidThrow = true;
 			hook.Target = target;
 			hook.Deployed = true;
 		}
