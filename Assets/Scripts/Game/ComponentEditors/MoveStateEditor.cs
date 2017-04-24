@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using LatchOn.ECS.Components.Mover;
+// using LatchOn.ECS.Components.Mover;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof (MoveState))]
