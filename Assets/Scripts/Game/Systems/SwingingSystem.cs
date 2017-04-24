@@ -8,7 +8,7 @@ namespace LatchOn.ECS.Systems {
 	public class SwingingSystem : EgoSystem<LineData, WorldPosition, Velocity> {
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, line, position, vel) => {
-				if (!line.Anchored()) return;
+				if (!line.IsAnchored) return;
 				Vector2 velocity = vel.Value;
 
 				float damping;

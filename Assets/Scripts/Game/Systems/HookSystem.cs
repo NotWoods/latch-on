@@ -18,7 +18,7 @@ namespace LatchOn.ECS.Systems {
 				Hook hook = GetHook(grappler);
 				Vector2 position = pos.Value;
 
-				bool isSwinging = line.Anchored();
+				bool isSwinging = line.IsAnchored;
 				bool buttonHeld = input.HookDown;
 				bool didThrow = grappler.DidThrow;
 
@@ -30,7 +30,7 @@ namespace LatchOn.ECS.Systems {
 					}
 				} else if (didThrow) {
 					if (TargetReached(hook)) StartSwinging(line, state, grappler, position);
-					else if (PathInterupted(hook, position, line, grappler)) {
+					else if (PathInterupted(hook, position, grappler)) {
 						CancelThrow(grappler);
 						RetractHook(hook);
 					}
@@ -78,8 +78,7 @@ namespace LatchOn.ECS.Systems {
 
 		/// Cancel the swing
 		private void StopSwinging(LineData line, CanGrapple grappler, MoveState state, EgoComponent egoComponent) {
-			line.Clear();
-			line.MarkedSides.Clear();
+			line.IsAnchored = false;
 			line.CurrentLength = grappler.StartingLength;
 
 			bool smallXSpeed = false;
@@ -103,15 +102,16 @@ namespace LatchOn.ECS.Systems {
 
 			state.Value = MoveType.Swing;
 			line.AnchorPoint = hook.CalculatePinHead();
+			line.IsAnchored = true;
 			grappler.DidThrow = false;
 			line.CurrentLength = Vector2.Distance(playerPosition, line.AnchorPoint);
 		}
 
-		private bool PathInterupted(Hook hook, Vector2 position, LineData line, CanGrapple grappler) {
+		private bool PathInterupted(Hook hook, Vector2 position, CanGrapple grappler) {
 			Vector2 loopPoint = hook.CalculatePinHead();
 
 			return Physics2D.Linecast(loopPoint, position, grappler.Solids);
-			// || Vector2.Distance(loopPoint, position) > line.StartingLength;
+			// || Vector2.Distance(loopPoint, position) > grappler.StartingLength;
 		}
 
 		private void CancelThrow(CanGrapple grappler) {

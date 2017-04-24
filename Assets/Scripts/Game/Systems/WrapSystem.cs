@@ -4,32 +4,46 @@ using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
-	public class WrapSystem : EgoSystem<LineData, WorldPosition> {
-		private void TryWrap(LineData line, Vector2 position, Vector2 velocity) {
-			RaycastHit2D shouldWrap = Physics2D.Linecast(
-				position,
-				line.AnchorPoint,
-				line.NoHookGround
-			);
+	public class WrapSystem : EgoSystem<LineData, WrappingLine, WorldPosition> {
+		private void TryWrap(
+			LineData line, WrappingLine wrap,
+			Vector2 position, Vector2 velocity
+		) {
+			RaycastHit2D shouldWrap = Physics2D.Linecast(position,
+				line.AnchorPoint, wrap.ShouldWrap);
 
 			if (shouldWrap && line.AnchorPoint != shouldWrap.point) {
-				line.Push(shouldWrap.point + velocity.normalized * -0.1f);
-				line.MarkedSides.Push(line.Side(position));
+				wrap.WrappedPoints.Add(line.AnchorPoint);
+				line.AnchorPoint = shouldWrap.point + velocity.normalized * -0.1f;
+
+				Side entityRelativeToLine = (Side) ExtraMath.SideOfLine(
+					position, line.AnchorPoint,
+					wrap.WrappedPoints[wrap.WrappedPoints.Count -1]
+				);
+				wrap.MarkedSides.Add(entityRelativeToLine);
 			}
 		}
 
-		private void TryUnwrap(LineData line, Vector2 position) {
-			if (line.Count >= 2) {
-				if (line.MarkedSides.Peek() != line.Side(position)) {
-					line.Pop();
-					line.MarkedSides.Pop();
+		private void TryUnwrap(LineData line, WrappingLine wrap, Vector2 position) {
+			if (wrap.WrappedPoints.Count > 0) {
+				int topPointIndex = wrap.WrappedPoints.Count - 1;
+				Vector2 lastWrappedPoint = wrap.WrappedPoints[topPointIndex];
+
+				Side lastSideOfLine = wrap.MarkedSides[wrap.MarkedSides.Count - 1];
+				Side currentSideOfLine = (Side) ExtraMath.SideOfLine(position,
+					line.AnchorPoint, lastWrappedPoint);
+
+				if (lastSideOfLine != currentSideOfLine) {
+					wrap.MarkedSides.RemoveAt(wrap.MarkedSides.Count - 1);
+					line.CurrentLength += Vector2.Distance(line.AnchorPoint, lastWrappedPoint);
+					wrap.WrappedPoints.RemoveAt(topPointIndex);
 				}
 			}
 		}
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, line, position) => {
-				if (line.Anchored()) {
+			ForEachGameObject((ego, line, wrap, position) => {
+				if (line.IsAnchored) {
 					Velocity velocity;
 					Vector2 velocityValue;
 					if (ego.TryGetComponents<Velocity>(out velocity)) {
@@ -38,8 +52,11 @@ namespace LatchOn.ECS.Systems {
 						velocityValue = Vector2.zero;
 					}
 
-					TryWrap(line, position.Value, velocityValue);
-					TryUnwrap(line, position.Value);
+					TryWrap(line, wrap, position.Value, velocityValue);
+					TryUnwrap(line, wrap, position.Value);
+				} else {
+					wrap.WrappedPoints.Clear();
+					wrap.MarkedSides.Clear();
 				}
 			});
 		}
