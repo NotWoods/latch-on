@@ -1,5 +1,7 @@
 using UnityEngine;
 using Prime31;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Input;
 
 public class RespawnSystem : EgoSystem<VJoystick, CharacterController2D, Velocity> {
 	public override void FixedUpdate() {

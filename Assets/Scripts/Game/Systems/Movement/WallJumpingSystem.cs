@@ -1,4 +1,7 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Input;
+using LatchOn.ECS.Components.Mover;
 
 /// Manages wall jumping movement
 public class WallJumpingSystem : EgoSystem<WallJumper, Velocity, VJoystick> {

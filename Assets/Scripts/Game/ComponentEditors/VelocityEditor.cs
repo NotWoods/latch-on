@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
+using LatchOn.ECS.Components.Base;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof (Velocity))]

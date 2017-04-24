@@ -1,5 +1,8 @@
 using UnityEngine;
 using Prime31;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Input;
+using LatchOn.ECS.Components.Mover;
 
 /// Rudimentary diving system.
 public class DiveSystem : EgoSystem<Diver, Velocity, MoveState, VJoystick, CharacterController2D> {

@@ -1,4 +1,6 @@
 using UnityEngine;
+using LatchOn.ECS.Components;
+using LatchOn.ECS.Components.Mover;
 
 public class HoldRopeSystem : EgoSystem<PlayerSprites, MoveState> {
 	Vector2 normalLeftHand = new Vector2(0.43f, -0.4f);

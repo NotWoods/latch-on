@@ -1,4 +1,6 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Rope;
 
 /// Manages rope attachment and wrapping
 public class WrapSystem : EgoSystem<LineData, WorldPosition> {

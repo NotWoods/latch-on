@@ -1,4 +1,5 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Health;
 
 public class DestroySystem : EgoSystem<Destroyable> {
 	private GameManager gameManager = GameManager.Instance;

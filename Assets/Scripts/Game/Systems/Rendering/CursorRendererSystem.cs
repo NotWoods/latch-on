@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Input;
+using LatchOn.ECS.Components.Rope;
 
 public class CursorRendererSystem : EgoSystem<LocalPlayer, WorldPosition, LineData, VJoystick> {
 	public float PreviewDistance = 2f;

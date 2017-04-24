@@ -1,4 +1,6 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Rope;
 
 /// Manages movement when swinging
 public class SwingingSystem : EgoSystem<LineData, WorldPosition, Velocity> {

@@ -1,5 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Input;
+using LatchOn.ECS.Components.Mover;
+using LatchOn.ECS.Components.Rope;
 
 class MissingComponentException : System.Exception {}
 

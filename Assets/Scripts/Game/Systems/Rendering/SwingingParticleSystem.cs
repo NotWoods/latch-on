@@ -1,4 +1,6 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Mover;
 
 /// Controls when particles are emitted
 public class SwingingParticleSystem : EgoSystem<ParticleSystem, MoveState, Velocity> {

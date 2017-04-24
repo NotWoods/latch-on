@@ -1,5 +1,6 @@
 using UnityEngine;
 using Prime31;
+using LatchOn.ECS.Components.Mover;
 
 /// Updates MoveState and WallJumper
 public class MoveStateSystem : EgoSystem<MoveState, CharacterController2D> {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Rope;
 
 public class RotatorSystem : EgoSystem<Transform, LineData> {
 	public override void Update() {

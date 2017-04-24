@@ -1,4 +1,6 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Input;
 
 public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
 	private Vector2 getPointerDir(ControlType controlType, Vector2 playerPosition) {

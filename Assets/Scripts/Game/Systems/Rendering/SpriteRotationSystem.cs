@@ -1,4 +1,6 @@
 using UnityEngine;
+using LatchOn.ECS.Components;
+using LatchOn.ECS.Components.Base;
 
 public class SpriteRotationSystem : EgoSystem<PlayerSprites, Velocity> {
 	public override void Update() {

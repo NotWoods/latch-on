@@ -1,5 +1,8 @@
 using UnityEngine;
 using Prime31;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Mover;
+using LatchOn.ECS.Components.Input;
 
 public class MoveSystem : EgoSystem<MoveConfig, Velocity, CharacterController2D, VJoystick, MoveState> {
 	private float GetJumpVelocity(MoveConfig stats) {

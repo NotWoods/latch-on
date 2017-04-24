@@ -1,5 +1,6 @@
 using UnityEngine;
 using Prime31;
+using LatchOn.ECS.Components.Base;
 
 public class ApplyMoveSystem : EgoSystem<Velocity, CharacterController2D> {
 	public override void FixedUpdate() {

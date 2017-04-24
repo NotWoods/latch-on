@@ -1,4 +1,6 @@
 using UnityEngine;
+using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Rope;
 
 public class LineRendererSystem : EgoSystem<WorldPosition, LineData, LineRenderer> {
 	public override void Update() {
