@@ -1,6 +1,7 @@
 using UnityEngine;
 using LatchOn.ECS.Components;
 using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems.Rendering {
 	public class SpriteRotationSystem : EgoSystem<PlayerSprites, Velocity> {

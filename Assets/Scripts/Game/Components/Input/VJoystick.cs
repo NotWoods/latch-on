@@ -9,22 +9,28 @@ namespace LatchOn.ECS.Components.Input {
 		[Range(-1, 1)]
 		public float XMoveAxisRaw = 0;
 
-		[Range(-1, 1)]
-		public float XAimAxis = 0;
-		[Range(-1, 1)]
-		public float YAimAxis = 0;
+		[SerializeField, Range(-1, 1)]
+		float xAimAxis = 0;
+		[SerializeField, Range(-1, 1)]
+		float yAimAxis = 0;
+
+		/// Normalized vector representing the aiming direction
 		public Vector2 AimAxis {
-			get { return new Vector2(XAimAxis, YAimAxis); }
-			set { XAimAxis = value.x; YAimAxis = value.y; }
+			get { return new Vector2(xAimAxis, yAimAxis); }
+			set { xAimAxis = value.x; yAimAxis = value.y; }
 		}
 
+		/// True if jump button was pressed, should be unset once handled
 		public bool JumpPressed = false;
+		/// True if sink button was pressed, should be unset once handled
 		public bool SinkPressed = false;
-
+		/// True if hook button is held down
 		public bool HookDown = false;
-
+		// TODO: move property to another component
 		public bool ShouldRespawn = false;
 
+		/// Sets all `_____Pressed` properties to false
+		[ContextMenu("Clear Pressed")]
 		public void ClearPressed() {
 			JumpPressed = SinkPressed = false;
 		}

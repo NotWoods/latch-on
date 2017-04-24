@@ -7,10 +7,10 @@ namespace LatchOn.ECS.Systems {
 
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, destroyable) => {
-				if (destroyable.Health < 0) {
+				if (destroyable.CurrentHealth < 0) {
 					GameObject go = ego.gameObject;
 					gameManager.Destory(go);
-					if (destroyable.ShouldRespawn) gameManager.DestroyedObjects.Enqueue(go);
+					gameManager.DestroyedObjects.Enqueue(go);
 				}
 			});
 		}

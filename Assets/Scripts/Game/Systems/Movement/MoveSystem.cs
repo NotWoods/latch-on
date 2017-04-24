@@ -5,13 +5,13 @@ using LatchOn.ECS.Components.Mover;
 using LatchOn.ECS.Components.Input;
 
 namespace LatchOn.ECS.Systems.Movement {
-	public class MoveSystem : EgoSystem<MoveConfig, Velocity, CharacterController2D, VJoystick, MoveState> {
+	public class MoveSystem : EgoSystem<MoveConfig, Velocity, CharacterController2D, VJoystick, MoveState, Speed> {
 		private float GetJumpVelocity(MoveConfig stats) {
 			return Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
 		}
 
 		private void CalculateWalkingVelocity(ref Vector2 velocity,
-			MoveConfig stats, VJoystick input, MoveState state,
+			float runSpeed, VJoystick input, MoveState state,
 			EgoComponent ego
 		) {
 			float damp = 1;
@@ -23,13 +23,13 @@ namespace LatchOn.ECS.Systems.Movement {
 			// TODO: Change to use SmoothDamp instead later
 			velocity.x = Mathf.Lerp(
 				velocity.x,
-				input.XMoveAxis * stats.RunSpeed,
+				input.XMoveAxis * runSpeed,
 				Time.deltaTime * damp
 			);
 		}
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, stats, vel, controller, input, state) => {
+			ForEachGameObject((ego, stats, vel, controller, input, state, speed) => {
 				Vector2 velocity = vel.Value;
 				if (controller.isGrounded) {
 					velocity.y = input.JumpPressed ? GetJumpVelocity(stats) : 0;
@@ -43,7 +43,7 @@ namespace LatchOn.ECS.Systems.Movement {
 				velocity.y += stats.Gravity * Time.deltaTime;
 
 				if (state.Any(MoveState.Walk, MoveState.Fall)) {
-					CalculateWalkingVelocity(ref velocity, stats, input, state, ego);
+					CalculateWalkingVelocity(ref velocity, speed.Value, input, state, ego);
 				}
 
 				vel.Value = velocity;

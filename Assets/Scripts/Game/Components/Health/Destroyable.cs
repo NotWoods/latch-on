@@ -3,9 +3,13 @@ using UnityEngine;
 namespace LatchOn.ECS.Components.Health {
 	[DisallowMultipleComponent]
 	public class Destroyable : MonoBehaviour {
-		public int MaxHealth = 3;
-		public bool ShouldRespawn = true;
+		[SerializeField]
+		int _maxHealth = 3;
 
-		internal int Health = 3;
+		public int MaxHealth { get { return _maxHealth; } }
+		public int CurrentHealth = 3;
+
+		[ContextMenu("Reset Health")]
+		public void ResetHealth() { CurrentHealth = MaxHealth; }
 	}
 }
