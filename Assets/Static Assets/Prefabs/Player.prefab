@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 114106222552548656}
   - component: {fileID: 114498083657615348}
   - component: {fileID: 114326972296716322}
+  - component: {fileID: 114531516187622670}
   - component: {fileID: 114099284345838122}
   - component: {fileID: 114577052791088178}
   m_Layer: 8
@@ -261,12 +262,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c6eb356cf91344197a98b76d9cef69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSlideSpeed: 2.5
-  BaseStickTime: 0.25
-  ClimbingJump: {x: 7.5, y: 4}
-  SwiningJump: {x: 1, y: 12}
-  FallOffJump: {x: 8.5, y: 7}
-  LeapingJump: {x: 18, y: 12}
+  _maxSlideSpeed: 2.5
+  _baseStickTime: 0.25
+  _climbingJump: {x: 7.5, y: 4}
+  _swingingJump: {x: 1, y: 12}
+  _fallOffJump: {x: 8.5, y: 7}
+  _leapingJump: {x: 18, y: 17}
+  AgainstSide: 0
+  TimeToUnstick: 0
 --- !u!114 &114079133344390962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -293,7 +296,7 @@ MonoBehaviour:
   _startingLength: 20
   Solids:
     serializedVersion: 2
-    m_Bits: 2560
+    m_Bits: 3584
   ShouldGrapple:
     serializedVersion: 2
     m_Bits: 1536
@@ -324,9 +327,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e169c93653adc5a4f9c43b4a9746a34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpHeight: 3
-  Gravity: -25
-  MaxFallSpeed: 25
+  _jumpHeight: 3
+  _gravity: -25
+  _maxFallSpeed: 15
 --- !u!114 &114326972296716322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -342,10 +345,7 @@ MonoBehaviour:
   _retractSpeed: 2
   CurrentLength: 10
   IsAnchored: 0
-  NoHookGround:
-    serializedVersion: 2
-    m_Bits: 1536
-  points: []
+  AnchorPoint: {x: 0, y: 0}
 --- !u!114 &114416232568172826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -420,6 +420,21 @@ MonoBehaviour:
   SwingDamping: 0.5
   FlungDamping: 1
   FallDamping: 5
+--- !u!114 &114531516187622670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259570501106154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 571b4f3fff10d4945b83420604e05b5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShouldWrap:
+    serializedVersion: 2
+    m_Bits: 1536
+  _wrappedItems: []
 --- !u!114 &114555663924945448
 MonoBehaviour:
   m_ObjectHideFlags: 1
