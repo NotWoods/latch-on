@@ -1,5 +1,6 @@
 using UnityEngine;
 using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Mover;
 using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems {

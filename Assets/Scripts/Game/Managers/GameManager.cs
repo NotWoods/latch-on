@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using LatchOn.ECS.Components.Input;
 
 public class GameManager : SingletonMonoBehaviour<GameManager> {
 	const string SpawnPointName = "Spawn Point";
