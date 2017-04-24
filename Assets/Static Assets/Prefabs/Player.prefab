@@ -51,21 +51,22 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4391873962721960}
-  - component: {fileID: 61927851541306054}
+  - component: {fileID: 114883735941637540}
   - component: {fileID: 120556170814804164}
+  - component: {fileID: 114853956182612044}
+  - component: {fileID: 61927851541306054}
   - component: {fileID: 50273437412386958}
   - component: {fileID: 114416232568172826}
-  - component: {fileID: 114133840020625986}
-  - component: {fileID: 114577052791088178}
-  - component: {fileID: 114326972296716322}
-  - component: {fileID: 114830166393391800}
-  - component: {fileID: 114028175776281298}
   - component: {fileID: 114079133344390962}
-  - component: {fileID: 114498083657615348}
-  - component: {fileID: 114883735941637540}
+  - component: {fileID: 114830166393391800}
+  - component: {fileID: 114133840020625986}
+  - component: {fileID: 114555663924945448}
+  - component: {fileID: 114028175776281298}
   - component: {fileID: 114106222552548656}
+  - component: {fileID: 114498083657615348}
+  - component: {fileID: 114326972296716322}
   - component: {fileID: 114013334937713078}
-  - component: {fileID: 114853956182612044}
+  - component: {fileID: 114577052791088178}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -260,8 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2ea3f8e50df87479f53519b9e088f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NeedlePrefab: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c,
-    type: 2}
   Needle: {fileID: 0}
 --- !u!114 &114028175776281298
 MonoBehaviour:
@@ -416,6 +415,18 @@ MonoBehaviour:
   SwingDamping: 0.5
   FlungDamping: 1
   FallDamping: 5
+--- !u!114 &114555663924945448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259570501106154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2538f8f8f13bee24399c18bf01f8b03e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 10
 --- !u!114 &114577052791088178
 MonoBehaviour:
   m_ObjectHideFlags: 1
