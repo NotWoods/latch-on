@@ -4,18 +4,25 @@ using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Input;
 using LatchOn.ECS.Components.Mover;
 using LatchOn.ECS.Components.Rope;
+using HookBundle = EgoBundle<
+	LatchOn.ECS.Components.Rope.Hook,
+	UnityEngine.Transform,
+	LatchOn.ECS.Components.Base.Speed
+>;
 
 class MissingComponentException : System.Exception {}
 
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
-	public class HookSystem : EgoSystem<WorldPosition, VJoystick, LineData, MoveState,  CanGrapple> {
+	public class HookSystem : EgoSystem<
+		WorldPosition, VJoystick, LineData, MoveState, CanGrapple
+	> {
 		public float MinFlingSpeed = 0.1f;
 		public Vector3 StorageLocation = Vector3.back * 20;
 
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, pos, input, line, state, grappler) => {
-				Hook hook = GetHook(grappler);
+				HookBundle bundle = GetHook(grappler);
 				Vector2 position = pos.Value;
 
 				bool isSwinging = line.IsAnchored;
@@ -26,15 +33,15 @@ namespace LatchOn.ECS.Systems {
 					if (buttonHeld) KeepSwinging(line, position);
 					else {
 						StopSwinging(line, grappler, state, ego);
-						RetractHook(hook);
+						RetractHook(bundle);
 					}
 				} else if (didThrow) {
-					if (TargetReached(hook)) StartSwinging(line, state, grappler, position);
-					else if (PathInterupted(hook, position, grappler)) {
+					if (TargetReached(bundle)) StartSwinging(line, state, grappler, position);
+					else if (PathInterupted(bundle.component1, position, grappler)) {
 						CancelThrow(grappler);
-						RetractHook(hook);
+						RetractHook(bundle);
 					}
-					else KeepThrowing(hook);
+					else KeepThrowing(bundle);
 				} else if (buttonHeld) {
 					Vector2 newTarget;
 					if (PathExists(position, input, grappler, out newTarget)) {
@@ -44,27 +51,30 @@ namespace LatchOn.ECS.Systems {
 			});
 		}
 
-		private Dictionary<CanGrapple, Hook> hookCache = new Dictionary<CanGrapple, Hook>();
-		private Hook GetHook(CanGrapple holder) {
-			if (hookCache.ContainsKey(holder)) return hookCache[holder];
+		private Dictionary<CanGrapple, HookBundle> cache = new Dictionary<CanGrapple, HookBundle>();
+		private HookBundle GetHook(CanGrapple holder) {
+			if (cache.ContainsKey(holder)) return cache[holder];
 
-			EgoComponent needleObject;
+			EgoComponent hookObject = holder.Hook;
 			if (holder.Hook == null) {
 				var gm = GameManager.Instance;
-				needleObject = gm.NewEntity(gm.HookPrefab);
-				holder.Hook = needleObject;
-			} else {
-				needleObject = holder.Hook.GetComponent<EgoComponent>();
+				hookObject = gm.NewEntity(gm.HookPrefab);
+				holder.Hook = hookObject;
 			}
 
-			Hook hook;
-			if (needleObject.TryGetComponents<Hook>(out hook)) {
-				needleObject.transform.position = StorageLocation;
-				hookCache[holder] = hook;
-				return hook;
-			} else {
-				throw new MissingComponentException();
+			var hook = hookObject.GetComponent<Hook>();
+			var transform = hookObject.GetComponent<Transform>();
+			var speed = hookObject.GetComponent<Speed>();
+
+			if (!hook || !transform || !speed) {
+				throw new System.Exception("Hook missing component");
 			}
+
+			var bundle = new HookBundle(hookObject, hook, transform, speed);
+
+			RetractHook(bundle);
+			cache[holder] = bundle;
+			return bundle;
 		}
 
 		/// Step the swinging loop
@@ -81,24 +91,27 @@ namespace LatchOn.ECS.Systems {
 			line.IsAnchored = false;
 			line.CurrentLength = grappler.StartingLength;
 
-			bool smallXSpeed = false;
 			Velocity velocity;
+			state.Value = MoveType.Flung;
 			if (egoComponent.TryGetComponents<Velocity>(out velocity)) {
-				smallXSpeed = Mathf.Abs(velocity.x) <= MinFlingSpeed;
+				bool smallXSpeed = Mathf.Abs(velocity.x) <= MinFlingSpeed;
+				if (smallXSpeed) state.Value = MoveType.Fall;
 			}
-
-			state.Value = smallXSpeed ? MoveType.Fall : MoveType.Flung;
 		}
 
 		/// Check if the target has been reached by the hook
-		private bool TargetReached(Hook hook) {
-			WorldPosition needlePos = hook.GetComponent<WorldPosition>();
+		private bool TargetReached(HookBundle hookBundle) {
+			Hook hook = hookBundle.component1;
+			Transform hookTransform = hookBundle.component2;
 
-			return hook.Target == needlePos.Value;
+			return hook.Target == (Vector2) hookTransform.position;
 		}
 
-		private void StartSwinging(LineData line, MoveState state, CanGrapple grappler, Vector2 playerPosition) {
-			Hook hook = GetHook(grappler);
+		private void StartSwinging(
+			LineData line, MoveState state, CanGrapple grappler,
+			Vector2 playerPosition
+		) {
+			Hook hook = GetHook(grappler).component1;
 
 			state.Value = MoveType.Swing;
 			line.AnchorPoint = hook.CalculatePinHead();
@@ -118,23 +131,27 @@ namespace LatchOn.ECS.Systems {
 			grappler.DidThrow = false;
 		}
 
-		private void RetractHook(Hook hook) {
-			hook.transform.position = StorageLocation;
-			hook.Deployed = false;
+		private void RetractHook(HookBundle hook) {
+			hook.component2.position = StorageLocation;
+			hook.component1.Deployed = false;
 		}
 
-		private void KeepThrowing(Hook hook) {
-			Transform hookTransform = hook.transform;
-			float hookSpeed = hook.GetComponent<Speed>().Value;
+		private void KeepThrowing(HookBundle hook) {
+			Transform hookTransform = hook.component2;
+			float hookSpeed = hook.component3.Value;
+			Vector2 target = hook.component1.Target;
 
 			hookTransform.position = Vector2.MoveTowards(
 				hookTransform.position,
-				hook.Target,
+				target,
 				hookSpeed * Time.deltaTime
 			);
 		}
 
-		private bool PathExists(Vector2 position, VJoystick input, CanGrapple grappler, out Vector2 newTarget) {
+		private bool PathExists(
+			Vector2 position, VJoystick input, CanGrapple grappler,
+			out Vector2 newTarget
+		) {
 			RaycastHit2D hit = Physics2D.Raycast(
 				position, input.AimAxis,
 				grappler.StartingLength, grappler.ShouldGrapple
@@ -145,8 +162,9 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		private void StartThrow(CanGrapple grappler, Vector2 target, Vector2 start) {
-			Hook hook = GetHook(grappler);
-			Transform transform = hook.transform;
+			HookBundle bundle = GetHook(grappler);
+			Hook hook = bundle.component1;
+			Transform transform = bundle.component2;
 
 			Vector2 direction = target - start;
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
