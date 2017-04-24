@@ -14,7 +14,7 @@ namespace LatchOn.ECS.Systems {
 				float damping;
 				Damping damp;
 				if (ego.TryGetComponents<Damping>(out damp)) {
-					damping = damp.GetValue(MoveState.Swing);
+					damping = damp.GetValue(MoveType.Swing);
 				} else {
 					damping = 1;
 				}

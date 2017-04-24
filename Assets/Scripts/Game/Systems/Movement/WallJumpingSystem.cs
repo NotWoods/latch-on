@@ -19,7 +19,7 @@ namespace LatchOn.ECS.Systems.Movement {
 				bool isSwinging = false;
 				MoveState state;
 				if (ego.TryGetComponents<MoveState>(out state)) {
-					isSwinging = state.Value == MoveState.Swing;
+					isSwinging = state.Value == MoveType.Swing;
 				}
 
 				if (wallJumper.TimeToUnstick > 0 && !isSwinging && inputXSign != 0) {

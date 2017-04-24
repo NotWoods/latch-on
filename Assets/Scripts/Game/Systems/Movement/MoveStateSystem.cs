@@ -11,15 +11,15 @@ namespace LatchOn.ECS.Systems.Movement {
 				bool canWallJump = ego.TryGetComponents<WallJumper>(out wallJumper);
 
 				switch (state.Value) {
-					case MoveState.Mode.Flung:
-						if (canWallJump && wallJumper.IsSliding) state.Value = MoveState.Fall;
-						goto case MoveState.Mode.Fall;
+					case MoveType.Flung:
+						if (canWallJump && wallJumper.IsSliding) state.Value = MoveType.Fall;
+						goto case MoveType.Fall;
 
-					case MoveState.Mode.Fall:
-						if (controller.isGrounded) state.Value = MoveState.Walk; break;
+					case MoveType.Fall:
+						if (controller.isGrounded) state.Value = MoveType.Walk; break;
 
-					case MoveState.Mode.Walk:
-						if (!controller.isGrounded) state.Value = MoveState.Fall; break;
+					case MoveType.Walk:
+						if (!controller.isGrounded) state.Value = MoveType.Fall; break;
 				}
 
 				if (canWallJump) {

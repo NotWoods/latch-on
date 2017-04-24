@@ -88,7 +88,7 @@ namespace LatchOn.ECS.Systems {
 				smallXSpeed = Mathf.Abs(velocity.x) <= MinFlingSpeed;
 			}
 
-			state.Value = smallXSpeed ? MoveState.Fall : MoveState.Flung;
+			state.Value = smallXSpeed ? MoveType.Fall : MoveType.Flung;
 		}
 
 		/// Check if the target has been reached by the hook
@@ -101,7 +101,7 @@ namespace LatchOn.ECS.Systems {
 		private void StartSwinging(LineData line, MoveState state, CanGrapple grappler, Vector2 playerPosition) {
 			Hook hook = GetHook(grappler);
 
-			state.Value = MoveState.Swing;
+			state.Value = MoveType.Swing;
 			line.AnchorPoint = hook.CalculatePinHead();
 			grappler.DidThrow = false;
 			line.CurrentLength = Vector2.Distance(playerPosition, line.AnchorPoint);

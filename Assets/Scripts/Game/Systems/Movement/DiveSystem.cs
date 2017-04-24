@@ -9,9 +9,9 @@ namespace LatchOn.ECS.Systems.Movement {
 	public class DiveSystem : EgoSystem<Diver, Velocity, MoveState, VJoystick, CharacterController2D> {
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, diver, velocity, state, input, controller) => {
-				if (state.Value == MoveState.Dive) {
+				if (state.Value == MoveType.Dive) {
 					if (controller.collisionState.hasCollision()) {
-						state.Value = MoveState.Fall;
+						state.Value = MoveType.Fall;
 						return;
 					}
 
@@ -20,13 +20,13 @@ namespace LatchOn.ECS.Systems.Movement {
 						diver.DivingVelocity.y
 					);
 				} else if (input.SinkPressed && CanDive(diver, velocity.Value, state, ego)) {
-					state.Value = MoveState.Dive;
+					state.Value = MoveType.Dive;
 				}
 			});
 		}
 
 		private bool CanDive(Diver diver, Vector2 velocity, MoveState state, EgoComponent ego) {
-			if (!state.Any(MoveState.Fall, MoveState.Flung)) return false;
+			if (!state.Any(MoveType.Fall, MoveType.Flung)) return false;
 
 			if (velocity.y >= diver.MinYVelocity && velocity.y <= diver.MaxYVelocity) {
 				WallJumper wallJumper;

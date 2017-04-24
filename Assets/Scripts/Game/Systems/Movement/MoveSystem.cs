@@ -42,7 +42,7 @@ namespace LatchOn.ECS.Systems.Movement {
 
 				velocity.y += stats.Gravity * Time.deltaTime;
 
-				if (state.Any(MoveState.Walk, MoveState.Fall)) {
+				if (state.Any(MoveType.Walk, MoveType.Fall)) {
 					CalculateWalkingVelocity(ref velocity, speed.Value, input, state, ego);
 				}
 

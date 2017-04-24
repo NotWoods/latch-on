@@ -18,5 +18,15 @@ namespace LatchOn.ECS.Components.Rope {
 		public EgoComponent Hook;
 
 		public bool DidThrow = false;
+
+		[ContextMenu("Reset Line Length")]
+		void ResetLineLength() {
+			var line = GetComponent<LineData>();
+			if (line == null) {
+				Debug.LogWarning("Missing LineData component, can't reset line length");
+			} else {
+				line.CurrentLength = _startingLength;
+			}
+		}
 	}
 }

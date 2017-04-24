@@ -9,7 +9,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 
 		public override void Update() {
 			ForEachGameObject((ego, particleSys, state, velocity) => {
-				if (state.Any(MoveState.Swing, MoveState.Flung, MoveState.Dive)
+				if (state.IsType(MoveType.Swing | MoveType.Flung | MoveType.Dive)
 				&& velocity.Value.sqrMagnitude > Mathf.Pow(MinSpeed, 2)) {
 					if (!particleSys.isPlaying) {
 						particleSys.Play();

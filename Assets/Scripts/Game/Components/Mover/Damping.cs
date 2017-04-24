@@ -3,7 +3,7 @@ using UnityEngine;
 namespace LatchOn.ECS.Components.Mover {
 	[DisallowMultipleComponent]
 	public class Damping : MonoBehaviour {
-		// Replace with Dictionary<MoveState.Mode, float> in the future
+		// Replace with Dictionary<MoveType, float> in the future
 		[SerializeField]
 		private float WalkDamping = 20;
 		[SerializeField]
@@ -13,12 +13,14 @@ namespace LatchOn.ECS.Components.Mover {
 		[SerializeField]
 		private float FallDamping = 5;
 
-		public float GetValue(MoveState.Mode state) {
+		/// Multiplier for velocity.
+		/// A value of 1 has no effect on the base velocity.
+		public float GetValue(MoveType state) {
 			switch (state) {
-				case MoveState.Mode.Walk: return WalkDamping;
-				case MoveState.Mode.Swing: return SwingDamping;
-				case MoveState.Mode.Flung: return FlungDamping;
-				case MoveState.Mode.Fall: return FallDamping;
+				case MoveType.Walk: return WalkDamping;
+				case MoveType.Swing: return SwingDamping;
+				case MoveType.Flung: return FlungDamping;
+				case MoveType.Fall: return FallDamping;
 				default: return 1;
 			}
 		}

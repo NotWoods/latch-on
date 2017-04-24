@@ -15,7 +15,7 @@ namespace LatchOn.ECS.Systems {
 				Transform leftHand = sprites.LeftHand;
 				Transform rightHand = sprites.RightHand;
 
-				if (state.Value == MoveState.Swing) {
+				if (state.Value == MoveType.Swing) {
 					SetPos(leftHand, raisedLeftHand);
 					SetPos(rightHand, raisedRightHand);
 				} else {
