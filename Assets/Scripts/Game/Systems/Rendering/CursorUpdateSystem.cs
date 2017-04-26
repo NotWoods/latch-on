@@ -17,8 +17,9 @@ namespace LatchOn.ECS.Systems.Rendering {
 
 		CursorRendererSystem renderSystem;
 		Dictionary<Entity, Entity> cursors = new Dictionary<Entity, Entity>();
-		Entity GetCursor(Entity trackedEntity) {
-			if (cursors.ContainsKey(trackedEntity)) return cursors[trackedEntity];
+		Tuple<Entity, bool> GetCursor(Entity trackedEntity) {
+			if (cursors.ContainsKey(trackedEntity))
+				return new Tuple<Entity, bool>(cursors[trackedEntity], true);
 
 			Entity cursor = GameManager.Instance
 				.NewEntity(UIManager.Instance.CursorPrefab);
@@ -27,7 +28,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 			var transform = cursor.GetComponent<RectTransform>();
 			transform.SetParent(UIManager.Canvas);
 
-			return cursor;
+			return new Tuple<Entity, bool>(cursor, false);
 		}
 
 		public override void LateUpdate() {
@@ -41,8 +42,9 @@ namespace LatchOn.ECS.Systems.Rendering {
 					? cursorCheck.point
 					: position.Value + (input.AimAxis * previewDistance);
 
-				Entity cursor = GetCursor(ego);
-				renderSystem.UpdateCursor(cursor, shouldHighlight, cursorPosition);
+				var cursor = GetCursor(ego);
+				if (cursor.second)
+					renderSystem.UpdateCursor(cursor.first, shouldHighlight, cursorPosition);
 			});
 		}
 	}
