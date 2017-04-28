@@ -5,7 +5,6 @@ using LatchOn.ECS.Systems.Rendering;
 
 public class EgoInterface : MonoBehaviour {
 	static EgoInterface() {
-		var cursorRenderSys = new CursorRendererSystem();
 		EgoSystems.Add(
 			new InputSystem(),
 			new PauseSystem(),
@@ -21,8 +20,8 @@ public class EgoInterface : MonoBehaviour {
 			new ApplyMoveSystem(),
 
 			new LineRendererSystem(),
-			new CursorUpdateSystem(cursorRenderSys),
-			cursorRenderSys,
+			new CursorUpdateSystem(),
+			new CursorRendererSystem(),
 			new RespawnSystem(),
 			new SwingingParticleSystem(),
 			new HookTrailSystem(),

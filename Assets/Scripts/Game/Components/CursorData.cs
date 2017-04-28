@@ -16,5 +16,9 @@ namespace LatchOn.ECS.Components {
 		public float DarkScale { get { return _darkScale; } }
 		public Color HighlightColor { get { return _highlightColor; } }
 		public Color DarkColor { get { return _darkColor; } }
+
+		/// If true, use the highlight color and scale.
+		/// Otherwise, use the dark equivalents.
+		public bool Highlighted = false;
 	}
 }

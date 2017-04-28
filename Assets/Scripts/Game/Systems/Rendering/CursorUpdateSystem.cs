@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using LatchOn.ECS.Components;
 using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Input;
 using LatchOn.ECS.Components.Rope;
@@ -9,29 +10,24 @@ namespace LatchOn.ECS.Systems.Rendering {
 	public class CursorUpdateSystem : EgoSystem<
 		LocalPlayer, WorldPosition, LineData, CanGrapple, VJoystick
 	> {
-		public CursorUpdateSystem(CursorRendererSystem renderSystem) {
-			this.renderSystem = renderSystem;
-		}
-
 		public float previewDistance = 2f;
 
-		CursorRendererSystem renderSystem;
-		Dictionary<Entity, Entity> cursors = new Dictionary<Entity, Entity>();
-		Tuple<Entity, bool> GetCursor(Entity trackedEntity) {
-			if (cursors.ContainsKey(trackedEntity))
-				return new Tuple<Entity, bool>(cursors[trackedEntity], true);
+		Dictionary<Entity, CursorData> cursors = new Dictionary<Entity, CursorData>();
+		CursorData GetCursor(Entity trackedEntity) {
+			if (cursors.ContainsKey(trackedEntity)) return cursors[trackedEntity];
 
-			Entity cursor = GameManager.Instance
+			Entity cursorEntity = GameManager.Instance
 				.NewEntity(UIManager.Instance.CursorPrefab);
+			CursorData cursor = cursorEntity.GetComponent<CursorData>();
 			cursors[trackedEntity] = cursor;
 
 			var transform = cursor.GetComponent<RectTransform>();
 			transform.SetParent(UIManager.Canvas);
 
-			return new Tuple<Entity, bool>(cursor, false);
+			return cursor;
 		}
 
-		public override void LateUpdate() {
+		public override void Update() {
 			ForEachGameObject((ego, p, position, line, grapple, input) => {
 				bool shouldHighlight = Physics2D.Raycast(position.Value,
 					input.AimAxis, grapple.StartingLength, grapple.ShouldGrapple);
@@ -43,8 +39,9 @@ namespace LatchOn.ECS.Systems.Rendering {
 					: position.Value + (input.AimAxis * previewDistance);
 
 				var cursor = GetCursor(ego);
-				if (cursor.second)
-					renderSystem.UpdateCursor(cursor.first, shouldHighlight, cursorPosition);
+				var cursorTransform = cursor.GetComponent<RectTransform>();
+				cursor.Highlighted = shouldHighlight;
+				cursorTransform.position = cursorPosition;
 			});
 		}
 	}
