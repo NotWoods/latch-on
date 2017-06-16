@@ -15,13 +15,13 @@ class MissingComponentException : System.Exception {}
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
 	public class HookSystem : EgoSystem<
-		WorldPosition, VJoystick, LineData, MoveState, CanGrapple
+		WorldPosition, Velocity, VJoystick, LineData, MoveState, CanGrapple
 	> {
 		public float MinFlingSpeed = 0.1f;
 		public Vector3 StorageLocation = Vector3.back * 20;
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, pos, input, line, state, grappler) => {
+			ForEachGameObject((ego, pos, vel, input, line, state, grappler) => {
 				HookBundle bundle = GetHook(grappler);
 				Vector2 position = pos.Value;
 
@@ -30,7 +30,7 @@ namespace LatchOn.ECS.Systems {
 				bool didThrow = grappler.DidThrow;
 
 				if (isSwinging) {
-					if (buttonHeld) KeepSwinging(line, position);
+					if (buttonHeld) KeepSwinging(line, position, vel.Value);
 					else {
 						StopSwinging(line, grappler, state, ego);
 						RetractHook(bundle);
@@ -79,9 +79,15 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		/// Step the swinging loop
-		private void KeepSwinging(LineData line, Vector2 position) {
+		private void KeepSwinging(LineData line, Vector2 position, Vector2 velocity) {
 			float newLength = Vector2.Distance(position, line.AnchorPoint);
-			newLength -= line.RetractSpeed * Time.deltaTime;
+			float retractSpeed = line.RetractSpeed;
+			if (ExtraMath.InRange(velocity.x, -1, 1)
+			&& velocity.y > (line.RetractSpeed - 0.5)) {
+				retractSpeed = line.QuickRetractSpeed;
+			}
+
+			newLength -= retractSpeed * Time.deltaTime;
 
 			if (newLength < 0.5f) newLength = 0.5f;
 			line.CurrentLength = newLength;

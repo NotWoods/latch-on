@@ -10,6 +10,8 @@ namespace LatchOn.ECS.Components.Rope {
 		float _minLength = 0.5f;
 		[SerializeField]
 		float _retractSpeed = 2;
+		[SerializeField]
+		float _quickRetractSpeed = 4;
 
 		/// Smallest valid length of the rope
 		public float MinLength { get { return _minLength; } }
@@ -17,6 +19,8 @@ namespace LatchOn.ECS.Components.Rope {
 		public float CurrentLength = 10f;
 		/// How quickly the line will retract.
 		public float RetractSpeed { get { return _retractSpeed; } }
+		/// How quiclly the line will retract, in quick state.
+		public float QuickRetractSpeed { get { return _quickRetractSpeed; } }
 		/// True if the rope is anchored to a point
 		public bool IsAnchored = false;
 		/// Point where the rope is anchored. Should be ignored if !IsAnchored

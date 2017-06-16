@@ -1867,6 +1867,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minLength: 0.5
   _retractSpeed: 2
+  _quickRetractSpeed: 4
   CurrentLength: 10
   IsAnchored: 0
   AnchorPoint: {x: 0, y: 0}
@@ -1957,7 +1958,7 @@ MonoBehaviour:
     m_Bits: 3584
   ShouldGrapple:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 512
   Hook: {fileID: 0}
   DidThrow: 0
 --- !u!120 &120895979532302808
