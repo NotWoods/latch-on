@@ -1738,6 +1738,7 @@ MonoBehaviour:
   JumpPressed: 0
   SinkPressed: 0
   HookDown: 0
+  LockRopeDown: 0
   ShouldRespawn: 0
 --- !u!114 &114418209698319186
 MonoBehaviour:
@@ -1958,7 +1959,7 @@ MonoBehaviour:
     m_Bits: 3584
   ShouldGrapple:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 2560
   Hook: {fileID: 0}
   DidThrow: 0
 --- !u!120 &120895979532302808
