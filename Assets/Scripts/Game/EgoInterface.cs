@@ -19,13 +19,15 @@ public class EgoInterface : MonoBehaviour {
 			new DiveSystem(),
 			new ApplyMoveSystem(),
 
+			new DebugLineSystem(),
 			new LineRendererSystem(),
 			new CursorUpdateSystem(),
 			new CursorRendererSystem(),
 			new RespawnSystem(),
 			new SwingingParticleSystem(),
 			new HookTrailSystem(),
-			new SpriteRotationSystem()
+			new SpriteRotationSystem(),
+			new RobotShoulderSystem()
 		);
 	}
 

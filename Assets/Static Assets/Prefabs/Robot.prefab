@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 114977124183848354}
   - component: {fileID: 114413820727791742}
   - component: {fileID: 114879310066364846}
+  - component: {fileID: 114583192892471116}
   m_Layer: 8
   m_Name: Robot
   m_TagString: Player
@@ -439,16 +440,16 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1767951238016684}
-  m_LocalRotation: {x: 6.4262822e-12, y: 1, z: -0.0000018318508, w: 0.0000035952676}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: -0, y: -0.15000002, z: -0.48}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: -1}
   m_Children:
   - {fileID: 4655892537301426}
   - {fileID: 4525714140091974}
   - {fileID: 4285997301583222}
   m_Father: {fileID: 4381553321702708}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!4 &4157136798894406
 Transform:
   m_ObjectHideFlags: 1
@@ -1782,6 +1783,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   _wrappedItems: []
+--- !u!114 &114583192892471116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124217804140016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7668ce7fcd75e34e859a00ca4a7a308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Part: {fileID: 4149405859211950}
+  NormalRotation: {x: 0, y: -180, z: 0, w: 0}
+  ReferenceAngle: {x: 0, y: 0, z: 0}
+  Addition: {x: 90, y: 90, z: 0}
 --- !u!114 &114584683629705902
 MonoBehaviour:
   m_ObjectHideFlags: 1
