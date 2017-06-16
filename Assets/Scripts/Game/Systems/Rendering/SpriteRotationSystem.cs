@@ -1,16 +1,19 @@
 using UnityEngine;
 using LatchOn.ECS.Components;
 using LatchOn.ECS.Components.Base;
+using LatchOn.ECS.Components.Parts;
 using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class SpriteRotationSystem : EgoSystem<PlayerSprites, Velocity, LineData, WorldPosition> {
+	public class SpriteRotationSystem : EgoSystem<BodyPart, Velocity, LineData, WorldPosition> {
 		public override void Update() {
-			ForEachGameObject((ego, sprites, velocity, line, position) => {
+			ForEachGameObject((ego, body, velocity, line, position) => {
 				bool anchored = line.IsAnchored;
 
 				if (!anchored || Mathf.Abs(velocity.x) > 0.1f) {
-					sprites.Body.localScale = new Vector3(Mathf.Sign(velocity.x), 1, 1);
+					float xDirection = Mathf.Sign(velocity.x);
+					if (body.ShouldFlip) xDirection *= -1;
+					body.Part.localScale = new Vector3(xDirection, 1, 1);
 				}
 
 				Quaternion rotation = Quaternion.identity;
@@ -20,8 +23,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 					rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 				}
 
-				sprites.Body.rotation = Quaternion.Lerp(
-					sprites.Body.rotation,
+				body.Part.rotation = Quaternion.Lerp(
+					body.Part.rotation,
 					rotation,
 					Time.deltaTime * 4
 				);

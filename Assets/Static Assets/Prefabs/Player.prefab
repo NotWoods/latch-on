@@ -53,7 +53,6 @@ GameObject:
   - component: {fileID: 4391873962721960}
   - component: {fileID: 114883735941637540}
   - component: {fileID: 120556170814804164}
-  - component: {fileID: 114853956182612044}
   - component: {fileID: 61927851541306054}
   - component: {fileID: 50273437412386958}
   - component: {fileID: 114416232568172826}
@@ -68,6 +67,7 @@ GameObject:
   - component: {fileID: 114531516187622670}
   - component: {fileID: 114099284345838122}
   - component: {fileID: 114577052791088178}
+  - component: {fileID: 114109512559878206}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -316,6 +316,18 @@ MonoBehaviour:
   _minYVelocity: -5
   _maxYVelocity: 5
   _divingVelocity: {x: 11, y: -11}
+--- !u!114 &114109512559878206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259570501106154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba8ba7cad1af277448f3c39921877933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: {fileID: 4288157656111440}
 --- !u!114 &114133840020625986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -478,21 +490,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0
---- !u!114 &114853956182612044
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1259570501106154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e388b258b5146454c9896108737b0c4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Body: {fileID: 4288157656111440}
-  Head: {fileID: 4689150256680388}
-  LeftHand: {fileID: 4735515628305274}
-  RightHand: {fileID: 4977247169665592}
 --- !u!114 &114883735941637540
 MonoBehaviour:
   m_ObjectHideFlags: 1

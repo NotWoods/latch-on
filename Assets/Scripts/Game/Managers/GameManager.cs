@@ -23,6 +23,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		Players = new Dictionary<ControlType, GameObject>();
 		spawnPoint = transform.Find(SpawnPointName);
 
+		if (!ActorContainer) {
+			GameObject container = GameObject.Find("/Actors");
+			if (container) ActorContainer = container.transform;
+		}
+		if (!PropsContainer) {
+			GameObject container = GameObject.Find("/Props");
+			if (container) PropsContainer = container.transform;
+		}
+
 		InitGame();
 	}
 
