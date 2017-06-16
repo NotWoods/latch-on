@@ -5,12 +5,10 @@ public class FollowerCamera : MonoBehaviour {
 
 	internal Collider2D Target;
 	private Bounds focusBox;
-	private Vector3 cameraOffset;
 	private Color gizmoColor = new Color(1, 0, 0, 0.1f);
 
 	void Start() {
 		focusBox = new Bounds(Vector3.zero, FocusZone);
-		cameraOffset = Vector3.forward * transform.position.z;
 	}
 
 	void LateUpdate() {
@@ -30,6 +28,7 @@ public class FollowerCamera : MonoBehaviour {
 			shift.y = target.max.y - focusBox.max.y;
 		focusBox.center += (Vector3) shift;
 
+		Vector3 cameraOffset = Vector3.forward * transform.position.z;
 		transform.position = Vector3.MoveTowards(
 			transform.position,
 			focusBox.center + cameraOffset,
