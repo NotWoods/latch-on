@@ -7,11 +7,12 @@ namespace LatchOn.ECS.Systems.Rendering {
 		public override void Update() {
 			ForEachGameObject((ego, shoulder, body, line) => {
 				if (!line.IsAnchored) {
-					shoulder.Part.rotation = shoulder.NormalRotation;
+					shoulder.LeftArm.rotation = Quaternion.Euler(0, 0, 180);
+					shoulder.RightArm.rotation = Quaternion.Euler(0, 0, 180);
 					return;
 				}
 
-				Vector2 diff = line.AnchorPoint - (Vector2) shoulder.Part.position;
+				Vector2 diff = line.AnchorPoint - (Vector2) shoulder.LeftArm.position;
 				diff.Normalize();
 
 				float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
@@ -21,7 +22,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 					rot_z -= 180;
 				}
 
-				shoulder.Part.rotation = Quaternion.Euler(0, 0, rot_z);
+				shoulder.LeftArm.rotation = Quaternion.Euler(0, 0, rot_z);
+				shoulder.RightArm.rotation = Quaternion.Euler(0, 0, rot_z);
 			});
 		}
 	}
