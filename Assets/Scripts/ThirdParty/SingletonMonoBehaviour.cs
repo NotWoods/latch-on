@@ -11,7 +11,7 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour {
 				instance = (T) FindObjectOfType(typeof (T));
         if (instance == null) {
 					GameObject blank = new GameObject();
-					blank.name = typeof (T).ToString() + " Container";
+					blank.name = typeof (T).ToString();
 					instance = blank.AddComponent<T>();
 				}
 			}

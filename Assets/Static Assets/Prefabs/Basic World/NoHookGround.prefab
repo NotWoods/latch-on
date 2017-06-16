@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 33523655042113510}
   - component: {fileID: 23946652654838676}
   - component: {fileID: 61019886880025034}
-  m_Layer: 9
-  m_Name: BlankGround
+  m_Layer: 10
+  m_Name: NoHookGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 842042d169ed7924290072f6bf79509b, type: 2}
+  - {fileID: 2100000, guid: 776e476de9f35c241aa5a2d375f1adca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
