@@ -69,7 +69,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Parameters.widthMultiplier
-    path: 
+    path: Field
     classID: 120
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -88,7 +88,7 @@ AnimationClip:
       customType: 25
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 0
+      path: 2587126364
       attribute: 3982886636
       script: {fileID: 0}
       typeID: 120
@@ -169,7 +169,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Parameters.widthMultiplier
-    path: 
+    path: Field
     classID: 120
     script: {fileID: 0}
   m_EulerEditorCurves: []

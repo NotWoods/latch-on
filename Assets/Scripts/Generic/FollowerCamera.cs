@@ -8,7 +8,7 @@ public class FollowerCamera : MonoBehaviour {
 	private Color gizmoColor = new Color(1, 0, 0, 0.1f);
 
 	void Start() {
-		focusBox = new Bounds(Vector3.zero, FocusZone);
+		focusBox = new Bounds(Vector3.up * 1.5f, FocusZone);
 	}
 
 	void LateUpdate() {

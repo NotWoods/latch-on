@@ -356,6 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minLength: 0.5
   _retractSpeed: 2
+  _quickRetractSpeed: 4
   CurrentLength: 10
   IsAnchored: 0
   AnchorPoint: {x: 0, y: 0}
@@ -374,10 +375,10 @@ MonoBehaviour:
   _skinWidth: 0.02
   platformMask:
     serializedVersion: 2
-    m_Bits: 1792
+    m_Bits: 5888
   triggerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   oneWayPlatformMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -478,6 +479,7 @@ MonoBehaviour:
   JumpPressed: 0
   SinkPressed: 0
   HookDown: 0
+  LockRopeDown: 0
   ShouldRespawn: 0
 --- !u!114 &114830166393391800
 MonoBehaviour:
