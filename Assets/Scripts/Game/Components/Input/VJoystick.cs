@@ -26,6 +26,8 @@ namespace LatchOn.ECS.Components.Input {
 		public bool SinkPressed = false;
 		/// True if hook button is held down
 		public bool HookDown = false;
+		/// True if lock rope button is held down
+		public bool LockRopeDown = false;
 		// TODO: move property to another component
 		public bool ShouldRespawn = false;
 

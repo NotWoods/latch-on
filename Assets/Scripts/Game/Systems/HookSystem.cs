@@ -30,7 +30,7 @@ namespace LatchOn.ECS.Systems {
 				bool didThrow = grappler.DidThrow;
 
 				if (isSwinging) {
-					if (buttonHeld) KeepSwinging(line, position, vel.Value);
+					if (buttonHeld) KeepSwinging(line, position, vel.Value, input);
 					else {
 						StopSwinging(line, grappler, state, ego);
 						RetractHook(bundle);
@@ -79,10 +79,13 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		/// Step the swinging loop
-		private void KeepSwinging(LineData line, Vector2 position, Vector2 velocity) {
+		private void KeepSwinging(LineData line, Vector2 position, Vector2 velocity, VJoystick input) {
 			float newLength = Vector2.Distance(position, line.AnchorPoint);
+
 			float retractSpeed = line.RetractSpeed;
-			if (ExtraMath.InRange(velocity.x, -1, 1)
+			if (input.LockRopeDown) {
+				retractSpeed = 0;
+			} else if (ExtraMath.InRange(velocity.x, -1, 1)
 			&& velocity.y > (line.RetractSpeed - 0.5)) {
 				retractSpeed = line.QuickRetractSpeed;
 			}
