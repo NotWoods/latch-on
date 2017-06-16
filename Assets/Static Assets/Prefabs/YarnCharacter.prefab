@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 114577052791088178}
   - component: {fileID: 114109512559878206}
   m_Layer: 8
-  m_Name: Player
+  m_Name: YarnCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,7 +327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8ba7cad1af277448f3c39921877933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value: {fileID: 4288157656111440}
+  Part: {fileID: 4288157656111440}
+  ShouldFlip: 0
 --- !u!114 &114133840020625986
 MonoBehaviour:
   m_ObjectHideFlags: 1

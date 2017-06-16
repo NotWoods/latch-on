@@ -6,7 +6,7 @@ namespace LatchOn.ECS.Systems {
 	public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
 		private Vector2 getPointerDir(ControlType controlType, Vector2 playerPosition) {
 			Vector2 result = Vector2.zero;
-			Vector2? cursorScreenPoint = null;
+			Vector3? cursorScreenPoint = null;
 
 			switch (controlType) {
 				case ControlType.Touch:
@@ -14,10 +14,10 @@ namespace LatchOn.ECS.Systems {
 					goto case ControlType.Keyboard;
 
 				case ControlType.Keyboard:
-					cursorScreenPoint = cursorScreenPoint.HasValue
-						? cursorScreenPoint
-						: (Vector2) Input.mousePosition;
-					Vector2 cursorPoint = Camera.main.ScreenToWorldPoint(cursorScreenPoint.Value);
+					Vector3 screenPoint = cursorScreenPoint.GetValueOrDefault(Input.mousePosition);
+					screenPoint.z = Camera.main.transform.position.z * -1;
+
+					Vector2 cursorPoint = Camera.main.ScreenToWorldPoint(screenPoint);
 					result = cursorPoint - playerPosition;
 					break;
 
