@@ -18,7 +18,7 @@ namespace LatchOn.ECS.Systems.Movement {
 
 				bool isSwinging = false;
 				MoveState state;
-				if (ego.TryGetComponents<MoveState>(out state)) {
+				if (ego.TryGetComponents(out state)) {
 					isSwinging = state.Value == MoveType.Swing;
 				}
 

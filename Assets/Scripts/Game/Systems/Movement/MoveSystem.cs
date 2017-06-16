@@ -16,7 +16,7 @@ namespace LatchOn.ECS.Systems.Movement {
 		) {
 			float damp = 1;
 			Damping dampDictionary;
-			if (ego.TryGetComponents<Damping>(out dampDictionary)) {
+			if (ego.TryGetComponents(out dampDictionary)) {
 				damp = dampDictionary.GetValue(state.Value);
 			}
 

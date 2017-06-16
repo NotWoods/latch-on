@@ -32,7 +32,7 @@ namespace LatchOn.ECS.Systems.Movement {
 				return false;
 
 			WallJumper wallJumper;
-			if (ego.TryGetComponents<WallJumper>(out wallJumper))
+			if (ego.TryGetComponents(out wallJumper))
 				return wallJumper.AgainstSide == Side.None;
 			else
 				return true;

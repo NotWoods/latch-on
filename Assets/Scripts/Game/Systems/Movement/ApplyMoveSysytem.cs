@@ -13,7 +13,7 @@ namespace LatchOn.ECS.Systems.Movement {
 
 				/// Limit max falling speed if needed
 				Descends stats;
-				if (ego.TryGetComponents<Descends>(out stats)) {
+				if (ego.TryGetComponents(out stats)) {
 					if (velocity.y < -stats.MaxFallSpeed) velocity.y = -stats.MaxFallSpeed;
 				}
 
@@ -21,7 +21,7 @@ namespace LatchOn.ECS.Systems.Movement {
 				vel.Value = controller.velocity;
 
 				VJoystick input;
-				if (ego.TryGetComponents<VJoystick>(out input)) {
+				if (ego.TryGetComponents(out input)) {
 					input.JumpPressed = false;
 					input.SinkPressed = false;
 				}

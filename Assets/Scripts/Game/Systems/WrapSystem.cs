@@ -46,7 +46,7 @@ namespace LatchOn.ECS.Systems {
 				if (line.IsAnchored) {
 					Velocity velocity;
 					Vector2 velocityValue;
-					if (ego.TryGetComponents<Velocity>(out velocity)) {
+					if (ego.TryGetComponents(out velocity)) {
 						velocityValue = velocity.Value;
 					} else {
 						velocityValue = Vector2.zero;

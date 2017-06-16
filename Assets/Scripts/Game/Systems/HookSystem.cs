@@ -94,7 +94,7 @@ namespace LatchOn.ECS.Systems {
 
 			Velocity velocity;
 			state.Value = MoveType.Flung;
-			if (egoComponent.TryGetComponents<Velocity>(out velocity)) {
+			if (egoComponent.TryGetComponents(out velocity)) {
 				bool smallXSpeed = Mathf.Abs(velocity.x) <= MinFlingSpeed;
 				if (smallXSpeed) state.Value = MoveType.Fall;
 			}

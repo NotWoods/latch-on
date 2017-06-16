@@ -8,7 +8,7 @@ namespace LatchOn.ECS.Systems.Movement {
 		public override void FixedUpdate() {
 			ForEachGameObject((ego, state, controller) => {
 				WallJumper wallJumper;
-				bool canWallJump = ego.TryGetComponents<WallJumper>(out wallJumper);
+				bool canWallJump = ego.TryGetComponents(out wallJumper);
 
 				switch (state.Value) {
 					case MoveType.Flung:
