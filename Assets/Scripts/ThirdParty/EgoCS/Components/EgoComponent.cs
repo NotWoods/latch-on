@@ -1,9 +1,38 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 [DisallowMultipleComponent]
 public class EgoComponent : MonoBehaviour
 {
-    public BitMask mask = new BitMask( ComponentIDs.GetCount() );
+	BitMask _mask = new BitMask( ComponentIDs.GetCount() );
+	public BitMask mask
+	{
+		get { return _mask; }
+	}
+
+    public EgoComponent parent
+    {
+        get
+        {
+            var parentTransform = transform.parent;
+            return ( parentTransform != null ) ? parentTransform.GetComponent<EgoComponent>() : null;
+        }
+    }
+
+    public EgoComponent[] children
+    {
+        get
+        {
+            var childCount = transform.childCount;
+            var children = new EgoComponent[ childCount ];
+            for( int i = 0; i < childCount; i++ )
+            {
+                children[ i ] = transform.GetChild( i ).GetComponent<EgoComponent>();
+            }
+            return children;
+        }
+    }
 
     public void CreateMask()
     {
@@ -17,7 +46,8 @@ public class EgoComponent : MonoBehaviour
         }
     }
 
-    public bool HasComponents<C1>()
+	#region HasComponents
+	public bool HasComponents<C1>()
         where C1 : Component
     {
         return mask[ ComponentIDs.Get( typeof(C1) ) ];
@@ -66,8 +96,10 @@ public class EgoComponent : MonoBehaviour
             && mask[ComponentIDs.Get( typeof( C4 ) ) ]
             && mask[ComponentIDs.Get( typeof( C5 ) ) ];
     }
+	#endregion
 
-    public bool TryGetComponents<C1>( out C1 component1 )
+	#region TryGetComponents
+	public bool TryGetComponents<C1>( out C1 component1 )
         where C1 : Component
     {
         if( HasComponents<C1>() )
@@ -170,5 +202,6 @@ public class EgoComponent : MonoBehaviour
             component5 = null;
             return false;
         }
-    }
+	}
+	#endregion
 }

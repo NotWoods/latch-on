@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -79,7 +81,7 @@ public class EgoNewEventEditor : EditorWindow
             fullWritePath = writePathInfo.Directory.ToString();
         }
 
-        fullWritePath += "\\" + newEventName + ".cs";
+		fullWritePath += "/" + newEventName + ".cs";
         File.WriteAllText( fullWritePath, eventScriptStr );
 
         AssetDatabase.Refresh();

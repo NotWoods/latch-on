@@ -1,4 +1,6 @@
-﻿public class Tuple<T, U>
+﻿using System.Collections;
+
+public class Tuple<T, U>
 {
     public readonly T first;
     public readonly U second;

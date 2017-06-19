@@ -1,11 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
 public class EgoNewSystemEditor : EditorWindow
 {
     string newSystemName = "";
-
+    
     [ MenuItem( "Assets/Create/EgoCS/System", false, 51 ) ]
     public static void NewSystemWindow()
     {
@@ -79,7 +81,7 @@ public class EgoNewSystemEditor : EditorWindow
             fullWritePath = writePathInfo.Directory.ToString();
         }
 
-        fullWritePath += "\\" + newSystemName + ".cs";
+        fullWritePath += "/" + newSystemName + ".cs";
         File.WriteAllText( fullWritePath, systemScriptStr );
 
         AssetDatabase.Refresh();
