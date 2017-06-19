@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -29,7 +31,7 @@ public class EgoNewComponentEditor : EditorWindow
         }
         EditorGUILayout.EndVertical();
     }
-
+    
     void DrawSystemName()
     {
         EditorGUILayout.LabelField( "Component Name:" );
@@ -79,7 +81,7 @@ public class EgoNewComponentEditor : EditorWindow
             fullWritePath = writePathInfo.Directory.ToString();
         }
 
-        fullWritePath += "\\" + newComponentName + ".cs";
+		fullWritePath += "/" + newComponentName + ".cs";
         File.WriteAllText( fullWritePath, componentScriptStr );
 
         AssetDatabase.Refresh();

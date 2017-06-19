@@ -8,7 +8,7 @@ using Entity = EgoComponent;
 
 namespace LatchOn.ECS.Systems.Rendering {
 	public class CursorUpdateSystem : EgoSystem<
-		LocalPlayer, WorldPosition, LineData, CanGrapple, VJoystick
+		EgoConstraint<LocalPlayer, WorldPosition, LineData, CanGrapple, VJoystick>
 	> {
 		public float previewDistance = 2f;
 
@@ -22,13 +22,13 @@ namespace LatchOn.ECS.Systems.Rendering {
 			cursors[trackedEntity] = cursor;
 
 			var transform = cursor.GetComponent<RectTransform>();
-			transform.SetParent(UIManager.Canvas);
+			Ego.SetParent(UIManager.Canvas.GetComponent<EgoComponent>(), cursorEntity);
 
 			return cursor;
 		}
 
 		public override void Update() {
-			ForEachGameObject((ego, p, position, line, grapple, input) => {
+			constraint.ForEachGameObject((ego, p, position, line, grapple, input) => {
 				bool shouldHighlight = false;
 				RaycastHit2D hit = Physics2D.Raycast(
 					position.Value, input.AimAxis,

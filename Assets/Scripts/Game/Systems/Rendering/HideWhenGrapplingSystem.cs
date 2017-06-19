@@ -4,9 +4,11 @@ using LatchOn.ECS.Components.Rope;
 using LatchOn.ECS.Components.Parts;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class HideWhenGrapplingSystem : EgoSystem<HideWhenGrappling, LineData> {
+	public class HideWhenGrapplingSystem : EgoSystem<
+		EgoConstraint<HideWhenGrappling, LineData>
+	> {
 		public override void Update() {
-			ForEachGameObject((ego, hide, line) => {
+			constraint.ForEachGameObject((ego, hide, line) => {
 				bool armsIn = !line.IsAnchored;
 				if (armsIn) {
 					CanGrapple grapple;

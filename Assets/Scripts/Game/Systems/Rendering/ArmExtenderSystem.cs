@@ -5,9 +5,11 @@ using LatchOn.ECS.Components.Rope;
 using LatchOn.ECS.Components.Parts;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class ArmExtenderSystem : EgoSystem<Transform, LineData, WrappingLine, RobotShoulderPart> {
+	public class ArmExtenderSystem : EgoSystem<
+		EgoConstraint<Transform, LineData, WrappingLine, RobotShoulderPart>
+	> {
 		public override void Update() {
-			ForEachGameObject((ego, transform, line, wrap, arm) => {
+			constraint.ForEachGameObject((ego, transform, line, wrap, arm) => {
 				if (!line.IsAnchored) {
 					foreach (Stretchy segment in arm.ArmExtenders) {
 						segment.IsStretching = false;
@@ -18,8 +20,16 @@ namespace LatchOn.ECS.Systems.Rendering {
 				var points = LineRendererSystem.BuildPoints(transform.position, line, wrap);
 				if (points.Length > arm.ArmExtenders.Count) {
 					EgoComponent entity = GameManager.Instance.NewEntity(arm.ArmPrefab);
-					arm.ArmExtenders.Add(entity.GetComponent<Stretchy>());
-					entity.transform.parent = transform;
+					var stretch = entity.GetComponent<Stretchy>();
+
+					arm.ArmExtenders.Add(stretch);
+
+					Ego.SetParent(ego, entity);
+					stretch.TileMaterial = new Material(stretch.TileMaterial);
+					foreach (var child in stretch.ChildRenderers) {
+						child.material = stretch.TileMaterial;
+					}
+
 					entity.transform.localPosition = new Vector3(0.05f, -0.13f, 0);
 				}
 

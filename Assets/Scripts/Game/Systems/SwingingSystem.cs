@@ -5,9 +5,11 @@ using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems {
 	/// Manages movement when swinging
-	public class SwingingSystem : EgoSystem<LineData, WorldPosition, Velocity, Damping> {
+	public class SwingingSystem : EgoSystem<
+		EgoConstraint<LineData, WorldPosition, Velocity, Damping>
+	> {
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, line, position, vel, damp) => {
+			constraint.ForEachGameObject((ego, line, position, vel, damp) => {
 				// Only use swing system when line is active
 				if (!line.IsAnchored) return;
 				Vector2 velocity = vel.Value;

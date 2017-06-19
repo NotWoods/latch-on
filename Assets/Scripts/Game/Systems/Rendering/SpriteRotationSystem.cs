@@ -5,9 +5,11 @@ using LatchOn.ECS.Components.Parts;
 using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class SpriteRotationSystem : EgoSystem<BodyPart, Velocity, LineData, WorldPosition> {
+	public class SpriteRotationSystem : EgoSystem<
+		EgoConstraint<BodyPart, Velocity, LineData, WorldPosition>
+	> {
 		public override void Update() {
-			ForEachGameObject((ego, body, velocity, line, position) => {
+			constraint.ForEachGameObject((ego, body, velocity, line, position) => {
 				bool anchored = line.IsAnchored;
 
 				if (!anchored || Mathf.Abs(velocity.x) > 0.1f) {

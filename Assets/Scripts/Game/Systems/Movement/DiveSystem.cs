@@ -6,9 +6,11 @@ using LatchOn.ECS.Components.Mover;
 
 namespace LatchOn.ECS.Systems.Movement {
 	/// Rudimentary diving system.
-	public class DiveSystem : EgoSystem<Diver, Velocity, MoveState, VJoystick, CharacterController2D> {
+	public class DiveSystem : EgoSystem<
+		EgoConstraint<Diver, Velocity, MoveState, VJoystick, CharacterController2D>
+	> {
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, diver, velocity, state, input, controller) => {
+			constraint.ForEachGameObject((ego, diver, velocity, state, input, controller) => {
 				if (state.Value == MoveType.Dive) {
 					if (controller.collisionState.hasCollision()) {
 						state.Value = MoveType.Fall;

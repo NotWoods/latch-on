@@ -3,7 +3,9 @@ using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Input;
 
 namespace LatchOn.ECS.Systems {
-	public class InputSystem : EgoSystem<LocalPlayer, VJoystick, WorldPosition> {
+	public class InputSystem : EgoSystem<
+		EgoConstraint<LocalPlayer, VJoystick, WorldPosition>
+	> {
 		private Vector2 getPointerDir(ControlType controlType, Vector2 playerPosition) {
 			Vector2 result = Vector2.zero;
 			Vector3? cursorScreenPoint = null;
@@ -40,7 +42,7 @@ namespace LatchOn.ECS.Systems {
 		public override void Update() {
 			if (PauseSystem.Paused) return;
 
-			ForEachGameObject((ego, player, input, position) => {
+			constraint.ForEachGameObject((ego, player, input, position) => {
 				input.XMoveAxis = Input.GetAxis("Horizontal");
 				input.XMoveAxisRaw = Input.GetAxisRaw("Horizontal");
 

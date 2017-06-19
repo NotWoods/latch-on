@@ -4,9 +4,11 @@ using LatchOn.ECS.Components.Mover;
 
 namespace LatchOn.ECS.Systems.Movement {
 	/// Updates MoveState and WallJumper
-	public class MoveStateSystem : EgoSystem<MoveState, CharacterController2D> {
+	public class MoveStateSystem : EgoSystem<
+		EgoConstraint<MoveState, CharacterController2D>
+	> {
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, state, controller) => {
+			constraint.ForEachGameObject((ego, state, controller) => {
 				WallJumper wallJumper;
 				bool canWallJump = ego.TryGetComponents(out wallJumper);
 

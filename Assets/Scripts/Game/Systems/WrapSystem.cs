@@ -4,8 +4,10 @@ using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
-	public class WrapSystem : EgoSystem<LineData, WrappingLine, WorldPosition> {
-		private void TryWrap(
+	public class WrapSystem : EgoSystem<
+		EgoConstraint<LineData, WrappingLine, WorldPosition>
+	> {
+		private static void TryWrap(
 			LineData line, WrappingLine wrap,
 			Vector2 position, Vector2 velocity
 		) {
@@ -24,7 +26,7 @@ namespace LatchOn.ECS.Systems {
 			}
 		}
 
-		private void TryUnwrap(LineData line, WrappingLine wrap, Vector2 position) {
+		private static void TryUnwrap(LineData line, WrappingLine wrap, Vector2 position) {
 			if (wrap.WrappedItems.Count == 0) return;
 
 			Vector2 lastWrappedPoint;
@@ -42,7 +44,7 @@ namespace LatchOn.ECS.Systems {
 		}
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, line, wrap, position) => {
+			constraint.ForEachGameObject((ego, line, wrap, position) => {
 				if (line.IsAnchored) {
 					Velocity velocity;
 					Vector2 velocityValue;

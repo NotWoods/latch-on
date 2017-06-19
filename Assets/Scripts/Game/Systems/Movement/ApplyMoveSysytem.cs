@@ -6,9 +6,11 @@ using LatchOn.ECS.Components.Mover;
 
 namespace LatchOn.ECS.Systems.Movement {
 	/// Finalized move step
-	public class ApplyMoveSystem : EgoSystem<Velocity, CharacterController2D> {
+	public class ApplyMoveSystem : EgoSystem<
+		EgoConstraint<Velocity, CharacterController2D>
+	> {
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, vel, controller) => {
+			constraint.ForEachGameObject((ego, vel, controller) => {
 				Vector2 velocity = vel.Value;
 
 				/// Limit max falling speed if needed
