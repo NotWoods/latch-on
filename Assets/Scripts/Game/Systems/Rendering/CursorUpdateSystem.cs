@@ -21,7 +21,6 @@ namespace LatchOn.ECS.Systems.Rendering {
 			CursorData cursor = cursorEntity.GetComponent<CursorData>();
 			cursors[trackedEntity] = cursor;
 
-			var transform = cursor.GetComponent<RectTransform>();
 			Ego.SetParent(UIManager.Canvas.GetComponent<EgoComponent>(), cursorEntity);
 
 			return cursor;

@@ -36,6 +36,7 @@ GameObject:
   - component: {fileID: 4647590068572444}
   - component: {fileID: 114781716080590478}
   - component: {fileID: 114001057576323928}
+  - component: {fileID: 114170941413692430}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -87,6 +88,21 @@ MonoBehaviour:
   HookPrefab: {fileID: 1530518826808254, guid: f33b33b9f35b3f54e863b078993f08d0, type: 2}
   ActorContainer: {fileID: 0}
   PropsContainer: {fileID: 0}
+--- !u!114 &114170941413692430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1761288127391106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfb85067fda3e5449b71c7dd7ca33593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bounds:
+    m_Center: {x: 24, y: 5, z: 0}
+    m_Extent: {x: 35, y: 15, z: 0}
+  OutlineColor: {r: 0, g: 0, b: 1, a: 0.1}
 --- !u!114 &114781716080590478
 MonoBehaviour:
   m_ObjectHideFlags: 1

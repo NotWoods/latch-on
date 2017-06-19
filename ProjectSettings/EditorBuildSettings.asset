@@ -7,3 +7,10 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Static Assets/Scenes/TestScenes/Gym.unity
+    guid: e8e168cf24a3a0147aafccb60285b484
+  - enabled: 1
+    path: Assets/Static Assets/Scenes/Tutorial.unity
+    guid: 2fc5950b8e4f08443a52311eea5f681b
+  - enabled: 1
+    path: Assets/Static Assets/Scenes/Level.unity
+    guid: a9580d55f0cd80b429aaa24f98dd8d48

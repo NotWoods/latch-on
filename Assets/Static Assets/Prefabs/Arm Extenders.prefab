@@ -193,9 +193,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TileMaterial: {fileID: 2100000, guid: 637995a66c3b140408b7c6aebfc173f9, type: 2}
   DefaultScale: 0.18
-  Children:
-  - {fileID: 4672392637916744}
-  - {fileID: 4079702235513884}
+  ChildRenderers:
+  - {fileID: 23674254595038886}
+  - {fileID: 23413680748906218}
   StartPoint: {x: 0, y: 0}
   EndPoint: {x: 0, y: 0}
   IsStretching: 0
