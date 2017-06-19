@@ -5,9 +5,11 @@ using LatchOn.ECS.Components.Mover;
 
 namespace LatchOn.ECS.Systems.Movement {
 	/// Manages wall jumping movement
-	public class WallJumpingSystem : EgoSystem<WallJumper, Velocity, VJoystick> {
+	public class WallJumpingSystem : EgoSystem<
+		EgoConstraint<WallJumper, Velocity, VJoystick>
+	> {
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, wallJumper, vel, input) => {
+			constraint.ForEachGameObject((ego, wallJumper, vel, input) => {
 				if (wallJumper.AgainstSide == Side.None) return;
 				Vector2 velocity = vel.Value;
 

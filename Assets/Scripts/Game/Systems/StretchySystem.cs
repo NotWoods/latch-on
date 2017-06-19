@@ -5,9 +5,11 @@ using LatchOn.ECS.Components.Rope;
 using LatchOn.ECS.Components.Parts;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class StretchySystem : EgoSystem<Stretchy, Transform> {
+	public class StretchySystem : EgoSystem<
+		EgoConstraint<Stretchy, Transform>
+	> {
 		public override void Update() {
-			ForEachGameObject((ego, stretchy, transform) => {
+			constraint.ForEachGameObject((ego, stretchy, transform) => {
 				if (!stretchy.IsStretching) {
 					foreach (var child in stretchy.Children) {
 						child.GetComponent<MeshRenderer>().enabled = false;

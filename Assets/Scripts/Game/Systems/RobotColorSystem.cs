@@ -3,7 +3,9 @@ using LatchOn.ECS.Components.Parts;
 using System.Collections.Generic;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class RobotColorSystem : EgoSystem<RobotColoredParts> {
+	public class RobotColorSystem : EgoSystem<
+		EgoConstraint<RobotColoredParts>
+	> {
 		static Color DarkColor(Color baseColor) {
 			float hue;
 			float saturation;
@@ -31,7 +33,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 		private Dictionary<EgoComponent, string> cache = new Dictionary<EgoComponent, string>();
 
 		public override void Update() {
-			ForEachGameObject((ego, colorParts) => {
+			constraint.ForEachGameObject((ego, colorParts) => {
 				foreach (var entry in cache) {
 					Debug.Log(entry.Value);
 				}

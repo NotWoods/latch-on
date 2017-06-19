@@ -15,13 +15,13 @@ class MissingComponentException : System.Exception {}
 namespace LatchOn.ECS.Systems {
 	/// Manages rope attachment and wrapping
 	public class HookSystem : EgoSystem<
-		WorldPosition, Velocity, VJoystick, LineData, MoveState, CanGrapple
+		EgoConstraint<WorldPosition, Velocity, VJoystick, LineData, MoveState, CanGrapple>
 	> {
 		public float MinFlingSpeed = 0.1f;
 		public Vector3 StorageLocation = Vector3.back * 20;
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, pos, vel, input, line, state, grappler) => {
+			constraint.ForEachGameObject((ego, pos, vel, input, line, state, grappler) => {
 				HookBundle bundle = GetHook(grappler);
 				Vector2 position = pos.Value;
 
@@ -71,7 +71,7 @@ namespace LatchOn.ECS.Systems {
 				throw new System.Exception("Hook missing component");
 			}
 
-			var bundle = new HookBundle(hookObject, hook, transform, speed);
+			var bundle = new HookBundle(hook, transform, speed);
 
 			RetractHook(bundle);
 			cache[holder] = bundle;

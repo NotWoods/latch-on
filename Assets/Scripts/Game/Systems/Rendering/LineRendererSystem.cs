@@ -3,7 +3,9 @@ using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class LineRendererSystem : EgoSystem<WorldPosition, LineData, WrappingLine, LineRenderer> {
+	public class LineRendererSystem : EgoSystem<
+		EgoConstraint<WorldPosition, LineData, WrappingLine, LineRenderer>
+	> {
 		public static Vector3[] BuildPoints(
 			Vector2 playerPos,
 			LineData line,
@@ -29,7 +31,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 		}
 
 		public override void Update() {
-			ForEachGameObject((ego, position, line, wrap, renderer) => {
+			constraint.ForEachGameObject((ego, position, line, wrap, renderer) => {
 				if (!line.IsAnchored) {
 					renderer.positionCount = 0;
 					return;

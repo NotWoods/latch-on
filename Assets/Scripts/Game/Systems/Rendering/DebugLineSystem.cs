@@ -3,9 +3,11 @@ using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class DebugLineSystem : EgoSystem<WorldPosition, LineData> {
+	public class DebugLineSystem : EgoSystem<
+		EgoConstraint<WorldPosition, LineData>
+	> {
 		public override void Update() {
-			ForEachGameObject((ego, position, line) => {
+			constraint.ForEachGameObject((ego, position, line) => {
 				if (!line.IsAnchored) { return; }
 
 				WrappingLine wrap = null;

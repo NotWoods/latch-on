@@ -5,12 +5,14 @@ using LatchOn.ECS.Components.Mover;
 using LatchOn.ECS.Components.Input;
 
 namespace LatchOn.ECS.Systems.Movement {
-	public class MoveSystem : EgoSystem<Descends, Velocity, CharacterController2D, VJoystick, MoveState, Speed> {
-		private float GetJumpVelocity(Descends stats) {
+	public class MoveSystem : EgoSystem<
+		EgoConstraint<Descends, Velocity, CharacterController2D, VJoystick, MoveState, Speed>
+	> {
+		private static float GetJumpVelocity(Descends stats) {
 			return Mathf.Sqrt(2f * stats.JumpHeight * -stats.Gravity);
 		}
 
-		private void CalculateWalkingVelocity(ref Vector2 velocity,
+		private static void CalculateWalkingVelocity(ref Vector2 velocity,
 			float runSpeed, VJoystick input, MoveState state,
 			EgoComponent ego
 		) {
@@ -29,7 +31,7 @@ namespace LatchOn.ECS.Systems.Movement {
 		}
 
 		public override void FixedUpdate() {
-			ForEachGameObject((ego, stats, vel, controller, input, state, speed) => {
+			constraint.ForEachGameObject((ego, stats, vel, controller, input, state, speed) => {
 				Vector2 velocity = vel.Value;
 				if (controller.isGrounded) {
 					velocity.y = input.JumpPressed ? GetJumpVelocity(stats) : 0;

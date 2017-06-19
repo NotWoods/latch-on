@@ -4,7 +4,9 @@ using LatchOn.ECS.Components.Mover;
 using LatchOn.ECS.Components.Parts;
 
 namespace LatchOn.ECS.Systems {
-	public class HoldRopeSystem : EgoSystem<YarnHandParts, MoveState> {
+	public class HoldRopeSystem : EgoSystem<
+		EgoConstraint<YarnHandParts, MoveState>
+	> {
 		Vector2 normalLeftHand = new Vector2(0.43f, -0.4f);
 		Vector2 normalRightHand = new Vector2(0.65f, -0.25f);
 
@@ -12,7 +14,7 @@ namespace LatchOn.ECS.Systems {
 		Vector2 raisedRightHand = new Vector2(0.06f, 1.1f);
 
 		public override void Update() {
-			ForEachGameObject((ego, sprites, state) => {
+			constraint.ForEachGameObject((ego, sprites, state) => {
 				Transform leftHand = sprites.LeftHand;
 				Transform rightHand = sprites.RightHand;
 

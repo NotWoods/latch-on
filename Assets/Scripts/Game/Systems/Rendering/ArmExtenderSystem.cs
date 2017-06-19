@@ -5,9 +5,11 @@ using LatchOn.ECS.Components.Rope;
 using LatchOn.ECS.Components.Parts;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class ArmExtenderSystem : EgoSystem<Transform, LineData, WrappingLine, RobotShoulderPart> {
+	public class ArmExtenderSystem : EgoSystem<
+		EgoConstraint<Transform, LineData, WrappingLine, RobotShoulderPart>
+	> {
 		public override void Update() {
-			ForEachGameObject((ego, transform, line, wrap, arm) => {
+			constraint.ForEachGameObject((ego, transform, line, wrap, arm) => {
 				if (!line.IsAnchored) {
 					foreach (Stretchy segment in arm.ArmExtenders) {
 						segment.IsStretching = false;

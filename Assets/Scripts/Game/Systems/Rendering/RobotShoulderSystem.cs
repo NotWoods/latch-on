@@ -3,9 +3,11 @@ using LatchOn.ECS.Components.Parts;
 using LatchOn.ECS.Components.Rope;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class RobotShoulderSystem : EgoSystem<RobotShoulderPart, BodyPart, LineData> {
+	public class RobotShoulderSystem : EgoSystem<
+		EgoConstraint<RobotShoulderPart, BodyPart, LineData>
+	> {
 		public override void Update() {
-			ForEachGameObject((ego, shoulder, body, line) => {
+			constraint.ForEachGameObject((ego, shoulder, body, line) => {
 				if (!line.IsAnchored) {
 					shoulder.LeftArm.rotation = Quaternion.Euler(0, 0, 180);
 					shoulder.RightArm.rotation = Quaternion.Euler(0, 0, 180);
