@@ -5,8 +5,6 @@ using LatchOn.ECS.Components.Parts;
 
 namespace LatchOn.ECS.Systems.Rendering {
 	public class ArmExtenderSystem : EgoSystem<WorldPosition, LineData, RobotExtenderPart> {
-		Vector3 HidingPosition = new Vector3(0, 0, -100);
-
 		public override void Update() {
 			ForEachGameObject((ego, position, line, arm) => {
 				bool armsIn = !line.IsAnchored;
