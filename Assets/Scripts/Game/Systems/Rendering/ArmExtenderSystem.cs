@@ -21,7 +21,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 				if (points.Length > arm.ArmExtenders.Count) {
 					EgoComponent entity = GameManager.Instance.NewEntity(arm.ArmPrefab);
 					arm.ArmExtenders.Add(entity.GetComponent<Stretchy>());
-					entity.transform.parent = transform;
+					Ego.SetParent(ego, entity);
 					entity.transform.localPosition = new Vector3(0.05f, -0.13f, 0);
 				}
 

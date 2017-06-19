@@ -59,7 +59,9 @@ namespace LatchOn.ECS.Systems {
 			if (holder.Hook == null) {
 				var gm = GameManager.Instance;
 				hookObject = gm.NewEntity(gm.HookPrefab);
-				if (gm.PropsContainer) hookObject.transform.parent = gm.PropsContainer;
+				if (gm.PropsContainer) {
+					Ego.SetParent(gm.PropsContainer.GetComponent<EgoComponent>(), hookObject);
+				}
 				holder.Hook = hookObject;
 			}
 

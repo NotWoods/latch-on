@@ -4,20 +4,23 @@ using LatchOn.ECS.Components;
 using LatchOn.ECS.Components.Input;
 
 namespace LatchOn.ECS.Systems {
-	public class LoadingZoneSystem : EgoSystem {
+	public class LoadingZoneSystem : EgoSystem<
+		EgoParentConstraint<Transform, EgoConstraint<LoadingZone>>
+	> {
 		public static void LoadLevel(int buildIndex) {
 			SceneManager.LoadScene(buildIndex);
 		}
 
 		void Handle(TriggerEnter2DEvent e) {
 			if (e.egoComponent2.HasComponents<LocalPlayer>()) {
-				Transform maybeTeleporter = e.egoComponent1.transform.parent;
-				var zone = maybeTeleporter.GetComponent<LoadingZone>();
-				if (zone) {
-					UIManager.Instance.Log("Completed level");
+				constraint.ForEachGameObject((egoComponent, transform, childContraints) => {
+					if (egoComponent != e.egoComponent1) return;
+					childContraints.ForEachGameObject((childEgo, zone) => {
+						UIManager.Instance.Log("Completed level");
 
-					LoadLevel(zone.NextScene.buildIndex);
-				}
+						LoadLevel(zone.NextScene.buildIndex);
+					});
+				});
 			}
 		}
 

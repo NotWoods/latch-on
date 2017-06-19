@@ -22,7 +22,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 			cursors[trackedEntity] = cursor;
 
 			var transform = cursor.GetComponent<RectTransform>();
-			transform.SetParent(UIManager.Canvas);
+			Ego.SetParent(UIManager.Canvas.GetComponent<EgoComponent>(), cursorEntity);
 
 			return cursor;
 		}
