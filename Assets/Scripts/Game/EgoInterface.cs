@@ -21,6 +21,7 @@ public class EgoInterface : MonoBehaviour {
 
 			new DebugLineSystem(),
 			new LineRendererSystem(),
+			new ArmExtenderSystem(),
 			new CursorUpdateSystem(),
 			new CursorRendererSystem(),
 			new RespawnSystem(),
