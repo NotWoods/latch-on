@@ -2,22 +2,27 @@ using UnityEngine;
 
 public class CameraZoomOut : MonoBehaviour {
 	public float StandardZoom = -10;
+	public float ReducedZoom = -4;
 	public float ExtenededZoom = -20;
 	public float MaxDelta = 30;
 
+	[Range(-1, 1)]
 	[SerializeField]
-	bool zoomedOut = false;
+	int zoom = 0;
 
 	void Update() {
-		zoomedOut = Input.GetButton("Zoom Out");
+		if (Input.GetButton("Zoom Out")) zoom = 1;
+		else if (Input.GetKey(KeyCode.LeftControl)) zoom = -1;
+		else zoom = 0;
 	}
 
 	void LateUpdate() {
 		float newZoom;
-		if (zoomedOut) {
-			newZoom = ExtenededZoom;
-		} else {
-			newZoom = StandardZoom;
+		switch (zoom) {
+			case -1: newZoom = ReducedZoom; break;
+			case 1: newZoom = ExtenededZoom; break;
+			case 0: default:
+				newZoom = StandardZoom; break;
 		}
 
 		transform.position = new Vector3(

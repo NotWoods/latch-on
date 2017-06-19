@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 114879310066364846}
   - component: {fileID: 114583192892471116}
   - component: {fileID: 114651102731564478}
+  - component: {fileID: 114212823927409724}
   m_Layer: 8
   m_Name: Robot
   m_TagString: Player
@@ -1720,6 +1721,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _value: 0
+--- !u!114 &114212823927409724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124217804140016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e346ca91b147b5945b20a068d3688ac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseMaterial: {fileID: 2100000, guid: 5d4601602701d494c870ef9e4de1ff40, type: 2}
+  Color: {r: 1, g: 0.029411793, b: 0.029411793, a: 0}
+  Head: {fileID: 23813790794983848}
+  LeftShoulder: {fileID: 23768192039194248}
+  LeftArm: {fileID: 23566697952822494}
+  RightShoulder: {fileID: 23988976942284222}
+  RightArm: {fileID: 23749838320662594}
 --- !u!114 &114413820727791742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1883,7 +1902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minLength: 0.5
-  _retractSpeed: 2
+  _retractSpeed: 3
   _quickRetractSpeed: 4
   CurrentLength: 10
   IsAnchored: 0
