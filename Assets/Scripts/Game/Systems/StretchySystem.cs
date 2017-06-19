@@ -11,8 +11,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 		public override void Update() {
 			constraint.ForEachGameObject((ego, stretchy, transform) => {
 				if (!stretchy.IsStretching) {
-					foreach (var child in stretchy.Children) {
-						child.GetComponent<MeshRenderer>().enabled = false;
+					foreach (var child in stretchy.ChildRenderers) {
+						child.enabled = false;
 					}
 					return;
 				}
@@ -29,8 +29,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 					1
 				);
 
-				foreach (var child in stretchy.Children) {
-					child.GetComponent<MeshRenderer>().enabled = true;
+				foreach (var child in stretchy.ChildRenderers) {
+					child.enabled = true;
 				}
 			});
 		}
