@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 23099698844675162}
   - component: {fileID: 95459539716664942}
   - component: {fileID: 61561340761647162}
+  - component: {fileID: 114822379678026288}
   m_Layer: 12
   m_Name: Teleporter
   m_TagString: Untagged
@@ -56,6 +57,8 @@ GameObject:
   - component: {fileID: 4615356968902048}
   - component: {fileID: 120414099988778192}
   - component: {fileID: 61176651020556454}
+  - component: {fileID: 114651148104938638}
+  - component: {fileID: 114954283174156970}
   m_Layer: 13
   m_Name: Field
   m_TagString: Untagged
@@ -70,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1576562216291064}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19, y: 0.65, z: 0}
+  m_LocalPosition: {x: 46, y: -1.35, z: 0}
   m_LocalScale: {x: 3, y: 0.15, z: 0.9}
   m_Children:
   - {fileID: 4615356968902048}
@@ -246,6 +249,41 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114651148104938638
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1742256182999796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41be7b67f0bac1549830563ef6155c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114822379678026288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576562216291064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66944918889f9484390ca6cb71c98cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextSceneName: Level
+  NextSceneBuildIndex: 0
+--- !u!114 &114954283174156970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1742256182999796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d99845ba928f2b498820aa182f1c26b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &120414099988778192
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -30,7 +30,9 @@ public class EgoInterface : MonoBehaviour {
 			new SpriteRotationSystem(),
 			new RobotShoulderSystem(),
 
-			new StretchySystem()
+			new StretchySystem(),
+			new HideWhenGrapplingSystem(),
+			new LoadingZoneSystem()
 		);
 	}
 
