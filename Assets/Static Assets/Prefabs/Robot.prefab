@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 114879310066364846}
   - component: {fileID: 114583192892471116}
   - component: {fileID: 114651102731564478}
+  - component: {fileID: 114457189693371258}
   m_Layer: 8
   m_Name: Robot
   m_TagString: Player
@@ -1719,7 +1720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f28a50d26ca3514d8f359d4fc0d6a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value: 0
+  _value: 0
 --- !u!114 &114413820727791742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1769,6 +1770,18 @@ MonoBehaviour:
   SwingDamping: 0.5
   FlungDamping: 1
   FallDamping: 5
+--- !u!114 &114457189693371258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124217804140016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6f3346af96da6d46a7c6540a51f2889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 95234123631289296}
 --- !u!114 &114470276284084382
 MonoBehaviour:
   m_ObjectHideFlags: 1

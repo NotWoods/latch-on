@@ -32,7 +32,8 @@ public class EgoInterface : MonoBehaviour {
 
 			new StretchySystem(),
 			new HideWhenGrapplingSystem(),
-			new LoadingZoneSystem()
+			new LoadingZoneSystem(),
+			new MoveStateAnimatorSystem()
 		);
 	}
 
