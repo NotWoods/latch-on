@@ -84,7 +84,7 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 1124217804140016, guid: a6e3b746303806d44ba5a53b38c8866e,
     type: 2}
   CameraPrefab: {fileID: 175126, guid: fa7e08246711c2f4cba45c2b9aea7c03, type: 2}
-  HookPrefab: {fileID: 1530518826808254, guid: 8f0a0475625ba0647a96da4efa06920c, type: 2}
+  HookPrefab: {fileID: 1530518826808254, guid: f33b33b9f35b3f54e863b078993f08d0, type: 2}
   ActorContainer: {fileID: 0}
   PropsContainer: {fileID: 0}
 --- !u!114 &114781716080590478

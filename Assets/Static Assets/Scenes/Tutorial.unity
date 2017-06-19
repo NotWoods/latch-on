@@ -237,12 +237,6 @@ Prefab:
       propertyPath: PropsContainer
       value: 
       objectReference: {fileID: 370087075}
-    - target: {fileID: 114001057576323928, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15,
-        type: 2}
-      propertyPath: HookPrefab
-      value: 
-      objectReference: {fileID: 1530518826808254, guid: f33b33b9f35b3f54e863b078993f08d0,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15, type: 2}
   m_IsPrefabParent: 0

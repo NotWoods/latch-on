@@ -29,8 +29,22 @@ namespace LatchOn.ECS.Systems.Rendering {
 
 		public override void Update() {
 			ForEachGameObject((ego, p, position, line, grapple, input) => {
-				bool shouldHighlight = Physics2D.Raycast(position.Value,
-					input.AimAxis, grapple.StartingLength, grapple.ShouldGrapple);
+				bool shouldHighlight = false;
+				RaycastHit2D hit = Physics2D.Raycast(
+					position.Value, input.AimAxis,
+					grapple.StartingLength, grapple.Solids
+				);
+
+				if (hit) {
+					int layer = hit.transform.gameObject.layer;
+					if (ExtraMath.InLayerMask(layer, grapple.ShouldGrapple)) {
+						shouldHighlight = true;
+					} else {
+						shouldHighlight = false;
+					}
+				} else {
+					shouldHighlight = false;
+				}
 
 				RaycastHit2D cursorCheck = Physics2D.Raycast(position.Value,
 					input.AimAxis, previewDistance, grapple.Solids);

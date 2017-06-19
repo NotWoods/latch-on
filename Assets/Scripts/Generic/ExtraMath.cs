@@ -29,4 +29,8 @@ public static class ExtraMath {
 	public static bool InRange(float toCheck, float min, float max) {
 		return toCheck >= min && toCheck <= max;
 	}
+
+	public static bool InLayerMask(int layer, LayerMask mask) {
+		return mask == (mask | (1 << layer));
+	}
 }

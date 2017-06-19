@@ -164,11 +164,22 @@ namespace LatchOn.ECS.Systems {
 		) {
 			RaycastHit2D hit = Physics2D.Raycast(
 				position, input.AimAxis,
-				grappler.StartingLength, grappler.ShouldGrapple
+				grappler.StartingLength, grappler.Solids
 			);
 
-			newTarget = hit ? hit.point : Vector2.zero;
-			return hit;
+			if (hit) {
+				int layer = hit.transform.gameObject.layer;
+				if (ExtraMath.InLayerMask(layer, grappler.ShouldGrapple)) {
+					newTarget = hit.point;
+					return true;
+				} else {
+					newTarget = Vector2.zero;
+					return false;
+				}
+			} else {
+				newTarget = Vector2.zero;
+				return false;
+			}
 		}
 
 		private void StartThrow(CanGrapple grappler, Vector2 target, Vector2 start) {
