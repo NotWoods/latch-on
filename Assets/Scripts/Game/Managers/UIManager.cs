@@ -28,4 +28,8 @@ public class UIManager : SingletonMonoBehaviour<UIManager> {
 		cursors.Add(cursor);
 		return cursor;
 	}
+
+	public void Log(string text) {
+		Debug.Log(text);
+	}
 }

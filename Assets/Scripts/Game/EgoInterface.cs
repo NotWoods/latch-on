@@ -28,7 +28,9 @@ public class EgoInterface : MonoBehaviour {
 			new SwingingParticleSystem(),
 			new HookTrailSystem(),
 			new SpriteRotationSystem(),
-			new RobotShoulderSystem()
+			new RobotShoulderSystem(),
+
+			new StretchySystem()
 		);
 	}
 

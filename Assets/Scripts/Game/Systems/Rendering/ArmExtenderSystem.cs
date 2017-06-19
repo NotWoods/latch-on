@@ -1,39 +1,37 @@
 using UnityEngine;
+using LatchOn.ECS.Components;
 using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Rope;
 using LatchOn.ECS.Components.Parts;
 
 namespace LatchOn.ECS.Systems.Rendering {
-	public class ArmExtenderSystem : EgoSystem<WorldPosition, LineData, RobotExtenderPart> {
+	public class ArmExtenderSystem : EgoSystem<Transform, LineData, WrappingLine, RobotShoulderPart> {
 		public override void Update() {
-			ForEachGameObject((ego, position, line, arm) => {
-				bool armsIn = !line.IsAnchored;
-
-				if (armsIn) {
-					CanGrapple grapple;
-					if (ego.TryGetComponents(out grapple)) armsIn = !grapple.DidThrow;
-				}
-
-				foreach (var toHide in arm.ToHide) {
-					toHide.GetComponent<MeshRenderer>().enabled = armsIn;
-					foreach (Transform child in toHide) {
-						child.GetComponent<MeshRenderer>().enabled = armsIn;
-					}
-				}
-
+			ForEachGameObject((ego, transform, line, wrap, arm) => {
 				if (!line.IsAnchored) {
-					arm.Part.localScale = new Vector3(1, 1, arm.DefaultScale);
-					arm.Part.localRotation = Quaternion.Euler(0, 90, 0);
+					foreach (Stretchy segment in arm.ArmExtenders) {
+						segment.IsStretching = false;
+					}
 					return;
 				}
 
-				Vector3 between = line.AnchorPoint - (Vector2) arm.Part.position;
-				float distance = between.magnitude;
+				var points = LineRendererSystem.BuildPoints(transform.position, line, wrap);
+				if (points.Length > arm.ArmExtenders.Count) {
+					EgoComponent entity = GameManager.Instance.NewEntity(arm.ArmPrefab);
+					arm.ArmExtenders.Add(entity.GetComponent<Stretchy>());
+					entity.transform.parent = transform;
+					entity.transform.localPosition = new Vector3(0.05f, -0.13f, 0);
+				}
 
-				arm.Part.localScale = new Vector3(1, 1, distance);
-				arm.Part.LookAt(line.AnchorPoint);
-
-				arm.PartMaterial.mainTextureScale = new Vector2(distance / arm.DefaultScale, 1);
+				int i;
+				for (i = 0; i < points.Length - 1; i++) {
+					arm.ArmExtenders[i].IsStretching = true;
+					arm.ArmExtenders[i].StartPoint = points[i+1];
+					arm.ArmExtenders[i].EndPoint = points[i];
+				}
+				for (; i < arm.ArmExtenders.Count; i++) {
+					arm.ArmExtenders[i].IsStretching = false;
+				}
 			});
 		}
 	}
