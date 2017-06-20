@@ -34,6 +34,7 @@ public class EgoInterface : MonoBehaviour {
 			new HideWhenGrapplingSystem(),
 			new LoadingZoneSystem(),
 			new MoveStateAnimatorSystem(),
+			new AnimatorParamSystem(),
 
 			new TouchDamageSystem(),
 			new RespawnSystem()

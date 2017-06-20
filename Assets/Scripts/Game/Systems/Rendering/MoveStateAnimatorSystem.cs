@@ -12,7 +12,13 @@ namespace LatchOn.ECS.Systems.Rendering {
 			constraint.ForEachGameObject((egoComponent, state, childConstraint) => {
 				if (egoComponent != e.egoComponent) return;
 				childConstraint.ForEachGameObject((childEgo, animator) => {
-					string typeName = Enum.GetName(typeof(MoveType), e.newState);
+					Type enumType = typeof(MoveType);
+
+					foreach (var name in Enum.GetNames(enumType)) {
+						animator.ResetTrigger("MoveType." + name);
+					}
+
+					string typeName = Enum.GetName(enumType, e.newState);
 					animator.SetTrigger("MoveType." + typeName);
 				});
 			});
