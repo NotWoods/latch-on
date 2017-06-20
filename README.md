@@ -1,4 +1,4 @@
-![Latch-On](https://raw.githubusercontent.com/NotWoods/latch-on/master/Assets/Static%20Assets/Sprites/UI/Logo%20Source.svg)
+![Latch-On](https://raw.githubusercontent.com/NotWoods/latch-on/master/Assets/Static%20Assets/Sprites/UI/Logo.png)
 
 # latch-on
 
