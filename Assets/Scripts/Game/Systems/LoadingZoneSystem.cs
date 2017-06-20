@@ -6,7 +6,7 @@ using LatchOn.ECS.Components.Input;
 namespace LatchOn.ECS.Systems {
 	public class LoadingZoneSystem : EgoSystem {
 		public static void LoadLevel(int buildIndex) {
-			SceneManager.LoadScene(buildIndex);
+			SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Single);
 		}
 
 		void Handle(TriggerEnter2DEvent e) {
@@ -14,7 +14,7 @@ namespace LatchOn.ECS.Systems {
 				LoadingZone zone;
 				if (e.egoComponent1.TryGetComponents(out zone)) {
 					UIManager.Instance.Log("Completed level");
-					LoadLevel(zone.NextScene.buildIndex);
+					LoadLevel(zone.NextSceneBuildIndex);
 				}
 			}
 		}

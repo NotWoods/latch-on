@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public abstract class EgoConstraint
@@ -13,6 +14,14 @@ public abstract class EgoConstraint
 
     public Dictionary<EgoComponent, EgoBundle> rootBundles = new Dictionary<EgoComponent, EgoBundle>();
     public Dictionary<EgoComponent, Dictionary< EgoComponent, EgoBundle>> childBundles = new Dictionary<EgoComponent, Dictionary<EgoComponent, EgoBundle>>();
+
+	public EgoConstraint() {
+		SceneManager.sceneUnloaded += OnUnload;
+	}
+	void OnUnload(Scene scene) {
+		rootBundles.Clear();
+		childBundles.Clear();
+	}
 
 	public void SetSystem( EgoSystem system )
 	{
@@ -115,7 +124,7 @@ public abstract class EgoConstraint
 		{
             RemoveBundles( currentParent );
         }
-		
+
 		if( newParent != null )
 		{
 			child.transform.SetParent( newParent.transform, worldPositionStays );
@@ -127,7 +136,7 @@ public abstract class EgoConstraint
 
 		CreateBundles( child );
 	}
-	
+
 	void RemoveChildBundles( EgoConstraint constraint, EgoComponent egoComponent )
 	{
 		if( constraint.childBundles.ContainsKey( egoComponent ) )
@@ -152,7 +161,7 @@ public abstract class EgoConstraint
 	{
 		var parentConstraint = childConstraint.parentConstraint;
 		var parentEgoComponent = childEgoComponent.parent;
-		
+
 		if( parentConstraint != null && parentEgoComponent != null && parentConstraint.childBundles.ContainsKey( parentEgoComponent ) )
 		{
 			parentConstraint.childBundles[ parentEgoComponent ].Remove( childEgoComponent );
@@ -170,7 +179,7 @@ public abstract class EgoConstraint
     /// </summary>
     /// <typeparam name="B"></typeparam>
     /// <param name="defaultLookup"></param>
-    public Dictionary<EgoComponent, B> GetLookup<B>( Dictionary<EgoComponent, B> defaultLookup ) 
+    public Dictionary<EgoComponent, B> GetLookup<B>( Dictionary<EgoComponent, B> defaultLookup )
         where B : EgoBundle
     {
         if( parentConstraint != null && parentConstraint.currentEgoComponent != null )

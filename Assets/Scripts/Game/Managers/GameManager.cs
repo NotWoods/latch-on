@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using LatchOn.ECS.Components.Input;
 
@@ -31,6 +32,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 			GameObject container = GameObject.Find("/Props");
 			if (container) PropsContainer = container.transform;
 		}
+
+		SceneManager.sceneLoaded += OnSceneChange;
 
 		InitGame();
 	}
@@ -86,5 +89,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		} else {
 			return Ego.AddGameObject(Instantiate(prefab));
 		}
+	}
+
+	void OnSceneChange(Scene scene, LoadSceneMode mode) {
+		Debug.Log("Scene unloaded");
+		EgoEvents.Invoke();
 	}
 }
