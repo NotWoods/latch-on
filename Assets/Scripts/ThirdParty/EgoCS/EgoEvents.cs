@@ -76,8 +76,12 @@ public static class EgoEvents
 	{
 		var componentEventType = genericComponentEventType.MakeGenericType( eventType );
 		var fullEventType = typeof( EgoEvents<> ).MakeGenericType( componentEventType );
-		fullEventType.GetMethod( "Init", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic ).Invoke( null, null );
-		eventList.Add( componentEventType );
+		try {
+			fullEventType.GetMethod( "Init", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic ).Invoke( null, null );
+			eventList.Add( componentEventType );
+		} catch (InvalidOperationException e) {
+			Debug.LogWarning(e);
+		}
 	}
 
 	public static void Invoke()

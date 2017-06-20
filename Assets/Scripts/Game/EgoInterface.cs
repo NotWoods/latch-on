@@ -25,7 +25,6 @@ public class EgoInterface : MonoBehaviour {
 			new ArmExtenderSystem(),
 			new CursorUpdateSystem(),
 			new CursorRendererSystem(),
-			new RespawnSystem(),
 			new SwingingParticleSystem(),
 			new HookTrailSystem(),
 			new SpriteRotationSystem(),
@@ -34,7 +33,10 @@ public class EgoInterface : MonoBehaviour {
 			new StretchySystem(),
 			new HideWhenGrapplingSystem(),
 			new LoadingZoneSystem(),
-			new MoveStateAnimatorSystem()
+			new MoveStateAnimatorSystem(),
+
+			new TouchDamageSystem(),
+			new RespawnSystem()
 		);
 	}
 

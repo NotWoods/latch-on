@@ -87,6 +87,4 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 			return Ego.AddGameObject(Instantiate(prefab));
 		}
 	}
-
-	public void Destory(GameObject go) { Destroy(go); }
 }

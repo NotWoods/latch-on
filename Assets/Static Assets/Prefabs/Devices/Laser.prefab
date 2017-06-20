@@ -73,6 +73,9 @@ GameObject:
   - component: {fileID: 4291311219701256}
   - component: {fileID: 61704616341125538}
   - component: {fileID: 120782415133789828}
+  - component: {fileID: 114191147929052912}
+  - component: {fileID: 114428830150141790}
+  - component: {fileID: 114188549494595724}
   m_Layer: 13
   m_Name: Beam
   m_TagString: Untagged
@@ -131,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 1502284716174928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.37, y: 0.5, z: 0}
-  m_LocalScale: {x: 14.7, y: 1, z: 1}
+  m_LocalScale: {x: 8.2, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4781597586131912}
   m_RootOrder: 3
@@ -155,8 +158,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1360100981768860}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 16, y: 7.5, z: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 23, y: 18.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4234444232157874}
@@ -381,6 +384,41 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114188549494595724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502284716174928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d99845ba928f2b498820aa182f1c26b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114191147929052912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502284716174928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0118e0cb1fee6eb449353b6d43f27a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1
+  Message: Burnt by laser
+--- !u!114 &114428830150141790
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502284716174928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41be7b67f0bac1549830563ef6155c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &120782415133789828
 LineRenderer:
   m_ObjectHideFlags: 1
