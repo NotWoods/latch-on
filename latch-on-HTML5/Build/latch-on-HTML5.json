@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "latch-on-HTML5.data.unityweb",
+"asmCodeUrl": "latch-on-HTML5.asm.code.unityweb",
+"asmMemoryUrl": "latch-on-HTML5.asm.memory.unityweb",
+"asmFrameworkUrl": "latch-on-HTML5.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#222C36"
+}
