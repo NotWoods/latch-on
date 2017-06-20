@@ -1,7 +1,3 @@
-Latch-On
---------
-A game where the player uses a grappling hook to swing around and navigate puzzles and platforms.
-
 ![Latch-On](https://raw.githubusercontent.com/NotWoods/latch-on/master/Assets/Static%20Assets/Sprites/UI/Logo.png)
 
 ## Download
