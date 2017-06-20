@@ -33,8 +33,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 			if (container) PropsContainer = container.transform;
 		}
 
-		SceneManager.sceneLoaded += OnSceneChange;
-
 		InitGame();
 	}
 
@@ -89,10 +87,5 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		} else {
 			return Ego.AddGameObject(Instantiate(prefab));
 		}
-	}
-
-	void OnSceneChange(Scene scene, LoadSceneMode mode) {
-		Debug.Log("Scene unloaded");
-		EgoEvents.Invoke();
 	}
 }

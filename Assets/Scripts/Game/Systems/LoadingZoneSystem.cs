@@ -6,7 +6,7 @@ using LatchOn.ECS.Components.Input;
 namespace LatchOn.ECS.Systems {
 	public class LoadingZoneSystem : EgoSystem {
 		public static void LoadLevel(int buildIndex) {
-			SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Single);
+			SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
 		}
 
 		void Handle(TriggerEnter2DEvent e) {

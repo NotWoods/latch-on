@@ -79,8 +79,8 @@ public static class EgoEvents
 		try {
 			fullEventType.GetMethod( "Init", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic ).Invoke( null, null );
 			eventList.Add( componentEventType );
-		} catch (InvalidOperationException e) {
-			Debug.LogWarning(e);
+		} catch (InvalidOperationException) {
+			// Debug.LogWarning(e);
 		}
 	}
 

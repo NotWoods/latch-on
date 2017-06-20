@@ -8,7 +8,6 @@ namespace LatchOn.ECS.Systems {
 		EgoConstraint<Destroyable>
 	> {
 		void Handle(TriggerEnter2DEvent e) {
-			Debug.Log(e);
 			TouchDamager damager;
 			if (e.egoComponent1.TryGetComponents(out damager)) {
 				constraint.ForEachGameObject((egoComponent, destroyable) => {

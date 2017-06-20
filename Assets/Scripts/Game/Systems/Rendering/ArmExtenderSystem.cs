@@ -18,7 +18,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 				}
 
 				var points = LineRendererSystem.BuildPoints(transform.position, line, wrap);
-				if (points.Length > arm.ArmExtenders.Count) {
+				if (points.Length - 1 > arm.ArmExtenders.Count) {
 					EgoComponent entity = GameManager.Instance.NewEntity(arm.ArmPrefab);
 					var stretch = entity.GetComponent<Stretchy>();
 
