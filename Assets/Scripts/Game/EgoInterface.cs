@@ -8,6 +8,7 @@ public class EgoInterface : MonoBehaviour {
 		EgoSystems.Add(
 			new InputSystem(),
 			new PauseSystem(),
+			new BoundarySystem(),
 
 			new HookSystem(),
 			new WrapSystem(),

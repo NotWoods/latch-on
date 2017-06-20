@@ -6,7 +6,7 @@ public class LevelBounds : MonoBehaviour {
 
 	public Bounds Bounds {
 		get {
-			return new Bounds((Vector2) _bounds.center, (Vector2) _bounds.size);
+			return new Bounds((Vector2) _bounds.center, _bounds.size);
 		}
 	}
 

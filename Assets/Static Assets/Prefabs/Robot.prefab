@@ -1733,7 +1733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseMaterial: {fileID: 2100000, guid: 5d4601602701d494c870ef9e4de1ff40, type: 2}
-  Color: {r: 1, g: 0.029411793, b: 0.029411793, a: 0}
+  Color: {r: 0.029411793, g: 0.116429806, b: 1, a: 0}
   Head: {fileID: 23813790794983848}
   LeftShoulder: {fileID: 23768192039194248}
   LeftArm: {fileID: 23566697952822494}
