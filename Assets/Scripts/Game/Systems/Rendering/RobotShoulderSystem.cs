@@ -8,7 +8,13 @@ namespace LatchOn.ECS.Systems.Rendering {
 	> {
 		public override void Update() {
 			constraint.ForEachGameObject((ego, shoulder, body, line) => {
-				if (!line.IsAnchored) {
+				bool shouldRotate = line.IsAnchored;
+				CanGrapple grappler;
+				if (!shouldRotate && ego.TryGetComponents(out grappler)) {
+					shouldRotate = grappler.DidThrow;
+				}
+
+				if (!shouldRotate) {
 					shoulder.LeftArm.rotation = Quaternion.Euler(0, 0, 180);
 					shoulder.RightArm.rotation = Quaternion.Euler(0, 0, 180);
 					return;
