@@ -1917,7 +1917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minLength: 0.5
-  _retractSpeed: 3
+  _retractSpeed: 4
   _quickRetractSpeed: 4
   CurrentLength: 10
   IsAnchored: 0

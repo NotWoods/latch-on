@@ -16,4 +16,10 @@ namespace LatchOn {
 		Fall,
 		Dive,
 	}
+
+	public enum Zoom {
+		ZoomedIn,
+		Standard,
+		ZoomedOut
+	}
 }
