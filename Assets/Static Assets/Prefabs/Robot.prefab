@@ -1865,7 +1865,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpHeight: 3
   _gravity: -25
-  _maxFallSpeed: 15
+  _maxFallSpeed: 25
 --- !u!114 &114651102731564478
 MonoBehaviour:
   m_ObjectHideFlags: 1
