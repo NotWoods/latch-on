@@ -1,5 +1,4 @@
 ---
-title: Latch-On
 layout: default
 ---
 
@@ -8,8 +7,6 @@ layout: default
 ## Download
 Downloads are avaliable from the [release](https://github.com/NotWoods/latch-on/releases) page.
 Usually built for Windows, Mac, and Android.
-
-You can also play the [HTML5 version](latch-on-HTML5/)
 
 ## Controls
 **W** and **D** to move left and right.

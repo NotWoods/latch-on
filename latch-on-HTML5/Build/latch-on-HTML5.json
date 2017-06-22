@@ -4,6 +4,6 @@
 "asmCodeUrl": "latch-on-HTML5.asm.code.unityweb",
 "asmMemoryUrl": "latch-on-HTML5.asm.memory.unityweb",
 "asmFrameworkUrl": "latch-on-HTML5.asm.framework.unityweb",
-"splashScreenStyle": "Dark",
-"backgroundColor": "#222C36"
+"splashScreenStyle": "Light",
+"backgroundColor": "#80858B"
 }
