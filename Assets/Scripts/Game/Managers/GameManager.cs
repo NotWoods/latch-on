@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using LatchOn.ECS.Components.Input;
+using LatchOn.ECS.Components.Camera;
 
 public class GameManager : SingletonMonoBehaviour<GameManager> {
 	const string SpawnPointName = "Spawn Point";
@@ -62,7 +63,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 			? Instantiate(CameraPrefab).GetComponent<Camera>()
 			: Camera.main;
 
-		camera.GetComponent<FollowerCamera>().Target = collider;
+		camera.GetComponent<CameraTarget>().TargetedEntity = collider;
 		return camera;
 	}
 

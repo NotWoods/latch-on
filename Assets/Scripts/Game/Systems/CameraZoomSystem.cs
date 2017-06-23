@@ -30,6 +30,7 @@ namespace LatchOn.ECS.Systems {
 					newZoom * -1,
 					Time.deltaTime * 30
 				);
+				follower.Offset = newOffset;
 			});
 		}
 	}
