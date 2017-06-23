@@ -22,7 +22,12 @@ namespace LatchOn.ECS.Systems.Rendering {
 		public override void Update() {
 			constraint.ForEachGameObject((egoComponent, state, velocity, childConstraint) => {
 				childConstraint.ForEachGameObject((childEgo, animator) => {
-					animator.Play(GetAnimationStateName(state.Value, velocity.x));
+					var current = animator.GetCurrentAnimatorStateInfo(0);
+					var nextName = GetAnimationStateName(state.Value, velocity.x);
+
+					if (!current.IsName(nextName)) {
+						animator.Play(nextName);
+					}
 				});
 			});
 		}

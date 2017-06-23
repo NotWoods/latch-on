@@ -9,14 +9,22 @@ namespace LatchOn.ECS.Systems {
 	> {
 		private static void TryWrap(
 			LineData line, WrappingLine wrap,
-			Vector2 position, Vector2 velocity
+			Vector2 position
 		) {
 			RaycastHit2D shouldWrap = Physics2D.Linecast(position,
 				line.AnchorPoint, wrap.ShouldWrap);
 
 			if (shouldWrap && line.AnchorPoint != shouldWrap.point) {
+				Bounds hitBounds = shouldWrap.collider.bounds;
+
 				Vector2 lastAnchor = line.AnchorPoint;
-				Vector2 newAnchor = shouldWrap.point + velocity.normalized * -0.1f;
+				Vector2 newAnchor = shouldWrap.point;
+
+				Vector2 awayFromHit = newAnchor - (Vector2) hitBounds.center;
+				awayFromHit.Normalize();
+				while (shouldWrap.collider.OverlapPoint(newAnchor)) {
+					newAnchor += awayFromHit * 0.1f;
+				}
 
 				Side entityRelativeToLine = (Side) ExtraMath.SideOfLine(position,
 					lastAnchor, newAnchor);
@@ -46,15 +54,7 @@ namespace LatchOn.ECS.Systems {
 		public override void FixedUpdate() {
 			constraint.ForEachGameObject((ego, line, wrap, position) => {
 				if (line.IsAnchored) {
-					Velocity velocity;
-					Vector2 velocityValue;
-					if (ego.TryGetComponents(out velocity)) {
-						velocityValue = velocity.Value;
-					} else {
-						velocityValue = Vector2.zero;
-					}
-
-					TryWrap(line, wrap, position.Value, velocityValue);
+					TryWrap(line, wrap, position.Value);
 					TryUnwrap(line, wrap, position.Value);
 				} else {
 					wrap.Clear();

@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 9221226}
   - component: {fileID: 12450198}
   - component: {fileID: 8104392}
-  - component: {fileID: 11483296}
-  - component: {fileID: 114683981632649444}
+  - component: {fileID: 114455828314723998}
+  - component: {fileID: 114758209048623058}
+  - component: {fileID: 114344663267616976}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -84,18 +85,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 175126}
   m_Enabled: 1
---- !u!114 &11483296
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 175126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7edaa7a84a45654ebbb9b8e8a48d357, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FocusZone: {x: 3, y: 6}
 --- !u!124 &12450198
 Behaviour:
   m_ObjectHideFlags: 1
@@ -114,7 +103,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 175126}
   m_IsPrefabParent: 1
---- !u!114 &114683981632649444
+--- !u!114 &114344663267616976
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -122,11 +111,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 175126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f140d8b37d4ffe445a89fb7c710a8874, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a6054b47620ef64a913b33fd5b8d803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StandardZoom: -13
-  ReducedZoom: -4
-  ExtenededZoom: -20
-  MaxDelta: 30
-  zoom: 0
+  Value: 1
+--- !u!114 &114455828314723998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c834bcec98de3bf4db208a0cd18036fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: -13}
+--- !u!114 &114758209048623058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ba2589368fc7c4fb6b5268654ec5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetedEntity: {fileID: 0}
+  FocusZone: {x: 3, y: 6}
+  FocusBox:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}

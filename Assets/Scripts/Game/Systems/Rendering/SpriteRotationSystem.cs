@@ -8,6 +8,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 	public class SpriteRotationSystem : EgoSystem<
 		EgoConstraint<BodyPart, Velocity, LineData, WorldPosition>
 	> {
+		float zLimit = 45;
+
 		public override void Update() {
 			constraint.ForEachGameObject((ego, body, velocity, line, position) => {
 				bool anchored = line.IsAnchored;
@@ -22,7 +24,9 @@ namespace LatchOn.ECS.Systems.Rendering {
 				if (anchored) {
 					Vector2 direction = line.AnchorPoint - position.Value;
 					float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-					rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+					angle = Mathf.Clamp(angle - 90, -zLimit, zLimit);
+					rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 				}
 
 				body.Part.rotation = Quaternion.Lerp(
