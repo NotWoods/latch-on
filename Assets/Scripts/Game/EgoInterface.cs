@@ -5,6 +5,8 @@ using LatchOn.ECS.Systems.Rendering;
 
 public class EgoInterface : MonoBehaviour {
 	static EgoInterface() {
+		var cameraTargetingSystem = new CameraTargetingSystem();
+
 		EgoSystems.Add(
 			new InputSystem(),
 			new PauseSystem(),
@@ -36,10 +38,10 @@ public class EgoInterface : MonoBehaviour {
 			new AnimatorStateSystem(),
 
 			new TouchDamageSystem(),
-			new RespawnSystem(),
+			new RespawnSystem(cameraTargetingSystem),
 
 			new CameraInputSystem(),
-			new CameraTargetingSystem(),
+			cameraTargetingSystem,
 			new CameraZoomSystem(),
 			new CameraMoveSystem()
 		);

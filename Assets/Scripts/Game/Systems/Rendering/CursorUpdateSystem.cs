@@ -26,6 +26,10 @@ namespace LatchOn.ECS.Systems.Rendering {
 			return cursor;
 		}
 
+		public override void Start() {
+			cursors.Clear();
+		}
+
 		public override void Update() {
 			constraint.ForEachGameObject((ego, p, position, line, grapple, input) => {
 				bool shouldHighlight = false;
@@ -54,6 +58,7 @@ namespace LatchOn.ECS.Systems.Rendering {
 				var cursor = GetCursor(ego);
 				var cursorTransform = cursor.GetComponent<RectTransform>();
 				cursor.Highlighted = shouldHighlight;
+				cursor.Hidden = !GameManager.IsActive(ego);
 				cursorTransform.position = cursorPosition;
 			});
 		}

@@ -20,5 +20,8 @@ namespace LatchOn.ECS.Components {
 		/// If true, use the highlight color and scale.
 		/// Otherwise, use the dark equivalents.
 		public bool Highlighted = false;
+
+		/// If true, disable the cursor's renderer
+		public bool Hidden = false;
 	}
 }

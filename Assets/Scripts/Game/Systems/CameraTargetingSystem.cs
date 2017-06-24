@@ -5,6 +5,10 @@ namespace LatchOn.ECS.Systems {
 	public class CameraTargetingSystem : EgoSystem<
 		EgoConstraint<CameraTarget, CameraFollow>
 	> {
+		public EgoConstraint<CameraTarget, CameraFollow> Constraint {
+			get { return constraint; }
+		}
+
 		public override void Start() {
 			constraint.ForEachGameObject((ego, targetData, follower) => {
 				targetData.FocusBox = new Bounds(Vector3.up * 1.5f, targetData.FocusZone);
@@ -15,7 +19,11 @@ namespace LatchOn.ECS.Systems {
 			constraint.ForEachGameObject((ego, targetData, follower) => {
 				targetData.FocusBox.size = targetData.FocusZone;
 
-				if (targetData.TargetedEntity == null) return;
+				if (targetData.TargetedEntity == null) {
+					follower.Target = Vector2.zero;
+					return;
+				}
+
 				Bounds target = targetData.TargetedEntity.bounds;
 				Vector2 shift = Vector2.zero;
 

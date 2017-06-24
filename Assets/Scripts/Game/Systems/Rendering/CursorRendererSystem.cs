@@ -11,6 +11,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 				float t = Time.deltaTime * 10;
 				bool highlighted = data.Highlighted;
 
+				image.enabled = !data.Hidden;
+
 				image.color = Color.Lerp(image.color,
 					highlighted ? data.HighlightColor : data.DarkColor, t);
 

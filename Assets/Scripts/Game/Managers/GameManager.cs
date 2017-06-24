@@ -17,13 +17,17 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	public Transform PropsContainer;
 
 	private Dictionary<ControlType, GameObject> Players;
-	private Transform spawnPoint;
+	private Transform _spawnPoint;
+
+	public Vector2 SpawnPoint {
+		get { return _spawnPoint ? (Vector2) _spawnPoint.position : Vector2.zero; }
+	}
 
 	public Queue<GameObject> DestroyedObjects = new Queue<GameObject>();
 
 	void Awake() {
 		Players = new Dictionary<ControlType, GameObject>();
-		spawnPoint = transform.Find(SpawnPointName);
+		_spawnPoint = transform.Find(SpawnPointName);
 
 		if (!ActorContainer) {
 			GameObject container = GameObject.Find("/Actors");
@@ -44,7 +48,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 	GameObject SpawnPlayer(ControlType controller = ControlType.Keyboard) {
 		if (Players.ContainsKey(controller)) return Players[controller];
 
-		GameObject player = Instantiate(PlayerPrefab, spawnPoint.position, Quaternion.identity);
+		GameObject player = Instantiate(PlayerPrefab, SpawnPoint, Quaternion.identity);
 		if (ActorContainer) player.transform.parent = ActorContainer;
 
 		LocalPlayer marker = player.AddComponent<LocalPlayer>();
@@ -88,5 +92,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager> {
 		} else {
 			return Ego.AddGameObject(Instantiate(prefab));
 		}
+	}
+
+	public static bool IsActive(EgoComponent entity) {
+		return entity.gameObject.activeInHierarchy;
 	}
 }

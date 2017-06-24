@@ -9,7 +9,7 @@ namespace LatchOn.ECS.Systems {
 			constraint.ForEachGameObject((ego, follower, transform) => {
 				transform.position = Vector3.MoveTowards(
 					transform.position,
-					follower.Target + follower.Offset,
+					(Vector3) follower.Target + follower.Offset,
 					10
 				);
 			});

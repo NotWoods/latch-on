@@ -21,6 +21,8 @@ namespace LatchOn.ECS.Systems.Rendering {
 
 		public override void Update() {
 			constraint.ForEachGameObject((egoComponent, state, velocity, childConstraint) => {
+				if (!GameManager.IsActive(egoComponent)) return;
+
 				childConstraint.ForEachGameObject((childEgo, animator) => {
 					var current = animator.GetCurrentAnimatorStateInfo(0);
 					var nextName = GetAnimationStateName(state.Value, velocity.x);

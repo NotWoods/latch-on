@@ -43,12 +43,15 @@ namespace LatchOn.ECS.Systems {
 			if (PauseSystem.Paused) return;
 
 			constraint.ForEachGameObject((ego, player, input, position) => {
+				if (Input.GetButtonDown("Respawn")) input.ShouldRespawn = true;
+
+				if (!GameManager.IsActive(ego)) return;
+
 				input.XMoveAxis = Input.GetAxis("Horizontal");
 				input.XMoveAxisRaw = Input.GetAxisRaw("Horizontal");
 
 				if (Input.GetButtonDown("Jump")) input.JumpPressed = true;
 				if (Input.GetButtonDown("Sink")) input.SinkPressed = true;
-				if (Input.GetButtonDown("Respawn")) input.ShouldRespawn = true;
 
 				input.LockRopeDown = Input.GetButton("Lock Rope");
 
