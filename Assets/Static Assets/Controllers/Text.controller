@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DeathText
+  m_Name: Text
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Display text
@@ -133,7 +133,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 6eaf8c5ad1a1b904291de64ee7eebcd5, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
