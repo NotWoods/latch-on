@@ -13,7 +13,7 @@ namespace LatchOn.ECS.Systems {
 			if (e.egoComponent2.HasComponents<LocalPlayer>()) {
 				LoadingZone zone;
 				if (e.egoComponent1.TryGetComponents(out zone)) {
-					UIManager.Instance.Log("Completed level");
+					UIManager.Instance.Log("<color=green>Completed level</color>");
 					LoadLevel(zone.NextSceneBuildIndex);
 				}
 			}

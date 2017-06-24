@@ -3,33 +3,31 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class UIManager : SingletonMonoBehaviour<UIManager> {
-	const string CanvasName = "Canvas";
-
 	public GameObject CursorPrefab;
 
-	private List<Image> cursors;
-	public static Transform Canvas;
+	[SerializeField]
+	RectTransform _worldSpaceCanvas;
+	[SerializeField]
+	RectTransform _overlayCanvas;
 
-	void Awake() {
-		cursors = new List<Image>();
+	[SerializeField]
+	TextDisplay textDisplay;
 
-		if (GetComponent<Canvas>() != null) {
-			Canvas = transform;
-		} else {
-			Canvas = transform.Find(CanvasName);
-		}
+	public EgoComponent WorldSpaceCanvas {
+		get { return _worldSpaceCanvas.GetComponent<EgoComponent>(); }
+	}
+	public EgoComponent OverlayCanvas {
+		get { return _overlayCanvas.GetComponent<EgoComponent>(); }
 	}
 
-	public Image GetCursor(int index) {
-		if (cursors.Count > index) return cursors[index];
+	private List<Image> cursors = new List<Image>();
+	public static Transform Canvas;
 
-		Image cursor = Instantiate(CursorPrefab).GetComponent<Image>();
-		cursor.rectTransform.SetParent(Canvas, false);
-		cursors.Add(cursor);
-		return cursor;
+	void Start() {
+		cursors.Clear();
 	}
 
 	public void Log(string text) {
-		Debug.Log(text);
+		textDisplay.Log(text);
 	}
 }
