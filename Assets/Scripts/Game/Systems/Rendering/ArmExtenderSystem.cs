@@ -19,18 +19,18 @@ namespace LatchOn.ECS.Systems.Rendering {
 
 				var points = LineRendererSystem.BuildPoints(transform.position, line, wrap);
 				if (points.Length - 1 > arm.ArmExtenders.Count) {
-					EgoComponent entity = GameManager.Instance.NewEntity(arm.ArmPrefab);
-					var stretch = entity.GetComponent<Stretchy>();
+					EgoComponent armEntity = GameManager.Instance.NewEntity(arm.ArmPrefab);
+					var stretch = armEntity.GetComponent<Stretchy>();
 
 					arm.ArmExtenders.Add(stretch);
 
-					Ego.SetParent(ego, entity);
+					Ego.SetParent(ego, armEntity);
 					stretch.TileMaterial = new Material(stretch.TileMaterial);
 					foreach (var child in stretch.ChildRenderers) {
 						child.material = stretch.TileMaterial;
 					}
 
-					entity.transform.localPosition = new Vector3(0.05f, -0.13f, 0);
+					armEntity.transform.localPosition = new Vector3(0.05f, -0.13f, 0);
 				}
 
 				int i;

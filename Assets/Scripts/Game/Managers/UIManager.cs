@@ -28,6 +28,6 @@ public class UIManager : SingletonMonoBehaviour<UIManager> {
 	}
 
 	public void Log(string text) {
-		textDisplay.Log(text);
+		textDisplay.Log(text + "\n<size=10>Press R to respawn</size>");
 	}
 }
