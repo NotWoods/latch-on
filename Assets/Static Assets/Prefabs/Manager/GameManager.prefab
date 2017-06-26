@@ -102,7 +102,7 @@ MonoBehaviour:
   _bounds:
     m_Center: {x: 24, y: 5, z: 0}
     m_Extent: {x: 35, y: 15, z: 1}
-  OutlineColor: {r: 0, g: 0, b: 1, a: 0.1}
+  OutlineColor: {r: 1, g: 1, b: 0, a: 0.253}
 --- !u!114 &114781716080590478
 MonoBehaviour:
   m_ObjectHideFlags: 1

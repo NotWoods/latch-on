@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using LatchOn.ECS.Systems;
+using LatchOn.ECS.Systems.Cameras;
 using LatchOn.ECS.Systems.Movement;
 using LatchOn.ECS.Systems.Rendering;
+using LatchOn.ECS.Systems.UI;
 
 public class EgoInterface : MonoBehaviour {
 	static EgoInterface() {
@@ -22,7 +24,6 @@ public class EgoInterface : MonoBehaviour {
 			new DiveSystem(),
 			new ApplyMoveSystem(),
 
-			new DebugLineSystem(),
 			new LineRendererSystem(),
 			new ArmExtenderSystem(),
 			new CursorUpdateSystem(),

@@ -1,7 +1,7 @@
 using UnityEngine;
 using LatchOn.ECS.Components.Camera;
 
-namespace LatchOn.ECS.Systems {
+namespace LatchOn.ECS.Systems.Cameras {
 	public class CameraZoomSystem : EgoSystem<
 		EgoConstraint<CameraFollow, ZoomMode>
 	> {

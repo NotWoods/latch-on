@@ -4,19 +4,18 @@ using LatchOn.ECS.Components;
 using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Input;
 using LatchOn.ECS.Components.Rope;
-using Entity = EgoComponent;
 
-namespace LatchOn.ECS.Systems.Rendering {
+namespace LatchOn.ECS.Systems.UI {
 	public class CursorUpdateSystem : EgoSystem<
 		EgoConstraint<LocalPlayer, WorldPosition, LineData, CanGrapple, VJoystick>
 	> {
 		public float previewDistance = 2f;
 
-		Dictionary<Entity, CursorData> cursors = new Dictionary<Entity, CursorData>();
-		CursorData GetCursor(Entity trackedEntity) {
+		Dictionary<EgoComponent, CursorData> cursors = new Dictionary<EgoComponent, CursorData>();
+		CursorData GetCursor(EgoComponent trackedEntity) {
 			if (cursors.ContainsKey(trackedEntity)) return cursors[trackedEntity];
 
-			Entity cursorEntity = GameManager.Instance
+			var cursorEntity = GameManager.Instance
 				.NewEntity(UIManager.Instance.CursorPrefab);
 			CursorData cursor = cursorEntity.GetComponent<CursorData>();
 			cursors[trackedEntity] = cursor;

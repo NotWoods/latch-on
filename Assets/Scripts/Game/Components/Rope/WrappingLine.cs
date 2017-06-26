@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace LatchOn.ECS.Components.Rope {
 	/// Wrapping line data, enhancing the normal LineData item
+	[RequireComponent(typeof(LineData))]
 	[DisallowMultipleComponent]
 	public class WrappingLine : MonoBehaviour {
 		/// Layers that the rope should wrap around
@@ -54,6 +55,19 @@ namespace LatchOn.ECS.Components.Rope {
 
 		public void Clear() {
 			_wrappedItems.Clear();
+		}
+
+		void OnDrawGizmosSelected() {
+			var line = GetComponent<LineData>();
+			if (!line.IsAnchored) return;
+
+			Gizmos.color = Color.white;
+			Vector2 lastPoint = line.AnchorPoint;
+
+			foreach (WrappingLine.Entry item in WrappedItems) {
+				Gizmos.DrawLine(lastPoint, item.point);
+				lastPoint = item.point;
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@ using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Health;
 using LatchOn.ECS.Components.Input;
 using LatchOn.ECS.Components.Camera;
+using LatchOn.ECS.Systems.Cameras;
 
 namespace LatchOn.ECS.Systems {
 	public class RespawnSystem : EgoSystem<

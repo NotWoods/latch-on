@@ -208,6 +208,16 @@ Prefab:
       propertyPath: PropsContainer
       value: 
       objectReference: {fileID: 370087075}
+    - target: {fileID: 114170941413692430, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15,
+        type: 2}
+      propertyPath: _bounds.m_Extent.x
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 114170941413692430, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15,
+        type: 2}
+      propertyPath: _bounds.m_Extent.y
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15, type: 2}
   m_IsPrefabParent: 0

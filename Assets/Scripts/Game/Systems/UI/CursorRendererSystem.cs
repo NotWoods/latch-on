@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using LatchOn.ECS.Components;
 
-namespace LatchOn.ECS.Systems.Rendering {
+namespace LatchOn.ECS.Systems.UI {
 	public class CursorRendererSystem : EgoSystem<
 		EgoConstraint<CursorData, Image, RectTransform>
 	> {

@@ -472,12 +472,12 @@ Prefab:
     - target: {fileID: 114170941413692430, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15,
         type: 2}
       propertyPath: _bounds.m_Extent.x
-      value: 24
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 114170941413692430, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15,
         type: 2}
       propertyPath: _bounds.m_Extent.y
-      value: 20
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 114170941413692430, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15,
         type: 2}
@@ -487,7 +487,7 @@ Prefab:
     - target: {fileID: 114170941413692430, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15,
         type: 2}
       propertyPath: _bounds.m_Center.y
-      value: 6.5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b441cf70ffc4c248a1b0e7e1ca13b15, type: 2}

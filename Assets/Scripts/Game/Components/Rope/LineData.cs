@@ -25,5 +25,12 @@ namespace LatchOn.ECS.Components.Rope {
 		public bool IsAnchored = false;
 		/// Point where the rope is anchored. Should be ignored if !IsAnchored
 		public Vector2 AnchorPoint = default(Vector2);
+
+		void OnDrawGizmosSelected() {
+			if (!IsAnchored) return;
+
+			Gizmos.color = Color.white;
+			Gizmos.DrawLine(AnchorPoint, (Vector2) transform.position);
+		}
 	}
 }
