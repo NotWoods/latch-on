@@ -333,9 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c3c93e78ef16f4ebdbc3e0be3b7de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Visible: 0
-  CollectableObtained: 0
-  Health: 2
 --- !u!114 &114536844355939366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -395,6 +392,7 @@ MonoBehaviour:
   _worldSpaceCanvas: {fileID: 224135713581510910}
   _overlayCanvas: {fileID: 224957446085808908}
   textDisplay: {fileID: 114150187262573700}
+  HUD: {fileID: 114492712338445988}
 --- !u!114 &114889001477671818
 MonoBehaviour:
   m_ObjectHideFlags: 1

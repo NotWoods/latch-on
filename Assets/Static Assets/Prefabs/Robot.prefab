@@ -107,6 +107,8 @@ GameObject:
   - component: {fileID: 114651102731564478}
   - component: {fileID: 114212823927409724}
   - component: {fileID: 114618295704301358}
+  - component: {fileID: 114944741146557672}
+  - component: {fileID: 114273084367772156}
   m_Layer: 8
   m_Name: Robot
   m_TagString: Player
@@ -1740,6 +1742,19 @@ MonoBehaviour:
   LeftArm: {fileID: 23566697952822494}
   RightShoulder: {fileID: 23988976942284222}
   RightArm: {fileID: 23749838320662594}
+--- !u!114 &114273084367772156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124217804140016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd6343a17a519e4d9e9dac8dacfc44f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisibleTime: 0
+  StationaryTime: 0
 --- !u!114 &114413820727791742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1933,6 +1948,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e68fc24955e055d41b333272481edc4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114944741146557672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124217804140016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea222a92eda9b6d458a11b0c1f0dbee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollectedItems: []
 --- !u!114 &114956137555057146
 MonoBehaviour:
   m_ObjectHideFlags: 1

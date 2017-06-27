@@ -13,6 +13,8 @@ public class UIManager : SingletonMonoBehaviour<UIManager> {
 	[SerializeField]
 	TextDisplay textDisplay;
 
+	public HUDWrapper HUD;
+
 	public EgoComponent WorldSpaceCanvas {
 		get { return _worldSpaceCanvas.GetComponent<EgoComponent>(); }
 	}

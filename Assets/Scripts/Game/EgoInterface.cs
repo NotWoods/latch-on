@@ -39,6 +39,8 @@ public class EgoInterface : MonoBehaviour {
 			new AnimatorStateSystem(),
 
 			new TouchDamageSystem(),
+			new CollectableSystem(),
+			new HUDSystem(),
 			new RespawnSystem(cameraTargetingSystem),
 
 			new CameraInputSystem(),

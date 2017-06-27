@@ -36,5 +36,9 @@ namespace LatchOn.ECS.Components.Input {
 		public void ClearPressed() {
 			JumpPressed = SinkPressed = false;
 		}
+
+		public bool NoInput() {
+			return XMoveAxis == 0 && !JumpPressed	&& !SinkPressed && !HookDown;
+		}
 	}
 }
