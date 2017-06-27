@@ -32,25 +32,24 @@ namespace LatchOn.ECS.Systems.Cameras {
 
 		public override void Update() {
 			constraint.ForEachGameObject((ego, target, health, pocket, input) => {
-				var newState = new LastState(health, pocket);
-
-				hud.CollectableObtained = newState.collectedCount > 0;
-				hud.Health = newState.health;
+				hud.CollectableObtained = pocket.CollectedItems.Count > 0;
+				hud.Health = health.CurrentHealth;
 
 				if (input.NoInput()) {
-					target.StationaryTime += Time.deltaTime;
+					input.IdleTime += Time.deltaTime;
 				} else {
-					target.StationaryTime = 0;
+					input.IdleTime = 0;
 				}
 
 				var lastState = last[ego];
+				var newState = new LastState(health, pocket);
 				if (lastState.health != newState.health
 				|| lastState.collectedCount != newState.collectedCount) {
 					target.VisibleTime = InteractionVisibleTime;
 					last[ego] = newState;
 				}
 
-				if (target.StationaryTime > StandStillMinTime) {
+				if (input.IdleTime > StandStillMinTime) {
 					hud.Visible = true;
 				} else if (target.VisibleTime > 0) {
 					hud.Visible = true;

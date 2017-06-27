@@ -11,11 +11,13 @@ namespace LatchOn.ECS.Systems {
 
 		void Handle(TriggerEnter2DEvent e) {
 			Collected pocket;
-			if (e.egoComponent2.TryGetComponents(out pocket)) {
-				Collectable collectable;
-				if (e.egoComponent1.TryGetComponents(out collectable)) {
+			Collectable collectable;
+			if (e.egoComponent2.TryGetComponents(out pocket)
+			&& e.egoComponent1.TryGetComponents(out collectable)) {
+				if (!collectable.BeenCollected) {
 					pocket.CollectedItems.Add(collectable);
 					collectable.BeenCollected = true;
+					collectable.gameObject.SetActive(false);
 				}
 			}
 		}

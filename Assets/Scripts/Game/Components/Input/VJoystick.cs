@@ -31,6 +31,9 @@ namespace LatchOn.ECS.Components.Input {
 		// TODO: move property to another component
 		public bool ShouldRespawn = false;
 
+		/// Seconds spent standing still
+		public float IdleTime = 0;
+
 		/// Sets all `_____Pressed` properties to false
 		[ContextMenu("Clear Pressed")]
 		public void ClearPressed() {
