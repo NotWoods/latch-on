@@ -96,7 +96,7 @@ namespace LatchOn.ECS.Systems {
 						hp.DamageMessage = "Self-destructed";
 						KillPlayer(ego, input, hp);
 					}
-				} else if (hp.CurrentHealth < 0 && isAlive) {
+				} else if (hp.CurrentHealth <= 0 && isAlive) {
 					KillPlayer(ego, input, hp);
 				}
 			});
