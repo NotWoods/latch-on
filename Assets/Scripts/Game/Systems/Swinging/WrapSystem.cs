@@ -2,7 +2,7 @@ using UnityEngine;
 using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Rope;
 
-namespace LatchOn.ECS.Systems {
+namespace LatchOn.ECS.Systems.Swinging {
 	/// Manages rope attachment and wrapping
 	public class WrapSystem : EgoSystem<
 		EgoConstraint<LineData, WrappingLine, WorldPosition>

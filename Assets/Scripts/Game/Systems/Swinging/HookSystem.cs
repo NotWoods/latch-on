@@ -12,7 +12,7 @@ using HookBundle = EgoBundle<
 
 class MissingComponentException : System.Exception {}
 
-namespace LatchOn.ECS.Systems {
+namespace LatchOn.ECS.Systems.Swinging {
 	/// Manages rope attachment and wrapping
 	public class HookSystem : EgoSystem<
 		EgoConstraint<WorldPosition, Velocity, VJoystick, LineData, MoveState, CanGrapple>
@@ -84,15 +84,7 @@ namespace LatchOn.ECS.Systems {
 		private void KeepSwinging(LineData line, Vector2 position, Vector2 velocity, VJoystick input) {
 			float newLength = Vector2.Distance(position, line.AnchorPoint);
 
-			float retractSpeed = line.RetractSpeed;
-			if (input.LockRopeDown) {
-				retractSpeed = 0;
-			} else if (ExtraMath.InRange(velocity.x, -1, 1)
-			&& velocity.y > (line.RetractSpeed - 0.5)) {
-				retractSpeed = line.QuickRetractSpeed;
-			}
-
-			newLength -= retractSpeed * Time.deltaTime;
+			newLength -= line.RetractSpeed * Time.deltaTime;
 
 			if (newLength < 0.5f) newLength = 0.5f;
 			line.CurrentLength = newLength;

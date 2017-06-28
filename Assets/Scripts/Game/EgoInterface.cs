@@ -3,6 +3,7 @@ using LatchOn.ECS.Systems;
 using LatchOn.ECS.Systems.Cameras;
 using LatchOn.ECS.Systems.Movement;
 using LatchOn.ECS.Systems.Rendering;
+using LatchOn.ECS.Systems.Swinging;
 using LatchOn.ECS.Systems.UI;
 
 public class EgoInterface : MonoBehaviour {
@@ -14,6 +15,7 @@ public class EgoInterface : MonoBehaviour {
 			new PauseSystem(),
 			new BoundarySystem(),
 
+			new AutoRetractSpeedSystem(),
 			new HookSystem(),
 			new WrapSystem(),
 

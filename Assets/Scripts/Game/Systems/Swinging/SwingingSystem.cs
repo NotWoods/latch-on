@@ -3,7 +3,7 @@ using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Mover;
 using LatchOn.ECS.Components.Rope;
 
-namespace LatchOn.ECS.Systems {
+namespace LatchOn.ECS.Systems.Swinging {
 	/// Manages movement when swinging
 	public class SwingingSystem : EgoSystem<
 		EgoConstraint<LineData, WorldPosition, Velocity, Damping>
