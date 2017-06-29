@@ -3,6 +3,7 @@ using LatchOn.ECS.Components.Base;
 using LatchOn.ECS.Components.Input;
 
 namespace LatchOn.ECS.Systems {
+	/// Sets the VJoystick properties based on unity inputs
 	public class InputSystem : EgoSystem<
 		EgoConstraint<LocalPlayer, VJoystick, WorldPosition>
 	> {
@@ -49,6 +50,7 @@ namespace LatchOn.ECS.Systems {
 
 				input.XMoveAxis = Input.GetAxis("Horizontal");
 				input.XMoveAxisRaw = Input.GetAxisRaw("Horizontal");
+				//input.RopeAdjustAxis = Input.GetAxis("Rope Length");
 
 				if (Input.GetButtonDown("Jump")) input.JumpPressed = true;
 				if (Input.GetButtonDown("Sink")) input.SinkPressed = true;

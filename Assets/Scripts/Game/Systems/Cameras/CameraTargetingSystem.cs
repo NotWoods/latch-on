@@ -2,9 +2,11 @@ using UnityEngine;
 using LatchOn.ECS.Components.Camera;
 
 namespace LatchOn.ECS.Systems.Cameras {
+	/// Set the camera follow parameters based on the position of a target
 	public class CameraTargetingSystem : EgoSystem<
 		EgoConstraint<CameraTarget, CameraFollow>
 	> {
+		/// Getter for this system's constraint
 		public EgoConstraint<CameraTarget, CameraFollow> Constraint {
 			get { return constraint; }
 		}

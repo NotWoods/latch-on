@@ -2,6 +2,7 @@ using UnityEngine;
 using LatchOn.ECS.Components.Camera;
 
 namespace LatchOn.ECS.Systems.Cameras {
+	/// Sets the zoom mode property based on user input
 	public class CameraInputSystem : EgoSystem<
 		EgoConstraint<ZoomMode>
 	> {

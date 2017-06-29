@@ -20,6 +20,9 @@ namespace LatchOn.ECS.Components.Input {
 			set { xAimAxis = value.x; yAimAxis = value.y; }
 		}
 
+		[Range(-1, 1)]
+		public float RopeAdjustAxis = 0;
+
 		/// True if jump button was pressed, should be unset once handled
 		public bool JumpPressed = false;
 		/// True if sink button was pressed, should be unset once handled

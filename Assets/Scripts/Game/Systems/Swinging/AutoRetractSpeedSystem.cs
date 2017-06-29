@@ -4,13 +4,12 @@ using LatchOn.ECS.Components.Rope;
 using LatchOn.ECS.Components.Input;
 
 namespace LatchOn.ECS.Systems.Swinging {
-	/// Manages rope attachment and wrapping
+	/// Enable to automatically retract the rope
 	public class AutoRetractSpeedSystem : EgoSystem<
 		EgoConstraint<LineData, Velocity, VJoystick>
 	> {
 		public override void FixedUpdate() {
 			constraint.ForEachGameObject((ego, line, velocity, input) => {
-				float retractSpeed = line.RetractSpeed;
 				if (input.LockRopeDown) {
 					line.RetractSpeed = 0;
 				} else if (ExtraMath.InRange(velocity.x, -1, 1)
