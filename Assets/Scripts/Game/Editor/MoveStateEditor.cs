@@ -9,7 +9,7 @@ public class MoveStateEditor : Editor {
 	SerializedProperty val;
 
 	void OnEnable() {
-		val = serializedObject.FindProperty("Value");
+		val = serializedObject.FindProperty("_value");
 	}
 
 	public override void OnInspectorGUI() {
